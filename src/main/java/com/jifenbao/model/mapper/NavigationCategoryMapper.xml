@@ -1,0 +1,786 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="NavigationCategory">
+    
+     <resultMap id="navigationCategoryResult" type="navigationCategory">
+        <result property="id" column="id" />
+        <result property="code" column="code" />
+        <result property="name" column="name" />
+        <result property="share" column="share" />
+        <result property="parent" column="parent" />
+        <result property="companyCode" column="companyCode" />
+        <result property="image" column="image" />
+        <result property="sort" column="sort" />
+        <result property="showYn" column="showYn" />
+        <result property="navType" column="navType" />
+        <result property="navStyle" column="navStyle" />
+        <result property="customizineYn" column="customizineYn" />
+        <result property="string1" column="string1" />
+        <result property="string2" column="string2" />
+        <result property="string3" column="string3" />
+        <result property="string4" column="string4" />
+        <result property="bgImage" column="bgImage" />
+        <result property="navIcon" column="navIcon" />
+        <result property="navListIcon" column="navListIcon" />
+        <result property="mobileBgImages" column="mobileBgImages" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+    </resultMap>
+    
+    <resultMap type="navigationCategory" id="navigationCategoryProResult" extends="navigationCategoryResult">
+    	<collection property="productList" ofType="product" column="code" select="Product.selectByNavCode"></collection>
+    </resultMap>
+    
+    
+     <resultMap id="navigationCategoryResultEx" type="navigationCategory">
+        <result property="id" column="id" />
+        <result property="code" column="code" />
+        <result property="name" column="name" />
+        <result property="share" column="share" />
+        <result property="parent" column="parent" />
+        <result property="companyCode" column="companyCode" />
+        <result property="image" column="image" />
+        <result property="sort" column="sort" />
+        <result property="showYn" column="showYn" />
+        <result property="navType" column="navType" />
+        <result property="navStyle" column="navStyle" />
+        <result property="customizineYn" column="customizineYn" />
+        <result property="string1" column="string1" />
+        <result property="string2" column="string2" />
+        <result property="string3" column="string3" />
+        <result property="string4" column="string4" />
+        <result property="bgImage" column="bgImage" />
+        <result property="navIcon" column="navIcon" />
+        <result property="navListIcon" column="navListIcon" />
+        <result property="mobileBgImages" column="mobileBgImages" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+        <collection property="subCatList" ofType="navigationCategory"
+           column="code" select="getSubCat">
+        </collection>
+    </resultMap>
+    
+    
+    <resultMap id="navigationCategoryShort" type="navigationCategory">
+        <result property="code" column="code" />
+        <result property="name" column="name" />
+        <collection property="subCatList" ofType="navigationCategory"
+           column="code" select="getSubCatByShort">
+        </collection>
+    </resultMap>
+    
+    
+     <!-- 用于select查询公用抽取的列 -->
+    <sql id="navigationCategoryColumns">
+        <![CDATA[
+        T1.id,
+        T1.code,
+        T1.name,
+        T1.share,
+        T1.parent,
+        T1.companyCode,
+        T1.image,
+        T1.sort,
+        T1.showYn,
+        T1.navType,
+        T1.navStyle,
+        T1.customizineYn,
+        T1.string1,
+        T1.string2,
+        T1.string3,
+        T1.string4,
+        T1.bgImage,
+        T1.navIcon,
+        T1.navListIcon,
+        T1.mobileBgImages,
+        T1.deleteYn,
+        T1.disabledYn,
+        T1.createUser,
+        T1.createTime,
+        T1.updateUser,
+        T1.updateTime
+        ]]>
+    </sql>
+    
+    <!-- 查询from -->
+    <sql id="dynamicFrom">
+        FROM TBL_NavigationCategory T1
+    </sql>
+    
+    <!-- 查询选择colum -->
+    <sql id="dynamicSelect">
+        SELECT
+        <include refid="navigationCategoryColumns" />
+        <include refid="dynamicFrom" />
+    </sql>
+    
+    <!-- 查询条件 -->
+    <sql id="dynamicCondition">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用framework中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <if test="id != null">
+            AND T1.id = #{id}
+        </if>
+        <if test="idEx != null">
+            AND T1.id != #{idEx}
+        </if>
+        <if test="@Ognl@isNotEmpty(code)">
+            AND T1.code = #{code}
+        </if>
+        <if test="@Ognl@isNotEmpty(name)">
+            AND T1.name = #{name}
+        </if>
+        <if test="@Ognl@isNotEmpty(share)">
+            AND T1.share = #{share}
+        </if>
+        <if test="@Ognl@isNotEmpty(parent)">
+            AND T1.parent = #{parent}
+        </if>
+        <if test="@Ognl@isNotEmpty(companyCode)">
+            AND T1.companyCode = #{companyCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(image)">
+            AND T1.image = #{image}
+        </if>
+        <if test="sort != null">
+            AND T1.sort = #{sort}
+        </if>
+        <if test="@Ognl@isNotEmpty(showYn)">
+            AND T1.showYn = #{showYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(navType)">
+            AND T1.navType = #{navType}
+        </if>
+        <if test="@Ognl@isNotEmpty(navStyle)">
+            AND T1.navStyle = #{navStyle}
+        </if>
+        <if test="@Ognl@isNotEmpty(customizineYn)">
+            AND T1.customizineYn = #{customizineYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(string1)">
+            AND T1.string1 = #{string1}
+        </if>
+        <if test="@Ognl@isNotEmpty(bgImage)">
+            AND T1.bgImage = #{bgImage}
+        </if>
+        <if test="@Ognl@isNotEmpty(navIcon)">
+            AND T1.navIcon = #{navIcon}
+        </if>
+        <if test="@Ognl@isNotEmpty(navListIcon)">
+            AND T1.navListIcon = #{navListIcon}
+        </if>
+        <if test="@Ognl@isNotEmpty(mobileBgImages)">
+            AND T1.mobileBgImages = #{mobileBgImages}
+        </if>
+        <if test="@Ognl@isNotEmpty(deleteYn)">
+            AND T1.deleteYn = #{deleteYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(disabledYn)">
+            AND T1.disabledYn = #{disabledYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(createUser)">
+            AND T1.createUser = #{createUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(updateUser)">
+            AND T1.updateUser = #{updateUser}
+        </if>
+    </sql>
+    
+    <!-- 查询where条件 -->
+    <sql id="dynamicWhere">
+        <where>
+            <include refid="dynamicCondition" />
+        </where>
+    </sql>
+    
+    <!-- 查询where条件(map) -->
+    <sql id="dynamicWhereEx">
+        <where>
+            <include refid="dynamicCondition" />
+            <if test="@Ognl@isNotEmpty(createTimeBegin)">
+                <![CDATA[AND T1.createTime >= #{createTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeEnd)">
+                <![CDATA[AND T1.createTime < date_add(#{createTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+                <![CDATA[AND T1.updateTime >= #{updateTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+                <![CDATA[AND T1.updateTime < date_add(#{updateTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+             <if test="@Ognl@isNotEmpty(itemCodes)">
+                AND T1.CODE IN ( ${itemCodes} )
+            </if>
+        </where>
+    </sql>
+
+    <!-- 排序条件 -->
+    <sql id="dynamicOrderBy">
+        <choose>
+            <when test="@Ognl@isNotEmpty(orderBy)">
+                <trim suffix="" suffixOverrides="order by">
+                <foreach collection="orderBy" item="order" open="order by " separator="," close=" ">
+                <choose>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'code'">
+                        T1.code <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'name'">
+                        T1.name <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'share'">
+                        T1.share <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'parent'">
+                        T1.parent <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'companyCode'">
+                        T1.companyCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'image'">
+                        T1.image <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'sort'">
+                        T1.sort <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'showYn'">
+                        T1.showYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'navType'">
+                        T1.navType <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'navStyle'">
+                        T1.navStyle <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'customizineYn'">
+                        T1.customizineYn <if test="!order.ascending"> desc </if>
+                    </when>
+                     <when test="order.propertyName == 'string1'">
+                        T1.string1 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'bgImage'">
+                        T1.bgImage <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'navIcon'">
+                        T1.navIcon <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'navListIcon'">
+                        T1.navListIcon <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'deleteYn'">
+                        T1.deleteYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'disabledYn'">
+                        T1.disabledYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createUser'">
+                        T1.createUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createTime'">
+                        T1.createTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateUser'">
+                        T1.updateUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateTime'">
+                        T1.updateTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'mobileBgImages'">
+                        T1.mobileBgImages <if test="!order.ascending"> desc </if>
+                    </when>
+                </choose>
+                </foreach>
+                </trim>
+            </when>
+            <otherwise>
+            order by T1.id desc
+            </otherwise>
+        </choose>
+    </sql>
+    
+   <!-- 单条录入  -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO TBL_NavigationCategory (
+            code ,
+            name ,
+            share ,
+            parent ,
+            companyCode ,
+            image ,
+            sort ,
+            showYn ,
+            navType ,
+            navStyle ,
+            customizineYn ,
+            string1,
+            string2,
+            string3,
+            string4,
+            bgImage ,
+            navIcon,
+            navListIcon,
+            mobileBgImages,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime 
+            ) VALUES (
+            #{code} ,
+            #{name} ,
+            #{share} ,
+            #{parent} ,
+            #{companyCode} ,
+            #{image} ,
+            #{sort} ,
+            #{showYn} ,
+            #{navType} ,
+            #{navStyle} ,
+            #{customizineYn} ,
+            #{string1},
+            #{string2},
+            #{string3},
+            #{string4},
+            #{bgImage} ,
+            #{navIcon} ,
+            #{navListIcon},
+            #{mobileBgImages},
+            #{deleteYn} ,
+            #{disabledYn} ,
+            #{createUser} ,
+            #{createTime} ,
+            #{updateUser} ,
+            #{updateTime} 
+            )
+        ]]>
+        <selectKey resultType="java.lang.Integer"
+            order="AFTER"
+            keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    
+    <!-- 批量录入  -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO TBL_NavigationCategory (
+            code ,
+            name ,
+            share ,
+            parent ,
+            companyCode ,
+            image ,
+            sort ,
+            showYn ,
+            navType ,
+            navStyle ,
+            customizineYn ,
+            string1,
+            string2,
+            string3,
+            string4,
+            bgImage ,
+            navIcon ,
+            navListIcon,
+            #{mobileBgImages},
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime 
+            ) 
+            VALUES 
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.code} ,
+            #{item.name} ,
+            #{item.share} ,
+            #{item.parent} ,
+            #{item.companyCode} ,
+            #{item.image} ,
+            #{item.sort} ,
+            #{item.showYn} ,
+            #{item.navType} ,
+            #{item.navStyle} ,
+            #{item.customizineYn} ,
+            #{item.string1} ,
+            #{item.string2} ,
+            #{item.string3} ,
+            #{item.string4} ,
+            #{item.bgImage} ,
+            #{item.navIcon} ,
+            #{item.navListIcon} ,
+            #{mobileBgImages} ,
+            #{item.deleteYn} ,
+            #{item.disabledYn} ,
+            #{item.createUser} ,
+            #{item.createTime} ,
+            #{item.updateUser} ,
+            #{item.updateTime}
+            )
+        </foreach>
+    </insert>
+    
+    <!-- 单条修改  -->
+    <update id="update">
+        UPDATE TBL_NavigationCategory
+        <set>
+            <if test="@Ognl@isNotEmpty(code)">
+                code = #{code},
+            </if>
+            <if test="@Ognl@isNotEmpty(name)">
+                name = #{name},
+            </if>
+            <if test="@Ognl@isNotEmpty(share)">
+                share = #{share},
+            </if>
+            <if test="@Ognl@isNotEmpty(parent)">
+                parent = #{parent},
+            </if>
+            <if test="@Ognl@isNotEmpty(companyCode)">
+                companyCode = #{companyCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(image)">
+                image = #{image},
+            </if>
+            <if test="sort != null">
+                sort = #{sort},
+            </if>
+            <if test="@Ognl@isNotEmpty(showYn)">
+                showYn = #{showYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(navType)">
+                navType = #{navType},
+            </if>
+            <if test="@Ognl@isNotEmpty(navStyle)">
+                navStyle = #{navStyle},
+            </if>
+            <if test="@Ognl@isNotEmpty(customizineYn)">
+                customizineYn = #{customizineYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(string1)">
+                string1 = #{string1},
+            </if>
+            <if test="@Ognl@isNotEmpty(string2)">
+                string2 = #{string2},
+            </if>
+            <if test="@Ognl@isNotEmpty(string3)">
+                string3 = #{string3},
+            </if>
+            <if test="@Ognl@isNotEmpty(string4)">
+                string4 = #{string4},
+            </if>
+            <if test="@Ognl@isNotEmpty(bgImage)">
+                bgImage = #{bgImage},
+            </if>
+            <if test="@Ognl@isNotEmpty(navIcon)">
+                navIcon = #{navIcon},
+            </if>
+            <if test="@Ognl@isNotEmpty(navListIcon)">
+                navListIcon = #{navListIcon},
+            </if>
+            <if test="@Ognl@isNotEmpty(mobileBgImages)">
+                mobileBgImages = #{mobileBgImages},
+            </if>
+            <if test="@Ognl@isNotEmpty(deleteYn)">
+                deleteYn = #{deleteYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(disabledYn)">
+                disabledYn = #{disabledYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(createUser)">
+                createUser = #{createUser},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateUser)">
+                updateUser = #{updateUser},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime}
+            </if>
+        </set>
+        WHERE 
+            id = #{id}
+    </update>
+    
+    <!-- 单条修改所有属性  -->
+    <update id="updateAll">
+    <![CDATA[
+        UPDATE TBL_NavigationCategory SET
+            code = #{code} ,
+            name = #{name} ,
+            share = #{share} ,
+            parent = #{parent} ,
+            companyCode = #{companyCode} ,
+            image = #{image} ,
+            sort = #{sort} ,
+            showYn = #{showYn} ,
+            navType = #{navType} ,
+            navStyle = #{navStyle} ,
+            customizineYn = #{customizineYn} ,
+            string1 = #{string1} ,
+            string2 = #{string2} ,
+            string3 = #{string3} ,
+            string4 = #{string4} ,
+            bgImage = #{bgImage} ,
+            navIcon = #{navIcon} ,
+            navListIcon = #{navListIcon},
+            mobileBgImages = #{mobileBgImages},
+            deleteYn = #{deleteYn} ,
+            disabledYn = #{disabledYn} ,
+            createUser = #{createUser} ,
+            createTime = #{createTime} ,
+            updateUser = #{updateUser} ,
+            updateTime = #{updateTime} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <!-- 删除主键  -->
+    <delete id="deleteByPK">
+    <![CDATA[
+        DELETE FROM TBL_NavigationCategory WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <!-- 删除主键数组  -->
+    <delete id="deleteByArrPK" parameterType="java.util.List">
+        <![CDATA[DELETE FROM TBL_NavigationCategory WHERE]]>
+        <foreach collection="list" item="item" index="index" open="id in (" separator="," close=")">
+            <![CDATA[#{item}]]>
+        </foreach>
+    </delete>
+    
+    <!-- 删除条件  -->
+    <delete id="delete">
+        <![CDATA[DELETE T1 FROM TBL_NavigationCategory T1 ]]>
+        <include refid="dynamicWhere" />
+    </delete>
+    
+    <!-- 主键查询  -->
+    <select id="selectByPK" parameterType="java.lang.Integer" resultMap="navigationCategoryResult">
+        <include refid="dynamicSelect" />
+        <![CDATA[
+            WHERE 
+            T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在主键 -->
+    <select id="existsByPK" parameterType="java.lang.Integer"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <![CDATA[
+        WHERE
+        T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在对象 -->
+    <select id="exists" parameterType="navigationCategory"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数 -->
+    <select id="count" resultType="int">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数参数Map -->
+    <select id="countByMap" resultType="int" parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询数量 -->
+    <select id="pageCount" resultType="int"
+        parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询 -->
+    <select id="pageQuery" resultMap="navigationCategoryResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+
+    <!-- 查询条件Map -->
+    <select id="selectByMap" resultMap="navigationCategoryResult"
+        parameterType="map">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+    </select>
+
+    <!-- 查询条件对象 -->
+    <select id="select" resultMap="navigationCategoryResult"
+        parameterType="navigationCategory">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhere" />
+        order by T1.id desc
+    </select>
+
+    <!-- 查询条件拼接 -->
+    <select id="selectByCriteria" resultMap="navigationCategoryResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <if test="_parameter != null">
+            <include refid="Common.criteria_Where_Clause" />
+        </if>
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+    
+    <!-- ex -->
+    <!-- 查询第一季类目 -->
+    <select id="getTopCat" resultMap="navigationCategoryResultEx"
+        parameterType="map">
+        <include refid="dynamicSelect" />
+        <where>
+            (T1.parent = '0' or  T1.parent is null or  T1.parent='')
+            AND T1.deleteYn = '0'
+            AND T1.disabledYn = '0'
+            <if test="@Ognl@isNotEmpty(companyCode)">
+              AND T1.companyCode = #{companyCode}
+            </if>
+        </where>
+        order by T1.companyCode,T1.sort,T1.id asc,T1.showYn desc
+    </select>
+    
+    <!-- 根据父类目的code查询子类目 -->
+    <select id="getSubCat" resultMap="navigationCategoryResultEx"
+        parameterType="String">
+        
+        select *  from TBL_NavigationCategory T2  WHERE
+        T2.parent = #{code}
+        AND T2.deleteYn = '0'
+        AND T2.disabledYn = '0'
+        order by T2.showYn desc,T2.sort,T2.id asc
+       
+    </select>
+    
+    <!-- 根据父类目的code查询子类目 -->
+    <select id="getSubCatByShort" resultMap="navigationCategoryResultEx"
+        parameterType="String">
+        
+        select T2.code,T2.name  from TBL_NavigationCategory T2  WHERE
+        T2.parent = #{code}
+        AND T2.deleteYn = '0'
+        AND T2.disabledYn = '0'
+        order by T2.showYn desc,T2.sort,T2.id asc
+       
+    </select>
+    
+    <!-- 根据父类目的code查询子类目 -->
+    <select id="getMaxCatCode" resultType="String">
+        
+        select  code  from TBL_NavigationCategory T2  WHERE
+        
+         T2.id = (select max(id) from TBL_NavigationCategory)
+        order by id desc
+       
+    </select>
+    
+    
+     <update id="delByParCode" parameterType="String">
+         update  TBL_NavigationCategory  set deleteYn = '1'  where parent=#{code}
+     </update>
+    
+     <select id="getShowCatForPrd" resultType="String">
+         SELECT   CONCAT(IF(ISNULL(T2.`name`),'',CONCAT(T2.`name`,'->')),IFNULL(T1.`name`,'')) name     from TBL_NavigationCategory T1
+                  LEFT JOIN TBL_NavigationCategory  T2 on T2.`code` = T1.parent
+         where    #{navCategory}   like    CONCAT('%', T1.code, '%') 
+        
+     </select>
+     
+     
+      <select id="getSubCatByMap" resultMap="navigationCategoryResult"
+        parameterType="map">
+        
+        select *  from TBL_NavigationCategory T2  WHERE
+        T2.parent = #{code}
+         <if test="@Ognl@isNotEmpty(showYn)">
+             AND   T2.showYn = #{showYn}
+            </if>
+        AND T2.deleteYn = '0'
+        AND T2.disabledYn = '0'
+        order by sort,name asc
+       
+    </select>
+    
+    
+    <select id="getAllCatNameByCode" resultMap="navigationCategoryShort"
+        parameterType="String">
+        
+        select *  from TBL_NavigationCategory T2  WHERE
+        T2.parent = #{code}
+        
+        AND T2.deleteYn = '0'
+        AND T2.disabledYn = '0'
+        order by sort,name asc
+       
+    </select>
+    
+    
+    <!-- 获取所有可以定制的一级栏目 -->
+     <select id="findCusmNavList" resultMap="navigationCategoryShort" parameterType="String">
+        
+        select *  from TBL_NavigationCategory T2  WHERE
+        T2.parent = #{code}
+        AND T2.customizineYn='Y'
+        AND T2.deleteYn = '0'
+        AND T2.disabledYn = '0'
+        AND T2.companyCode='200067'
+        order by sort asc,name asc
+       
+    </select>
+    
+    <select id="findHomeShowList" resultMap="navigationCategoryProResult">
+    	select *  from TBL_NavigationCategory T2  WHERE
+    	T2.parent = '0'
+        AND T2.showYn = 'Y'
+        AND T2.deleteYn = '0'
+        AND T2.disabledYn = '0'
+        order by sort desc,name asc
+    </select>
+    
+    
+</mapper>
+

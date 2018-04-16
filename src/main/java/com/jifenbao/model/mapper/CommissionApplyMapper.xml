@@ -1,0 +1,824 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="CommissionApply">
+    
+    <resultMap id="commissionApplyBaseResult" type="commissionApply">
+        <result property="id" column="id" />
+        <result property="applyNo" column="applyNo" />
+        <result property="customerId" column="customerId" />
+        <result property="type" column="type" />
+        <result property="orderIds" column="orderIds" />
+        <result property="commission" column="commission" />
+        <result property="commissionPay" column="commissionPay" />
+        <result property="content" column="content" />
+        <result property="status" column="status" />
+        <result property="applyTime" column="applyTime" />
+        <result property="checkTime" column="checkTime" />
+        <result property="payTime" column="payTime" />
+        <result property="invalidTime" column="invalidTime" />
+        <result property="refuseTime" column="refuseTime" />
+        <result property="realMoney" column="realMoney" />
+        <result property="charge" column="charge" />
+        <result property="deductionMoney" column="deductionMoney" />
+        <result property="beginMoney" column="beginMoney" />
+        <result property="endMoney" column="endMoney" />
+        <result property="alipay" column="alipay" />
+        <result property="bankName" column="bankName" />
+        <result property="bankCard" column="bankCard" />
+        <result property="realName" column="realName" />
+        <result property="alipay1" column="alipay1" />
+        <result property="bankName1" column="bankName1" />
+        <result property="bankCard1" column="bankCard1" />
+        <result property="repurchase" column="repurchase" />
+        <result property="sendMoney" column="sendMoney" />
+        <result property="sendData" column="sendData" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+    </resultMap>
+	
+	<resultMap type="commissionApply" id="commissionApplyOrderResult" extends="commissionApplyBaseResult">
+<!--     	<collection property="orderList" column="orderIds" ofType="exchangeOrder" select="ExchangeOrder.seldectOrderByIds"></collection> -->
+    </resultMap>
+    
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="commissionApplyColumns">
+        <![CDATA[
+        T1.id,
+        T1.applyNo,
+        T1.customerId,
+        T1.type,
+        T1.orderIds,
+        T1.commission,
+        T1.commissionPay,
+        T1.content,
+        T1.status,
+        T1.applyTime,
+        T1.checkTime,
+        T1.payTime,
+        T1.invalidTime,
+        T1.refuseTime,
+        T1.realMoney,
+        T1.charge,
+        T1.deductionMoney,
+        T1.beginMoney,
+        T1.endMoney,
+        T1.alipay,
+        T1.bankName,
+        T1.bankCard,
+        T1.realName,
+        T1.alipay1,
+        T1.bankName1,
+        T1.bankCard1,
+        T1.repurchase,
+        T1.sendMoney,
+        T1.sendData,
+        T1.deleteYn,
+        T1.disabledYn,
+        T1.createUser,
+        T1.createTime,
+        T1.updateUser,
+        T1.updateTime
+        ]]>
+    </sql>
+    
+    <!-- 查询from -->
+    <sql id="dynamicFrom">
+        FROM TBL_Commission_Apply T1
+    </sql>
+    
+    <!-- 查询选择colum -->
+    <sql id="dynamicSelect">
+        SELECT
+        <include refid="commissionApplyColumns" />
+        <include refid="dynamicFrom" />
+    </sql>
+    
+    <!-- 查询条件 -->
+    <sql id="dynamicCondition">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用framework中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <if test="id != null">
+            AND T1.id = #{id}
+        </if>
+        <if test="idEx != null">
+            AND T1.id != #{idEx}
+        </if>
+        <if test="@Ognl@isNotEmpty(applyNo)">
+            AND T1.applyNo = #{applyNo}
+        </if>
+        <if test="customerId != null">
+            AND T1.customerId = #{customerId}
+        </if>
+        <if test="type != null">
+            AND T1.type = #{type}
+        </if>
+        <if test="@Ognl@isNotEmpty(orderIds)">
+            AND T1.orderIds = #{orderIds}
+        </if>
+        <if test="commission != null">
+            AND T1.commission = #{commission}
+        </if>
+        <if test="commissionPay != null">
+            AND T1.commissionPay = #{commissionPay}
+        </if>
+        <if test="@Ognl@isNotEmpty(content)">
+            AND T1.content = #{content}
+        </if>
+        <if test="status != null">
+            AND T1.status = #{status}
+        </if>
+        <if test="realMoney != null">
+            AND T1.realMoney = #{realMoney}
+        </if>
+        <if test="charge != null">
+            AND T1.charge = #{charge}
+        </if>
+        <if test="deductionMoney != null">
+            AND T1.deductionMoney = #{deductionMoney}
+        </if>
+        <if test="beginMoney != null">
+            AND T1.beginMoney = #{beginMoney}
+        </if>
+        <if test="endMoney != null">
+            AND T1.endMoney = #{endMoney}
+        </if>
+        <if test="@Ognl@isNotEmpty(alipay)">
+            AND T1.alipay = #{alipay}
+        </if>
+        <if test="@Ognl@isNotEmpty(bankName)">
+            AND T1.bankName = #{bankName}
+        </if>
+        <if test="@Ognl@isNotEmpty(bankCard)">
+            AND T1.bankCard = #{bankCard}
+        </if>
+        <if test="@Ognl@isNotEmpty(realName)">
+            AND T1.realName = #{realName}
+        </if>
+        <if test="@Ognl@isNotEmpty(alipay1)">
+            AND T1.alipay1 = #{alipay1}
+        </if>
+        <if test="@Ognl@isNotEmpty(bankName1)">
+            AND T1.bankName1 = #{bankName1}
+        </if>
+        <if test="@Ognl@isNotEmpty(bankCard1)">
+            AND T1.bankCard1 = #{bankCard1}
+        </if>
+        <if test="repurchase != null">
+            AND T1.repurchase = #{repurchase}
+        </if>
+        <if test="sendMoney != null">
+            AND T1.sendMoney = #{sendMoney}
+        </if>
+        <if test="@Ognl@isNotEmpty(sendData)">
+            AND T1.sendData = #{sendData}
+        </if>
+        <if test="@Ognl@isNotEmpty(deleteYn)">
+            AND T1.deleteYn = #{deleteYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(disabledYn)">
+            AND T1.disabledYn = #{disabledYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(createUser)">
+            AND T1.createUser = #{createUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(updateUser)">
+            AND T1.updateUser = #{updateUser}
+        </if>
+    </sql>
+    
+    <!-- 查询where条件 -->
+    <sql id="dynamicWhere">
+        <where>
+            <include refid="dynamicCondition" />
+        </where>
+    </sql>
+    
+    <!-- 查询where条件(map) -->
+    <sql id="dynamicWhereEx">
+        <where>
+            <include refid="dynamicCondition" />
+            <if test="@Ognl@isNotEmpty(applyTimeBegin)">
+                <![CDATA[AND T1.applyTime >= #{applyTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(applyTimeEnd)">
+                <![CDATA[AND T1.applyTime < date_add(#{applyTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(checkTimeBegin)">
+                <![CDATA[AND T1.checkTime >= #{checkTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(checkTimeEnd)">
+                <![CDATA[AND T1.checkTime < date_add(#{checkTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(payTimeBegin)">
+                <![CDATA[AND T1.payTime >= #{payTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(payTimeEnd)">
+                <![CDATA[AND T1.payTime < date_add(#{payTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(invalidTimeBegin)">
+                <![CDATA[AND T1.invalidTime >= #{invalidTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(invalidTimeEnd)">
+                <![CDATA[AND T1.invalidTime < date_add(#{invalidTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(refuseTimeBegin)">
+                <![CDATA[AND T1.refuseTime >= #{refuseTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(refuseTimeEnd)">
+                <![CDATA[AND T1.refuseTime < date_add(#{refuseTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeBegin)">
+                <![CDATA[AND T1.createTime >= #{createTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeEnd)">
+                <![CDATA[AND T1.createTime < date_add(#{createTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+                <![CDATA[AND T1.updateTime >= #{updateTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+                <![CDATA[AND T1.updateTime < date_add(#{updateTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+        </where>
+    </sql>
+
+    <!-- 排序条件 -->
+    <sql id="dynamicOrderBy">
+        <choose>
+            <when test="@Ognl@isNotEmpty(orderBy)">
+                <trim suffix="" suffixOverrides="order by">
+                <foreach collection="orderBy" item="order" open="order by " separator="," close=" ">
+                <choose>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'applyNo'">
+                        T1.applyNo <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'customerId'">
+                        T1.customerId <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'type'">
+                        T1.type <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'orderIds'">
+                        T1.orderIds <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'commission'">
+                        T1.commission <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'commissionPay'">
+                        T1.commissionPay <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'content'">
+                        T1.content <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'status'">
+                        T1.status <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'applyTime'">
+                        T1.applyTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'checkTime'">
+                        T1.checkTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'payTime'">
+                        T1.payTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'invalidTime'">
+                        T1.invalidTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'refuseTime'">
+                        T1.refuseTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'realMoney'">
+                        T1.realMoney <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'charge'">
+                        T1.charge <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'deductionMoney'">
+                        T1.deductionMoney <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'beginMoney'">
+                        T1.beginMoney <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'endMoney'">
+                        T1.endMoney <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'alipay'">
+                        T1.alipay <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'bankName'">
+                        T1.bankName <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'bankCard'">
+                        T1.bankCard <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'realName'">
+                        T1.realName <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'alipay1'">
+                        T1.alipay1 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'bankName1'">
+                        T1.bankName1 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'bankCard1'">
+                        T1.bankCard1 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'repurchase'">
+                        T1.repurchase <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'sendMoney'">
+                        T1.sendMoney <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'sendData'">
+                        T1.sendData <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'deleteYn'">
+                        T1.deleteYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'disabledYn'">
+                        T1.disabledYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createUser'">
+                        T1.createUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createTime'">
+                        T1.createTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateUser'">
+                        T1.updateUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateTime'">
+                        T1.updateTime <if test="!order.ascending"> desc </if>
+                    </when>
+                </choose>
+                </foreach>
+                </trim>
+            </when>
+            <otherwise>
+            order by T1.id desc
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 单条录入  -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO TBL_Commission_Apply (
+            applyNo ,
+            customerId ,
+            type ,
+            orderIds ,
+            commission ,
+            commissionPay ,
+            content ,
+            status ,
+            applyTime ,
+            checkTime ,
+            payTime ,
+            invalidTime ,
+            refuseTime ,
+            realMoney ,
+            charge ,
+            deductionMoney ,
+            beginMoney ,
+            endMoney ,
+            alipay ,
+            bankName ,
+            bankCard ,
+            realName ,
+            alipay1 ,
+            bankName1 ,
+            bankCard1 ,
+            repurchase ,
+            sendMoney ,
+            sendData ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime 
+            ) VALUES (
+            #{applyNo} ,
+            #{customerId} ,
+            #{type} ,
+            #{orderIds} ,
+            #{commission} ,
+            #{commissionPay} ,
+            #{content} ,
+            #{status} ,
+            #{applyTime} ,
+            #{checkTime} ,
+            #{payTime} ,
+            #{invalidTime} ,
+            #{refuseTime} ,
+            #{realMoney} ,
+            #{charge} ,
+            #{deductionMoney} ,
+            #{beginMoney} ,
+            #{endMoney} ,
+            #{alipay} ,
+            #{bankName} ,
+            #{bankCard} ,
+            #{realName} ,
+            #{alipay1} ,
+            #{bankName1} ,
+            #{bankCard1} ,
+            #{repurchase} ,
+            #{sendMoney} ,
+            #{sendData} ,
+            #{deleteYn} ,
+            #{disabledYn} ,
+            #{createUser} ,
+            #{createTime} ,
+            #{updateUser} ,
+            #{updateTime} 
+            )
+        ]]>
+        <selectKey resultType="java.lang.Long"
+            order="AFTER"
+            keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    
+    <!-- 批量录入  -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO TBL_Commission_Apply (
+            applyNo ,
+            customerId ,
+            type ,
+            orderIds ,
+            commission ,
+            commissionPay ,
+            content ,
+            status ,
+            applyTime ,
+            checkTime ,
+            payTime ,
+            invalidTime ,
+            refuseTime ,
+            realMoney ,
+            charge ,
+            deductionMoney ,
+            beginMoney ,
+            endMoney ,
+            alipay ,
+            bankName ,
+            bankCard ,
+            realName ,
+            alipay1 ,
+            bankName1 ,
+            bankCard1 ,
+            repurchase ,
+            sendMoney ,
+            sendData ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime 
+            ) 
+            VALUES 
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.applyNo} ,
+            #{item.customerId} ,
+            #{item.type} ,
+            #{item.orderIds} ,
+            #{item.commission} ,
+            #{item.commissionPay} ,
+            #{item.content} ,
+            #{item.status} ,
+            #{item.applyTime} ,
+            #{item.checkTime} ,
+            #{item.payTime} ,
+            #{item.invalidTime} ,
+            #{item.refuseTime} ,
+            #{item.realMoney} ,
+            #{item.charge} ,
+            #{item.deductionMoney} ,
+            #{item.beginMoney} ,
+            #{item.endMoney} ,
+            #{item.alipay} ,
+            #{item.bankName} ,
+            #{item.bankCard} ,
+            #{item.realName} ,
+            #{item.alipay1} ,
+            #{item.bankName1} ,
+            #{item.bankCard1} ,
+            #{item.repurchase} ,
+            #{item.sendMoney} ,
+            #{item.sendData} ,
+            #{item.deleteYn} ,
+            #{item.disabledYn} ,
+            #{item.createUser} ,
+            #{item.createTime} ,
+            #{item.updateUser} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+    
+    <!-- 单条修改  -->
+    <update id="update">
+        UPDATE TBL_Commission_Apply
+        <set>
+            <if test="@Ognl@isNotEmpty(applyNo)">
+                applyNo = #{applyNo},
+            </if>
+            <if test="customerId != null">
+                customerId = #{customerId},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="@Ognl@isNotEmpty(orderIds)">
+                orderIds = #{orderIds},
+            </if>
+            <if test="commission != null">
+                commission = #{commission},
+            </if>
+            <if test="commissionPay != null">
+                commissionPay = #{commissionPay},
+            </if>
+            <if test="@Ognl@isNotEmpty(content)">
+                content = #{content},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="applyTime != null">
+                applyTime = #{applyTime},
+            </if>
+            <if test="checkTime != null">
+                checkTime = #{checkTime},
+            </if>
+            <if test="payTime != null">
+                payTime = #{payTime},
+            </if>
+            <if test="invalidTime != null">
+                invalidTime = #{invalidTime},
+            </if>
+            <if test="refuseTime != null">
+                refuseTime = #{refuseTime},
+            </if>
+            <if test="realMoney != null">
+                realMoney = #{realMoney},
+            </if>
+            <if test="charge != null">
+                charge = #{charge},
+            </if>
+            <if test="deductionMoney != null">
+                deductionMoney = #{deductionMoney},
+            </if>
+            <if test="beginMoney != null">
+                beginMoney = #{beginMoney},
+            </if>
+            <if test="endMoney != null">
+                endMoney = #{endMoney},
+            </if>
+            <if test="@Ognl@isNotEmpty(alipay)">
+                alipay = #{alipay},
+            </if>
+            <if test="@Ognl@isNotEmpty(bankName)">
+                bankName = #{bankName},
+            </if>
+            <if test="@Ognl@isNotEmpty(bankCard)">
+                bankCard = #{bankCard},
+            </if>
+            <if test="@Ognl@isNotEmpty(realName)">
+                realName = #{realName},
+            </if>
+            <if test="@Ognl@isNotEmpty(alipay1)">
+                alipay1 = #{alipay1},
+            </if>
+            <if test="@Ognl@isNotEmpty(bankName1)">
+                bankName1 = #{bankName1},
+            </if>
+            <if test="@Ognl@isNotEmpty(bankCard1)">
+                bankCard1 = #{bankCard1},
+            </if>
+            <if test="repurchase != null">
+                repurchase = #{repurchase},
+            </if>
+            <if test="sendMoney != null">
+                sendMoney = #{sendMoney},
+            </if>
+            <if test="@Ognl@isNotEmpty(sendData)">
+                sendData = #{sendData},
+            </if>
+            <if test="@Ognl@isNotEmpty(deleteYn)">
+                deleteYn = #{deleteYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(disabledYn)">
+                disabledYn = #{disabledYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(createUser)">
+                createUser = #{createUser},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateUser)">
+                updateUser = #{updateUser},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime}
+            </if>
+        </set>
+        WHERE 
+            id = #{id}
+    </update>
+    
+    <!-- 单条修改所有属性  -->
+    <update id="updateAll">
+    <![CDATA[
+        UPDATE TBL_Commission_Apply SET
+            applyNo = #{applyNo} ,
+            customerId = #{customerId} ,
+            type = #{type} ,
+            orderIds = #{orderIds} ,
+            commission = #{commission} ,
+            commissionPay = #{commissionPay} ,
+            content = #{content} ,
+            status = #{status} ,
+            applyTime = #{applyTime} ,
+            checkTime = #{checkTime} ,
+            payTime = #{payTime} ,
+            invalidTime = #{invalidTime} ,
+            refuseTime = #{refuseTime} ,
+            realMoney = #{realMoney} ,
+            charge = #{charge} ,
+            deductionMoney = #{deductionMoney} ,
+            beginMoney = #{beginMoney} ,
+            endMoney = #{endMoney} ,
+            alipay = #{alipay} ,
+            bankName = #{bankName} ,
+            bankCard = #{bankCard} ,
+            realName = #{realName} ,
+            alipay1 = #{alipay1} ,
+            bankName1 = #{bankName1} ,
+            bankCard1 = #{bankCard1} ,
+            repurchase = #{repurchase} ,
+            sendMoney = #{sendMoney} ,
+            sendData = #{sendData} ,
+            deleteYn = #{deleteYn} ,
+            disabledYn = #{disabledYn} ,
+            createUser = #{createUser} ,
+            createTime = #{createTime} ,
+            updateUser = #{updateUser} ,
+            updateTime = #{updateTime} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <!-- 删除主键  -->
+    <delete id="deleteByPK">
+    <![CDATA[
+        DELETE FROM TBL_Commission_Apply WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <!-- 删除主键数组  -->
+    <delete id="deleteByArrPK" parameterType="java.util.List">
+        <![CDATA[DELETE FROM TBL_Commission_Apply WHERE]]>
+        <foreach collection="list" item="item" index="index" open="id in (" separator="," close=")">
+            <![CDATA[#{item}]]>
+        </foreach>
+    </delete>
+    
+    <!-- 删除条件  -->
+    <delete id="delete">
+        <![CDATA[DELETE T1 FROM TBL_Commission_Apply T1 ]]>
+        <include refid="dynamicWhere" />
+    </delete>
+    
+    <!-- 主键查询  -->
+    <select id="selectByPK" parameterType="java.lang.Long" resultMap="commissionApplyBaseResult">
+        <include refid="dynamicSelect" />
+        <![CDATA[
+            WHERE 
+            T1.id = #{id} 
+        ]]>
+    </select>
+	
+	<!-- id查询  -->
+    <select id="selectById" parameterType="java.lang.Long" resultMap="commissionApplyOrderResult">
+        <include refid="dynamicSelect" />
+        <![CDATA[
+            WHERE 
+            T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在主键 -->
+    <select id="existsByPK" parameterType="java.lang.Long"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <![CDATA[
+        WHERE
+        T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在对象 -->
+    <select id="exists" parameterType="commissionApply"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数 -->
+    <select id="count" resultType="int">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数参数Map -->
+    <select id="countByMap" resultType="int" parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询数量 -->
+    <select id="pageCount" resultType="int"
+        parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询 -->
+    <select id="pageQuery" resultMap="commissionApplyBaseResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+
+    <!-- 查询条件Map -->
+    <select id="selectByMap" resultMap="commissionApplyBaseResult"
+        parameterType="map">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+    </select>
+
+    <!-- 查询条件对象 -->
+    <select id="select" resultMap="commissionApplyBaseResult"
+        parameterType="commissionApply">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhere" />
+        order by T1.id desc
+    </select>
+
+    <!-- 查询条件拼接 -->
+    <select id="selectByCriteria" resultMap="commissionApplyBaseResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <if test="_parameter != null">
+            <include refid="Common.criteria_Where_Clause" />
+        </if>
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+    
+    <select id="getTotalCommission" resultType="Double">
+    	SELECT SUM(commission) FROM TBL_Commission_Apply T1
+    	<where>
+    		<if test="customerId != null">
+    			AND T1.customerId = #{customerId}
+    		</if>
+    		<if test="status != null">
+    			AND T1.status = #{status}
+    		</if>
+    	</where>
+    </select>
+    
+</mapper>
+

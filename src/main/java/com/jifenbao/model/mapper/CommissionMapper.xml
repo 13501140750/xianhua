@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="Commission">
+    
+    
+    
+    <sql id="commissionStatistics">
+    	SELECT IFNULL(SUM(T2.commission),0)  FROM
+				TBL_ExchangeOrder_Detail T2 LEFT JOIN TBL_ExchangeOrder T1
+				ON T2.orderCode = T1.orderCode
+    </sql>
+    
+    <select id="selectCommissionByCustomerId" parameterType="Long" resultType="map">
+    	SELECT 
+    		(
+    			<!-- 所有佣金 不包括失效佣金 commission_total-->
+    			<include refid="commissionStatistics"/>
+				WHERE T1.agentId = #{agentId}
+				AND  T2.status1 >= 0 
+				AND T1.orderStatus != 'NO_PAY' 
+				AND T1.orderStatus != 'TRADE_CLOSED'
+    		)	commission_total,
+    		
+    		(	
+    			<!-- 可提现佣金 commission_ok-->
+    			<include refid="commissionStatistics"/>
+				WHERE T1.agentId = #{agentId}
+				AND  T2.status1 = 0 
+				AND 
+					T1.orderStatus = 'TRADE_FINISHE'
+
+				AND (
+					<![CDATA[T1.confirmtime >= DATE_ADD(T1.confirmtime,INTERVAL (SELECT settleDays FROM TBL_Commission_Setting) day)]]>
+				)
+    		)	commission_ok,
+    		
+    		(
+    			<!-- 待结算佣金 commission_lock-->
+    			<include refid="commissionStatistics"/>
+				WHERE T1.agentId = #{agentId}
+				AND  T2.status1 = 0 
+				AND (
+					T1.orderStatus = 'TRADE_FINISHE'
+					
+				) 
+				AND (
+					<![CDATA[T1.confirmtime < DATE_ADD(T1.confirmtime,INTERVAL (SELECT settleDays FROM TBL_Commission_Setting) day)]]>
+				)
+    		)	commission_lock,
+    		
+    		(
+    			<!-- 申请提现佣金 commission_apply-->
+    			<include refid="commissionStatistics"/>
+				WHERE T1.agentId = #{agentId}
+				AND  T2.status1 = 1 
+				AND (
+					T1.orderStatus = 'TRADE_FINISHE'
+					
+				) 
+				AND (
+					<![CDATA[T1.confirmtime >= DATE_ADD(T1.confirmtime,INTERVAL (SELECT settleDays FROM TBL_Commission_Setting) day)]]>
+				)
+    		)	commission_apply,
+    		
+    		(
+    			<!-- 审核提现佣金 commission_check-->
+    			<include refid="commissionStatistics"/>
+				WHERE T1.agentId = #{agentId}
+				AND  T2.status1 = 2 
+				AND (
+					T1.orderStatus = 'TRADE_FINISHE'
+					
+				) 
+    		)	commission_check,
+    		
+    		(
+    			<!-- 支付佣金 commission_pay-->
+    			<include refid="commissionStatistics"/>
+				WHERE T1.agentId = #{agentId}
+				AND  T2.status1 = 3 
+				AND (
+					T1.orderStatus = 'TRADE_FINISHE'
+				)
+
+    		)	commission_pay,
+    		
+    		(
+    			<!-- 待收货佣金 wait-->
+    			<include refid="commissionStatistics"/>
+				WHERE T1.agentId = #{agentId}
+				AND  T2.status1 = 0 
+				AND (
+					T1.orderStatus = 'WAIT_ADUIT' OR
+					T1.orderStatus = 'WAIT_BUYER_CONFIRM_GOODS' OR
+					T1.orderStatus = 'WAIT_SELLER_SEND_GOODS'
+					
+				) 
+    		)	commission_wait,
+    		
+    		(
+    			<!-- 无效佣金 commission_fail-->
+    			<include refid="commissionStatistics"/>
+				WHERE T1.agentId = #{agentId}
+				AND  T2.status1 = -1
+				AND (
+					T1.orderStatus = 'WAIT_BUYER_CONFIRM_GOODS' OR
+					T1.orderStatus = 'TRADE_FINISHE'
+					
+				) 
+    		)	commission_fail,
+    		
+    		(
+    			SELECT COUNT(1) FROM TBL_ExchangeOrder WHERE agentId = #{agentId}
+    		)	commission_orderCount,
+    		
+    		(
+    			SELECT COUNT(1) FROM TBL_Commission_Apply WHERE customerId = #{agentId}
+    		)	commission_applyCount
+    		
+    	
+    	
+    	
+    	
+    </select>
+    
+    
+    <select id="getAgentOrderIdByCustomerId" parameterType="Long" resultType="Long">
+   			 SELECT DISTINCT T1.id  FROM
+				TBL_ExchangeOrder_Detail T2 LEFT JOIN TBL_ExchangeOrder T1
+				ON T2.orderCode = T1.orderCode
+				
+				WHERE T1.agentId = #{agentId}
+				AND  T2.status1 = 0 
+				AND (
+					T1.orderStatus = 'WAIT_BUYER_CONFIRM_GOODS' OR
+					T1.orderStatus = 'TRADE_FINISHE'
+				) 
+				AND (
+					<![CDATA[T1.confirmtime >= DATE_ADD(T1.confirmtime,INTERVAL (SELECT settleDays FROM TBL_Commission_Setting) day)]]>
+				)
+    	
+    </select>
+    
+    <select id="getAgentOrderDetailIdByCustomerId" parameterType="Long" resultType="Long">
+   			 SELECT DISTINCT T2.id  FROM
+				TBL_ExchangeOrder_Detail T2 LEFT JOIN TBL_ExchangeOrder T1
+				ON T2.orderCode = T1.orderCode
+				
+				WHERE T1.agentId = #{agentId}
+				AND  T2.status1 = 0 
+				AND (
+					T1.orderStatus = 'WAIT_BUYER_CONFIRM_GOODS' OR
+					T1.orderStatus = 'TRADE_FINISHE'
+				) 
+				AND (
+					<![CDATA[T1.confirmtime >= DATE_ADD(T1.confirmtime,INTERVAL (SELECT settleDays FROM TBL_Commission_Setting) day)]]>
+				)
+    	
+    </select>
+    
+    <select id="getCommissionPrice" resultType="Double">
+    	SELECT IFNULL(SUM(T1.commission), 0) FROM TBL_ExchangeOrder_Detail T1 LEFT JOIN TBL_ExchangeOrder T2 ON T1.orderCode = T2.orderCode
+    	WHERE T2.agentId = #{agentId}
+    	<if test="@Ognl@isNotEmpty(orderStatus)">
+	    	 AND T2.orderStatus = #{orderStatus}
+    	</if>
+    	<if test="@Ognl@isNotEmpty(NO_FINISHE)">
+                <![CDATA[
+                AND
+                 ( T1.orderStatus='WAIT_ADUIT' OR T1.orderStatus='WAIT_SELLER_SEND_GOODS' OR T1.orderStatus = 'WAIT_BUYER_CONFIRM_GOODS')
+            ]]>
+            </if>
+            
+            <if test="@Ognl@isNotEmpty(FINISHE)">
+                <![CDATA[
+                AND
+                 ( T2.orderStatus='BUYER_CONFIRM_GOODS' OR T2.orderStatus='TRADE_FINISHE')
+            ]]>
+            </if>
+    </select>
+    
+</mapper>
+

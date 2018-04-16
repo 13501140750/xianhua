@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="Cart">
+    
+    <resultMap id="cartResult" type="cart">
+        <result property="id" column="id" />
+        <result property="type" column="type" />
+        <result property="customerId" column="customerId" />
+        <result property="createTime" column="createTime" />
+        <result property="updateTime" column="updateTime" />
+        <association property="details" column="id" select="selectDetails"></association>
+    </resultMap>
+    
+    <resultMap id="cartDetailResult" type="cartDetail">
+        <result property="id" column="id" />
+        <result property="cartId" column="cartId" />
+        <result property="type" column="type" />
+        <result property="productId" column="productId" />
+        <result property="optionId" column="optionId" />
+        <result property="productCode" column="productCode" />
+        <result property="giftcardId" column="giftcardId" />
+        <result property="count" column="count" />
+        <result property="createTime" column="createTime" />
+        <result property="updateTime" column="updateTime" />
+        <association property="product" column="productId" javaType="product" select="Product.selectByPK"></association>
+        <association property="productOption" column="optionId" javaType="productOption" select="ProductOption.selectByPK"></association>
+    </resultMap>
+    
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="cartColumns">
+        <![CDATA[
+        T1.id,
+        T1.customerId,
+        T1.type,
+        T1.createTime,
+        T1.updateTime
+        ]]>
+    </sql>
+    
+    <!-- 查询from -->
+    <sql id="dynamicFrom">
+        FROM TBL_Cart T1
+    </sql>
+    
+    <!-- 查询选择colum -->
+    <sql id="dynamicSelect">
+        SELECT
+        <include refid="cartColumns" />
+        <include refid="dynamicFrom" />
+    </sql>
+    
+    <!-- 查询条件 -->
+    <sql id="dynamicCondition">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用framework中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <if test="@Ognl@isNotEmpty(id)">
+            AND T1.id = #{id}
+        </if>
+        <if test="@Ognl@isNotEmpty(idEx)">
+            AND T1.id != #{idEx}
+        </if>
+         <if test="type != null">
+            AND T1.type = #{type}
+        </if>
+        <if test="customerId != null">
+            AND T1.customerId = #{customerId}
+        </if>
+    </sql>
+    
+    <!-- 查询where条件 -->
+    <sql id="dynamicWhere">
+        <where>
+            <include refid="dynamicCondition" />
+        </where>
+    </sql>
+    
+    <!-- 查询where条件(map) -->
+    <sql id="dynamicWhereEx">
+        <where>
+            <include refid="dynamicCondition" />
+            <if test="@Ognl@isNotEmpty(createTimeBegin)">
+                <![CDATA[AND T1.createTime >= #{createTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeEnd)">
+                <![CDATA[AND T1.createTime < date_add(#{createTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+                <![CDATA[AND T1.updateTime >= #{updateTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+                <![CDATA[AND T1.updateTime < date_add(#{updateTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+        </where>
+    </sql>
+
+    <!-- 排序条件 -->
+    <sql id="dynamicOrderBy">
+        <choose>
+            <when test="@Ognl@isNotEmpty(orderBy)">
+                <trim suffix="" suffixOverrides="order by">
+                <foreach collection="orderBy" item="order" open="order by " separator="," close=" ">
+                <choose>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'type'">
+                        T1.type <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'customerId'">
+                        T1.customerId <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createTime'">
+                        T1.createTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateTime'">
+                        T1.updateTime <if test="!order.ascending"> desc </if>
+                    </when>
+                </choose>
+                </foreach>
+                </trim>
+            </when>
+            <otherwise>
+            order by T1.id desc
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 单条录入  -->
+    <insert id="insert">
+        <![CDATA[
+            INSERT INTO TBL_Cart (
+            id ,
+            customerId ,
+            type,
+            createTime ,
+            updateTime 
+            ) VALUES (
+            #{id} ,
+            #{customerId} ,
+            ${type},
+            #{createTime} ,
+            #{updateTime} 
+            )
+        ]]>
+    </insert>
+    
+    <!-- 批量录入  -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO TBL_Cart (
+            id ,
+            customerId ,
+            type ,
+            createTime ,
+            updateTime 
+            ) 
+            VALUES 
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id} ,
+            #{item.customerId} ,
+            #{item.type} ,
+            #{item.createTime} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+    
+    <!-- 单条修改  -->
+    <update id="update">
+        UPDATE TBL_Cart
+        <set>
+            <if test="customerId != null">
+                customerId = #{customerId},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime}
+            </if>
+        </set>
+        WHERE 
+            id = #{id}
+    </update>
+    
+    <!-- 单条修改所有属性  -->
+    <update id="updateAll">
+    <![CDATA[
+        UPDATE TBL_Cart SET
+            customerId = #{customerId} ,
+            type  = #{type} ,
+            createTime = #{createTime} ,
+            updateTime = #{updateTime} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <!-- 删除主键  -->
+    <delete id="deleteByPK">
+    <![CDATA[
+        DELETE FROM TBL_Cart WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <!-- 删除主键数组  -->
+    <delete id="deleteByArrPK" parameterType="java.util.List">
+        <![CDATA[DELETE FROM TBL_Cart WHERE]]>
+        <foreach collection="list" item="item" index="index" open="id in (" separator="," close=")">
+            <![CDATA[#{item}]]>
+        </foreach>
+    </delete>
+    
+    <!-- 删除条件  -->
+    <delete id="delete">
+        <![CDATA[DELETE T1 FROM TBL_Cart T1 ]]>
+        <include refid="dynamicWhere" />
+    </delete>
+    
+    <!-- 主键查询  -->
+    <select id="selectByPK" parameterType="java.lang.String" resultMap="cartResult">
+        <include refid="dynamicSelect" />
+        <![CDATA[
+            WHERE 
+            T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在主键 -->
+    <select id="existsByPK" parameterType="java.lang.String"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <![CDATA[
+        WHERE
+        T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在对象 -->
+    <select id="exists" parameterType="cart"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数 -->
+    <select id="count" resultType="int">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数参数Map -->
+    <select id="countByMap" resultType="int" parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询数量 -->
+    <select id="pageCount" resultType="int"
+        parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询 -->
+    <select id="pageQuery" resultMap="cartResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+
+    <!-- 查询条件Map -->
+    <select id="selectByMap" resultMap="cartResult"
+        parameterType="map">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+    </select>
+
+    <!-- 查询条件对象 -->
+    <select id="select" resultMap="cartResult"
+        parameterType="cart">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhere" />
+        order by T1.id desc
+    </select>
+
+    <!-- 查询条件拼接 -->
+    <select id="selectByCriteria" resultMap="cartResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <if test="_parameter != null">
+            <include refid="Common.criteria_Where_Clause" />
+        </if>
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+    
+    <!-- 查询购物车详情 -->
+    <select id="selectDetails" resultMap="cartDetailResult" parameterType="String">
+        SELECT
+        T1.id,
+        T1.cartId,
+        T1.type,
+        T1.productId,
+        T1.optionId,
+        T1.productCode,
+        T1.giftcardId,
+        T1.count,
+        T1.createTime,
+        T1.updateTime
+        FROM TBL_CartDetail T1
+        WHERE T1.cartId = #{id}
+    </select>
+</mapper>
+

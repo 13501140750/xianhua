@@ -1,0 +1,658 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="CommissionSetting">
+    
+    <resultMap id="commissionSettingResult" type="commissionSetting">
+        <result property="id" column="id" />
+        <result property="level" column="level" />
+        <result property="selfBuy" column="selfBuy" />
+        <result property="becomeChild" column="becomeChild" />
+        <result property="become" column="become" />
+        <result property="becomeReg" column="becomeReg" />
+        <result property="becomeCheck" column="becomeCheck" />
+        <result property="noCommissionUrl" column="noCommissionUrl" />
+        <result property="cashCredit" column="cashCredit" />
+        <result property="withdraw" column="withdraw" />
+        <result property="commissionType" column="commissionType" />
+        <result property="withdrawCharge" column="withdrawCharge" />
+        <result property="withdrawBegin" column="withdrawBegin" />
+        <result property="withdrawEnd" column="withdrawEnd" />
+        <result property="settleDays" column="settleDays" />
+        <result property="levelType" column="levelType" />
+        <result property="qrcodeShare" column="qrcodeShare" />
+        <result property="openOrderDetail" column="openOrderDetail" />
+        <result property="openOrderBuyer" column="openOrderBuyer" />
+        <result property="closedQrcode" column="closedQrcode" />
+        <result property="qrcode" column="qrcode" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+    </resultMap>
+    
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="commissionSettingColumns">
+        <![CDATA[
+        T1.id,
+        T1.level,
+        T1.selfBuy,
+        T1.becomeChild,
+        T1.become,
+        T1.becomeReg,
+        T1.becomeCheck,
+        T1.noCommissionUrl,
+        T1.cashCredit,
+        T1.withdraw,
+        T1.commissionType,
+        T1.withdrawCharge,
+        T1.withdrawBegin,
+        T1.withdrawEnd,
+        T1.settleDays,
+        T1.levelType,
+        T1.qrcodeShare,
+        T1.openOrderDetail,
+        T1.openOrderBuyer,
+        T1.closedQrcode,
+        T1.qrcode,
+        T1.deleteYn,
+        T1.disabledYn,
+        T1.createUser,
+        T1.createTime,
+        T1.updateUser,
+        T1.updateTime
+        ]]>
+    </sql>
+    
+    <!-- 查询from -->
+    <sql id="dynamicFrom">
+        FROM TBL_Commission_Setting T1
+    </sql>
+    
+    <!-- 查询选择colum -->
+    <sql id="dynamicSelect">
+        SELECT
+        <include refid="commissionSettingColumns" />
+        <include refid="dynamicFrom" />
+    </sql>
+    
+    <!-- 查询条件 -->
+    <sql id="dynamicCondition">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用framework中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <if test="id != null">
+            AND T1.id = #{id}
+        </if>
+        <if test="idEx != null">
+            AND T1.id != #{idEx}
+        </if>
+        <if test="level != null">
+            AND T1.level = #{level}
+        </if>
+        <if test="selfBuy != null">
+            AND T1.selfBuy = #{selfBuy}
+        </if>
+        <if test="becomeChild != null">
+            AND T1.becomeChild = #{becomeChild}
+        </if>
+        <if test="become != null">
+            AND T1.become = #{become}
+        </if>
+        <if test="becomeReg != null">
+            AND T1.becomeReg = #{becomeReg}
+        </if>
+        <if test="becomeCheck != null">
+            AND T1.becomeCheck = #{becomeCheck}
+        </if>
+        <if test="noCommissionUrl != null">
+            AND T1.noCommissionUrl = #{noCommissionUrl}
+        </if>
+        <if test="cashCredit != null">
+            AND T1.cashCredit = #{cashCredit}
+        </if>
+        <if test="withdraw != null">
+            AND T1.withdraw = #{withdraw}
+        </if>
+        <if test="commissionType != null">
+            AND T1.commissionType = #{commissionType}
+        </if>
+        <if test="withdrawCharge != null">
+            AND T1.withdrawCharge = #{withdrawCharge}
+        </if>
+        <if test="withdrawBegin != null">
+            AND T1.withdrawBegin = #{withdrawBegin}
+        </if>
+        <if test="withdrawEnd != null">
+            AND T1.withdrawEnd = #{withdrawEnd}
+        </if>
+        <if test="settleDays != null">
+            AND T1.settleDays = #{settleDays}
+        </if>
+        <if test="levelType != null">
+            AND T1.levelType = #{levelType}
+        </if>
+        <if test="qrcodeShare != null">
+            AND T1.qrcodeShare = #{qrcodeShare}
+        </if>
+        <if test="openOrderDetail != null">
+            AND T1.openOrderDetail = #{openOrderDetail}
+        </if>
+        <if test="openOrderBuyer != null">
+            AND T1.openOrderBuyer = #{openOrderBuyer}
+        </if>
+        <if test="closedQrcode != null">
+            AND T1.closedQrcode = #{closedQrcode}
+        </if>
+        <if test="qrcode != null">
+            AND T1.qrcode = #{qrcode}
+        </if>
+        <if test="@Ognl@isNotEmpty(deleteYn)">
+            AND T1.deleteYn = #{deleteYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(disabledYn)">
+            AND T1.disabledYn = #{disabledYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(createUser)">
+            AND T1.createUser = #{createUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(updateUser)">
+            AND T1.updateUser = #{updateUser}
+        </if>
+    </sql>
+    
+    <!-- 查询where条件 -->
+    <sql id="dynamicWhere">
+        <where>
+            <include refid="dynamicCondition" />
+        </where>
+    </sql>
+    
+    <!-- 查询where条件(map) -->
+    <sql id="dynamicWhereEx">
+        <where>
+            <include refid="dynamicCondition" />
+            <if test="@Ognl@isNotEmpty(createTimeBegin)">
+                <![CDATA[AND T1.createTime >= #{createTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeEnd)">
+                <![CDATA[AND T1.createTime < date_add(#{createTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+                <![CDATA[AND T1.updateTime >= #{updateTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+                <![CDATA[AND T1.updateTime < date_add(#{updateTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+        </where>
+    </sql>
+
+    <!-- 排序条件 -->
+    <sql id="dynamicOrderBy">
+        <choose>
+            <when test="@Ognl@isNotEmpty(orderBy)">
+                <trim suffix="" suffixOverrides="order by">
+                <foreach collection="orderBy" item="order" open="order by " separator="," close=" ">
+                <choose>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'level'">
+                        T1.level <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'selfBuy'">
+                        T1.selfBuy <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'becomeChild'">
+                        T1.becomeChild <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'become'">
+                        T1.become <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'becomeReg'">
+                        T1.becomeReg <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'becomeCheck'">
+                        T1.becomeCheck <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'noCommissionUrl'">
+                        T1.noCommissionUrl <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'cashCredit'">
+                        T1.cashCredit <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'withdraw'">
+                        T1.withdraw <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'commissionType'">
+                        T1.commissionType <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'withdrawCharge'">
+                        T1.withdrawCharge <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'withdrawBegin'">
+                        T1.withdrawBegin <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'withdrawEnd'">
+                        T1.withdrawEnd <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'settleDays'">
+                        T1.settleDays <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'levelType'">
+                        T1.levelType <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'qrcodeShare'">
+                        T1.qrcodeShare <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'openOrderDetail'">
+                        T1.openOrderDetail <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'openOrderBuyer'">
+                        T1.openOrderBuyer <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'closedQrcode'">
+                        T1.closedQrcode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'qrcode'">
+                        T1.qrcode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'deleteYn'">
+                        T1.deleteYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'disabledYn'">
+                        T1.disabledYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createUser'">
+                        T1.createUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createTime'">
+                        T1.createTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateUser'">
+                        T1.updateUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateTime'">
+                        T1.updateTime <if test="!order.ascending"> desc </if>
+                    </when>
+                </choose>
+                </foreach>
+                </trim>
+            </when>
+            <otherwise>
+            order by T1.id desc
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 单条录入  -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO TBL_Commission_Setting (
+            level ,
+            selfBuy ,
+            becomeChild ,
+            become ,
+            becomeReg ,
+            becomeCheck ,
+            noCommissionUrl ,
+            cashCredit ,
+            withdraw ,
+            commissionType ,
+            withdrawCharge ,
+            withdrawBegin ,
+            withdrawEnd ,
+            settleDays ,
+            levelType ,
+            qrcodeShare ,
+            openOrderDetail ,
+            openOrderBuyer ,
+            closedQrcode ,
+            qrcode ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime 
+            ) VALUES (
+            #{level} ,
+            #{selfBuy} ,
+            #{becomeChild} ,
+            #{become} ,
+            #{becomeReg} ,
+            #{becomeCheck} ,
+            #{noCommissionUrl} ,
+            #{cashCredit} ,
+            #{withdraw} ,
+            #{commissionType} ,
+            #{withdrawCharge} ,
+            #{withdrawBegin} ,
+            #{withdrawEnd} ,
+            #{settleDays} ,
+            #{levelType} ,
+            #{qrcodeShare} ,
+            #{openOrderDetail} ,
+            #{openOrderBuyer} ,
+            #{closedQrcode} ,
+            #{qrcode} ,
+            #{deleteYn} ,
+            #{disabledYn} ,
+            #{createUser} ,
+            #{createTime} ,
+            #{updateUser} ,
+            #{updateTime} 
+            )
+        ]]>
+        <selectKey resultType="java.lang.Integer"
+            order="AFTER"
+            keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    
+    <!-- 批量录入  -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO TBL_Commission_Setting (
+            level ,
+            selfBuy ,
+            becomeChild ,
+            become ,
+            becomeReg ,
+            becomeCheck ,
+            noCommissionUrl ,
+            cashCredit ,
+            withdraw ,
+            commissionType ,
+            withdrawCharge ,
+            withdrawBegin ,
+            withdrawEnd ,
+            settleDays ,
+            levelType ,
+            qrcodeShare ,
+            openOrderDetail ,
+            openOrderBuyer ,
+            closedQrcode ,
+            qrcode ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime 
+            ) 
+            VALUES 
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.level} ,
+            #{item.selfBuy} ,
+            #{item.becomeChild} ,
+            #{item.become} ,
+            #{item.becomeReg} ,
+            #{item.becomeCheck} ,
+            #{item.noCommissionUrl} ,
+            #{item.cashCredit} ,
+            #{item.withdraw} ,
+            #{item.commissionType} ,
+            #{item.withdrawCharge} ,
+            #{item.withdrawBegin} ,
+            #{item.withdrawEnd} ,
+            #{item.settleDays} ,
+            #{item.levelType} ,
+            #{item.qrcodeShare} ,
+            #{item.openOrderDetail} ,
+            #{item.openOrderBuyer} ,
+            #{item.closedQrcode} ,
+            #{item.qrcode} ,
+            #{item.deleteYn} ,
+            #{item.disabledYn} ,
+            #{item.createUser} ,
+            #{item.createTime} ,
+            #{item.updateUser} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+    
+    <!-- 单条修改  -->
+    <update id="update">
+        UPDATE TBL_Commission_Setting
+        <set>
+            <if test="level != null">
+                level = #{level},
+            </if>
+            <if test="selfBuy != null">
+                selfBuy = #{selfBuy},
+            </if>
+            <if test="becomeChild != null">
+                becomeChild = #{becomeChild},
+            </if>
+            <if test="become != null">
+                become = #{become},
+            </if>
+            <if test="becomeReg != null">
+                becomeReg = #{becomeReg},
+            </if>
+            <if test="becomeCheck != null">
+                becomeCheck = #{becomeCheck},
+            </if>
+            <if test="@Ognl@isNotEmpty(noCommissionUrl)">
+                noCommissionUrl = #{noCommissionUrl},
+            </if>
+            <if test="@Ognl@isNotEmpty(cashCredit)">
+                cashCredit = #{cashCredit},
+            </if>
+            <if test="withdraw != null">
+                withdraw = #{withdraw},
+            </if>
+            <if test="commissionType != null">
+                commissionType = #{commissionType},
+            </if>
+            <if test="withdrawCharge != null">
+                withdrawCharge = #{withdrawCharge},
+            </if>
+            <if test="withdrawBegin != null">
+                withdrawBegin = #{withdrawBegin},
+            </if>
+            <if test="withdrawEnd != null">
+                withdrawEnd = #{withdrawEnd},
+            </if>
+            <if test="settleDays != null">
+                settleDays = #{settleDays},
+            </if>
+            <if test="levelType != null">
+                levelType = #{levelType},
+            </if>
+            <if test="qrcodeShare != null">
+                qrcodeShare = #{qrcodeShare},
+            </if>
+            <if test="openOrderDetail != null">
+                openOrderDetail = #{openOrderDetail},
+            </if>
+            <if test="openOrderBuyer != null">
+                openOrderBuyer = #{openOrderBuyer},
+            </if>
+            <if test="closedQrcode != null">
+                closedQrcode = #{closedQrcode},
+            </if>
+            <if test="qrcode != null">
+                qrcode = #{qrcode},
+            </if>
+            <if test="@Ognl@isNotEmpty(deleteYn)">
+                deleteYn = #{deleteYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(disabledYn)">
+                disabledYn = #{disabledYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(createUser)">
+                createUser = #{createUser},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateUser)">
+                updateUser = #{updateUser},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime}
+            </if>
+        </set>
+        WHERE 
+            id = #{id}
+    </update>
+    
+    <!-- 单条修改所有属性  -->
+    <update id="updateAll">
+    <![CDATA[
+        UPDATE TBL_Commission_Setting SET
+            level = #{level} ,
+            selfBuy = #{selfBuy} ,
+            becomeChild = #{becomeChild} ,
+            become = #{become} ,
+            becomeReg = #{becomeReg} ,
+            becomeCheck = #{becomeCheck} ,
+            noCommissionUrl = #{noCommissionUrl} ,
+            cashCredit = #{cashCredit} ,
+            withdraw = #{withdraw} ,
+            commissionType = #{commissionType} ,
+            withdrawCharge = #{withdrawCharge} ,
+            withdrawBegin = #{withdrawBegin} ,
+            withdrawEnd = #{withdrawEnd} ,
+            settleDays = #{settleDays} ,
+            levelType = #{levelType} ,
+            qrcodeShare = #{qrcodeShare} ,
+            openOrderDetail = #{openOrderDetail} ,
+            openOrderBuyer = #{openOrderBuyer} ,
+            closedQrcode = #{closedQrcode} ,
+            qrcode = #{qrcode} ,
+            deleteYn = #{deleteYn} ,
+            disabledYn = #{disabledYn} ,
+            createUser = #{createUser} ,
+            createTime = #{createTime} ,
+            updateUser = #{updateUser} ,
+            updateTime = #{updateTime} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <!-- 删除主键  -->
+    <delete id="deleteByPK">
+    <![CDATA[
+        DELETE FROM TBL_Commission_Setting WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <!-- 删除主键数组  -->
+    <delete id="deleteByArrPK" parameterType="java.util.List">
+        <![CDATA[DELETE FROM TBL_Commission_Setting WHERE]]>
+        <foreach collection="list" item="item" index="index" open="id in (" separator="," close=")">
+            <![CDATA[#{item}]]>
+        </foreach>
+    </delete>
+    
+    <!-- 删除条件  -->
+    <delete id="delete">
+        <![CDATA[DELETE T1 FROM TBL_Commission_Setting T1 ]]>
+        <include refid="dynamicWhere" />
+    </delete>
+    
+    <!-- 主键查询  -->
+    <select id="selectByPK" parameterType="java.lang.Integer" resultMap="commissionSettingResult">
+        <include refid="dynamicSelect" />
+        <![CDATA[
+            WHERE 
+            T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在主键 -->
+    <select id="existsByPK" parameterType="java.lang.Integer"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <![CDATA[
+        WHERE
+        T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在对象 -->
+    <select id="exists" parameterType="commissionSetting"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数 -->
+    <select id="count" resultType="int">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数参数Map -->
+    <select id="countByMap" resultType="int" parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询数量 -->
+    <select id="pageCount" resultType="int"
+        parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询 -->
+    <select id="pageQuery" resultMap="commissionSettingResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+
+    <!-- 查询条件Map -->
+    <select id="selectByMap" resultMap="commissionSettingResult"
+        parameterType="map">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+    </select>
+
+    <!-- 查询条件对象 -->
+    <select id="select" resultMap="commissionSettingResult"
+        parameterType="commissionSetting">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhere" />
+        order by T1.id desc
+    </select>
+
+    <!-- 查询条件拼接 -->
+    <select id="selectByCriteria" resultMap="commissionSettingResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <if test="_parameter != null">
+            <include refid="Common.criteria_Where_Clause" />
+        </if>
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+    
+    
+    
+</mapper>
+

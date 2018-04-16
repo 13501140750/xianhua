@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- DBUnit flatXml DataFile -->
+<dataset>
+
+    <TBL_NavigationCategory
+        id='919'
+        code='000001'
+        name='Name173'
+        share='2'
+        parent='Parent238'
+        companyCode='CompanyCode279'
+        deleteYn='1'
+        disabledYn='1'
+        createUser='CreateUser211'
+        createTime='2015-12-12 21:20:22.99'
+        updateUser='UpdateUser314'
+        updateTime='2015-12-12 21:20:22.99'
+    />
+
+    <TBL_NavigationCategory
+        id='645'
+        code='000002'
+        name='Name972'
+        share='5'
+        parent='Parent513'
+        companyCode='CompanyCode425'
+        deleteYn='1'
+        disabledYn='1'
+        createUser='CreateUser176'
+        createTime='2015-12-12 21:20:22.99'
+        updateUser='UpdateUser830'
+        updateTime='2015-12-12 21:20:22.99'
+    />
+
+</dataset>

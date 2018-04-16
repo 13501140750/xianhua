@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="WxBill">
+    
+    <resultMap id="wxBillResult" type="wxBill">
+        <result property="id" column="id" />
+        <result property="tradeTime" column="tradeTime" />
+        <result property="ghId" column="ghId" />
+        <result property="mchId" column="mchId" />
+        <result property="subMchNo" column="subMchNo" />
+        <result property="deviceNo" column="deviceNo" />
+        <result property="wxOrderCode" column="wxOrderCode" />
+        <result property="bzOrderCode" column="bzOrderCode" />
+        <result property="openid" column="openid" />
+        <result property="tradeType" column="tradeType" />
+        <result property="tradeStatus" column="tradeStatus" />
+        <result property="bank" column="bank" />
+        <result property="currency" column="currency" />
+        <result property="totalMoney" column="totalMoney" />
+        <result property="redPacketMoney" column="redPacketMoney" />
+        <result property="wxRefundNo" column="wxRefundNo" />
+        <result property="bzRefundNo" column="bzRefundNo" />
+        <result property="refundMoney" column="refundMoney" />
+        <result property="redPacketRefund" column="redPacketRefund" />
+        <result property="refundType" column="refundType" />
+        <result property="refundStatus" column="refundStatus" />
+        <result property="productName" column="productName" />
+        <result property="bzDataPacket" column="bzDataPacket" />
+        <result property="fee" column="fee" />
+        <result property="rate" column="rate" />
+    </resultMap>
+    
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="wxBillColumns">
+        <![CDATA[
+        T1.id,
+        T1.tradeTime,
+        T1.ghId,
+        T1.mchId,
+        T1.subMchNo,
+        T1.deviceNo,
+        T1.wxOrderCode,
+        T1.bzOrderCode,
+        T1.openid,
+        T1.tradeType,
+        T1.tradeStatus,
+        T1.bank,
+        T1.currency,
+        T1.totalMoney,
+        T1.redPacketMoney,
+        T1.wxRefundNo,
+        T1.bzRefundNo,
+        T1.refundMoney,
+        T1.redPacketRefund,
+        T1.refundType,
+        T1.refundStatus,
+        T1.productName,
+        T1.bzDataPacket,
+        T1.fee,
+        T1.rate
+        ]]>
+    </sql>
+    
+    <!-- 查询from -->
+    <sql id="dynamicFrom">
+        FROM TBL_Wx_Bill T1
+    </sql>
+    
+    <!-- 查询选择colum -->
+    <sql id="dynamicSelect">
+        SELECT
+        <include refid="wxBillColumns" />
+        <include refid="dynamicFrom" />
+    </sql>
+    
+    <!-- 查询条件 -->
+    <sql id="dynamicCondition">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用framework中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <if test="id != null">
+            AND T1.id = #{id}
+        </if>
+        <if test="idEx != null">
+            AND T1.id != #{idEx}
+        </if>
+        <if test="@Ognl@isNotEmpty(tradeTime)">
+            AND T1.tradeTime = #{tradeTime}
+        </if>
+        <if test="@Ognl@isNotEmpty(ghId)">
+            AND T1.ghId = #{ghId}
+        </if>
+        <if test="@Ognl@isNotEmpty(mchId)">
+            AND T1.mchId = #{mchId}
+        </if>
+        <if test="@Ognl@isNotEmpty(subMchNo)">
+            AND T1.subMchNo = #{subMchNo}
+        </if>
+        <if test="@Ognl@isNotEmpty(deviceNo)">
+            AND T1.deviceNo = #{deviceNo}
+        </if>
+        <if test="@Ognl@isNotEmpty(wxOrderCode)">
+            AND T1.wxOrderCode = #{wxOrderCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(bzOrderCode)">
+            AND T1.bzOrderCode = #{bzOrderCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(openid)">
+            AND T1.openid = #{openid}
+        </if>
+        <if test="@Ognl@isNotEmpty(tradeType)">
+            AND T1.tradeType = #{tradeType}
+        </if>
+        <if test="@Ognl@isNotEmpty(tradeStatus)">
+            AND T1.tradeStatus = #{tradeStatus}
+        </if>
+        <if test="@Ognl@isNotEmpty(bank)">
+            AND T1.bank = #{bank}
+        </if>
+        <if test="@Ognl@isNotEmpty(currency)">
+            AND T1.currency = #{currency}
+        </if>
+        <if test="@Ognl@isNotEmpty(totalMoney)">
+            AND T1.totalMoney = #{totalMoney}
+        </if>
+        <if test="@Ognl@isNotEmpty(redPacketMoney)">
+            AND T1.redPacketMoney = #{redPacketMoney}
+        </if>
+        <if test="@Ognl@isNotEmpty(wxRefundNo)">
+            AND T1.wxRefundNo = #{wxRefundNo}
+        </if>
+        <if test="@Ognl@isNotEmpty(bzRefundNo)">
+            AND T1.bzRefundNo = #{bzRefundNo}
+        </if>
+        <if test="@Ognl@isNotEmpty(refundMoney)">
+            AND T1.refundMoney = #{refundMoney}
+        </if>
+        <if test="@Ognl@isNotEmpty(redPacketRefund)">
+            AND T1.redPacketRefund = #{redPacketRefund}
+        </if>
+        <if test="@Ognl@isNotEmpty(refundType)">
+            AND T1.refundType = #{refundType}
+        </if>
+        <if test="@Ognl@isNotEmpty(refundStatus)">
+            AND T1.refundStatus = #{refundStatus}
+        </if>
+        <if test="@Ognl@isNotEmpty(productName)">
+            AND T1.productName = #{productName}
+        </if>
+        <if test="@Ognl@isNotEmpty(bzDataPacket)">
+            AND T1.bzDataPacket = #{bzDataPacket}
+        </if>
+        <if test="@Ognl@isNotEmpty(fee)">
+            AND T1.fee = #{fee}
+        </if>
+        <if test="@Ognl@isNotEmpty(rate)">
+            AND T1.rate = #{rate}
+        </if>
+    </sql>
+    
+    <!-- 查询where条件 -->
+    <sql id="dynamicWhere">
+        <where>
+            <include refid="dynamicCondition" />
+        </where>
+    </sql>
+    
+    <!-- 查询where条件(map) -->
+    <sql id="dynamicWhereEx">
+        <where>
+            <include refid="dynamicCondition" />
+        </where>
+    </sql>
+
+    <!-- 排序条件 -->
+    <sql id="dynamicOrderBy">
+        <choose>
+            <when test="@Ognl@isNotEmpty(orderBy)">
+                <trim suffix="" suffixOverrides="order by">
+                <foreach collection="orderBy" item="order" open="order by " separator="," close=" ">
+                <choose>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'tradeTime'">
+                        T1.tradeTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'ghId'">
+                        T1.ghId <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'mchId'">
+                        T1.mchId <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'subMchNo'">
+                        T1.subMchNo <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'deviceNo'">
+                        T1.deviceNo <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'wxOrderCode'">
+                        T1.wxOrderCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'bzOrderCode'">
+                        T1.bzOrderCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'openid'">
+                        T1.openid <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'tradeType'">
+                        T1.tradeType <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'tradeStatus'">
+                        T1.tradeStatus <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'bank'">
+                        T1.bank <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'currency'">
+                        T1.currency <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'totalMoney'">
+                        T1.totalMoney <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'redPacketMoney'">
+                        T1.redPacketMoney <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'wxRefundNo'">
+                        T1.wxRefundNo <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'bzRefundNo'">
+                        T1.bzRefundNo <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'refundMoney'">
+                        T1.refundMoney <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'redPacketRefund'">
+                        T1.redPacketRefund <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'refundType'">
+                        T1.refundType <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'refundStatus'">
+                        T1.refundStatus <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'productName'">
+                        T1.productName <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'bzDataPacket'">
+                        T1.bzDataPacket <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'fee'">
+                        T1.fee <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'rate'">
+                        T1.rate <if test="!order.ascending"> desc </if>
+                    </when>
+                </choose>
+                </foreach>
+                </trim>
+            </when>
+            <otherwise>
+            order by T1.id desc
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 单条录入  -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO TBL_Wx_Bill (
+            tradeTime ,
+            ghId ,
+            mchId ,
+            subMchNo ,
+            deviceNo ,
+            wxOrderCode ,
+            bzOrderCode ,
+            openid ,
+            tradeType ,
+            tradeStatus ,
+            bank ,
+            currency ,
+            totalMoney ,
+            redPacketMoney ,
+            wxRefundNo ,
+            bzRefundNo ,
+            refundMoney ,
+            redPacketRefund ,
+            refundType ,
+            refundStatus ,
+            productName ,
+            bzDataPacket ,
+            fee ,
+            rate 
+            ) VALUES (
+            #{tradeTime} ,
+            #{ghId} ,
+            #{mchId} ,
+            #{subMchNo} ,
+            #{deviceNo} ,
+            #{wxOrderCode} ,
+            #{bzOrderCode} ,
+            #{openid} ,
+            #{tradeType} ,
+            #{tradeStatus} ,
+            #{bank} ,
+            #{currency} ,
+            #{totalMoney} ,
+            #{redPacketMoney} ,
+            #{wxRefundNo} ,
+            #{bzRefundNo} ,
+            #{refundMoney} ,
+            #{redPacketRefund} ,
+            #{refundType} ,
+            #{refundStatus} ,
+            #{productName} ,
+            #{bzDataPacket} ,
+            #{fee} ,
+            #{rate} 
+            )
+        ]]>
+        <selectKey resultType="java.lang.Integer"
+            order="AFTER"
+            keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    
+    <!-- 批量录入  -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO TBL_Wx_Bill (
+            tradeTime ,
+            ghId ,
+            mchId ,
+            subMchNo ,
+            deviceNo ,
+            wxOrderCode ,
+            bzOrderCode ,
+            openid ,
+            tradeType ,
+            tradeStatus ,
+            bank ,
+            currency ,
+            totalMoney ,
+            redPacketMoney ,
+            wxRefundNo ,
+            bzRefundNo ,
+            refundMoney ,
+            redPacketRefund ,
+            refundType ,
+            refundStatus ,
+            productName ,
+            bzDataPacket ,
+            fee ,
+            rate 
+            ) 
+            VALUES 
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.tradeTime} ,
+            #{item.ghId} ,
+            #{item.mchId} ,
+            #{item.subMchNo} ,
+            #{item.deviceNo} ,
+            #{item.wxOrderCode} ,
+            #{item.bzOrderCode} ,
+            #{item.openid} ,
+            #{item.tradeType} ,
+            #{item.tradeStatus} ,
+            #{item.bank} ,
+            #{item.currency} ,
+            #{item.totalMoney} ,
+            #{item.redPacketMoney} ,
+            #{item.wxRefundNo} ,
+            #{item.bzRefundNo} ,
+            #{item.refundMoney} ,
+            #{item.redPacketRefund} ,
+            #{item.refundType} ,
+            #{item.refundStatus} ,
+            #{item.productName} ,
+            #{item.bzDataPacket} ,
+            #{item.fee} ,
+            #{item.rate} 
+            )
+        </foreach>
+    </insert>
+    
+    <!-- 单条修改  -->
+    <update id="update">
+        UPDATE TBL_Wx_Bill
+        <set>
+            <if test="@Ognl@isNotEmpty(tradeTime)">
+                tradeTime = #{tradeTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(ghId)">
+                ghId = #{ghId},
+            </if>
+            <if test="@Ognl@isNotEmpty(mchId)">
+                mchId = #{mchId},
+            </if>
+            <if test="@Ognl@isNotEmpty(subMchNo)">
+                subMchNo = #{subMchNo},
+            </if>
+            <if test="@Ognl@isNotEmpty(deviceNo)">
+                deviceNo = #{deviceNo},
+            </if>
+            <if test="@Ognl@isNotEmpty(wxOrderCode)">
+                wxOrderCode = #{wxOrderCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(bzOrderCode)">
+                bzOrderCode = #{bzOrderCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(openid)">
+                openid = #{openid},
+            </if>
+            <if test="@Ognl@isNotEmpty(tradeType)">
+                tradeType = #{tradeType},
+            </if>
+            <if test="@Ognl@isNotEmpty(tradeStatus)">
+                tradeStatus = #{tradeStatus},
+            </if>
+            <if test="@Ognl@isNotEmpty(bank)">
+                bank = #{bank},
+            </if>
+            <if test="@Ognl@isNotEmpty(currency)">
+                currency = #{currency},
+            </if>
+            <if test="@Ognl@isNotEmpty(totalMoney)">
+                totalMoney = #{totalMoney},
+            </if>
+            <if test="@Ognl@isNotEmpty(redPacketMoney)">
+                redPacketMoney = #{redPacketMoney},
+            </if>
+            <if test="@Ognl@isNotEmpty(wxRefundNo)">
+                wxRefundNo = #{wxRefundNo},
+            </if>
+            <if test="@Ognl@isNotEmpty(bzRefundNo)">
+                bzRefundNo = #{bzRefundNo},
+            </if>
+            <if test="@Ognl@isNotEmpty(refundMoney)">
+                refundMoney = #{refundMoney},
+            </if>
+            <if test="@Ognl@isNotEmpty(redPacketRefund)">
+                redPacketRefund = #{redPacketRefund},
+            </if>
+            <if test="@Ognl@isNotEmpty(refundType)">
+                refundType = #{refundType},
+            </if>
+            <if test="@Ognl@isNotEmpty(refundStatus)">
+                refundStatus = #{refundStatus},
+            </if>
+            <if test="@Ognl@isNotEmpty(productName)">
+                productName = #{productName},
+            </if>
+            <if test="@Ognl@isNotEmpty(bzDataPacket)">
+                bzDataPacket = #{bzDataPacket},
+            </if>
+            <if test="@Ognl@isNotEmpty(fee)">
+                fee = #{fee},
+            </if>
+            <if test="@Ognl@isNotEmpty(rate)">
+                rate = #{rate}
+            </if>
+        </set>
+        WHERE 
+            id = #{id}
+    </update>
+    
+    <!-- 单条修改所有属性  -->
+    <update id="updateAll">
+    <![CDATA[
+        UPDATE TBL_Wx_Bill SET
+            tradeTime = #{tradeTime} ,
+            ghId = #{ghId} ,
+            mchId = #{mchId} ,
+            subMchNo = #{subMchNo} ,
+            deviceNo = #{deviceNo} ,
+            wxOrderCode = #{wxOrderCode} ,
+            bzOrderCode = #{bzOrderCode} ,
+            openid = #{openid} ,
+            tradeType = #{tradeType} ,
+            tradeStatus = #{tradeStatus} ,
+            bank = #{bank} ,
+            currency = #{currency} ,
+            totalMoney = #{totalMoney} ,
+            redPacketMoney = #{redPacketMoney} ,
+            wxRefundNo = #{wxRefundNo} ,
+            bzRefundNo = #{bzRefundNo} ,
+            refundMoney = #{refundMoney} ,
+            redPacketRefund = #{redPacketRefund} ,
+            refundType = #{refundType} ,
+            refundStatus = #{refundStatus} ,
+            productName = #{productName} ,
+            bzDataPacket = #{bzDataPacket} ,
+            fee = #{fee} ,
+            rate = #{rate} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <!-- 删除主键  -->
+    <delete id="deleteByPK">
+    <![CDATA[
+        DELETE FROM TBL_Wx_Bill WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <!-- 删除主键数组  -->
+    <delete id="deleteByArrPK" parameterType="java.util.List">
+        <![CDATA[DELETE FROM TBL_Wx_Bill WHERE]]>
+        <foreach collection="list" item="item" index="index" open="id in (" separator="," close=")">
+            <![CDATA[#{item}]]>
+        </foreach>
+    </delete>
+    
+    <!-- 删除条件  -->
+    <delete id="delete">
+        <![CDATA[DELETE T1 FROM TBL_Wx_Bill T1 ]]>
+        <include refid="dynamicWhere" />
+    </delete>
+    
+    <!-- 主键查询  -->
+    <select id="selectByPK" parameterType="java.lang.Integer" resultMap="wxBillResult">
+        <include refid="dynamicSelect" />
+        <![CDATA[
+            WHERE 
+            T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在主键 -->
+    <select id="existsByPK" parameterType="java.lang.Integer"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <![CDATA[
+        WHERE
+        T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在对象 -->
+    <select id="exists" parameterType="wxBill"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数 -->
+    <select id="count" resultType="int">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数参数Map -->
+    <select id="countByMap" resultType="int" parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询数量 -->
+    <select id="pageCount" resultType="int"
+        parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询 -->
+    <select id="pageQuery" resultMap="wxBillResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+
+    <!-- 查询条件Map -->
+    <select id="selectByMap" resultMap="wxBillResult"
+        parameterType="map">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+    </select>
+
+    <!-- 查询条件对象 -->
+    <select id="select" resultMap="wxBillResult"
+        parameterType="wxBill">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhere" />
+        order by T1.id desc
+    </select>
+
+    <!-- 查询条件拼接 -->
+    <select id="selectByCriteria" resultMap="wxBillResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <if test="_parameter != null">
+            <include refid="Common.criteria_Where_Clause" />
+        </if>
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+    
+    <!-- 唯一值查询 -->
+    <select id="getByWxOrderCode" resultMap="wxBillResult">
+        <include refid="dynamicSelect" />
+        <![CDATA[
+        WHERE T1.wxOrderCode = #{wxOrderCode}
+        ]]>
+    </select>
+    
+    <!-- 属性值是否存在 -->
+    <select id="existsByWxOrderCode" parameterType="map"
+        resultType="boolean">
+        <![CDATA[
+        SELECT min(1)
+        ]]>
+        <include refid="dynamicFrom" />
+        <where>
+            <if test="@Ognl@isNotEmpty(wxOrderCodeEq)">
+                <![CDATA[T1.wxOrderCode = #{wxOrderCodeEq} ]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(wxOrderCodeNotEq)">
+                <![CDATA[ AND T1.wxOrderCode <> #{wxOrderCodeNotEq} ]]>
+            </if>
+        </where>
+    </select>
+    <!-- 唯一值查询 -->
+    <select id="getByBzOrderCode" resultMap="wxBillResult">
+        <include refid="dynamicSelect" />
+        <![CDATA[
+        WHERE T1.bzOrderCode = #{bzOrderCode}
+        ]]>
+    </select>
+    
+    <!-- 属性值是否存在 -->
+    <select id="existsByBzOrderCode" parameterType="map"
+        resultType="boolean">
+        <![CDATA[
+        SELECT min(1)
+        ]]>
+        <include refid="dynamicFrom" />
+        <where>
+            <if test="@Ognl@isNotEmpty(bzOrderCodeEq)">
+                <![CDATA[T1.bzOrderCode = #{bzOrderCodeEq} ]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(bzOrderCodeNotEq)">
+                <![CDATA[ AND T1.bzOrderCode <> #{bzOrderCodeNotEq} ]]>
+            </if>
+        </where>
+    </select>
+    
+    
+</mapper>
+

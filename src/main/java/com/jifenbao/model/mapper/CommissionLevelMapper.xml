@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="CommissionLevel">
+    
+    <resultMap id="commissionLevelResult" type="commissionLevel">
+        <result property="id" column="id" />
+        <result property="levelName" column="levelName" />
+        <result property="commission1" column="commission1" />
+        <result property="commission2" column="commission2" />
+        <result property="commission3" column="commission3" />
+        <result property="orderMoney" column="orderMoney" />
+        <result property="orderCount" column="orderCount" />
+        <result property="downCount" column="downCount" />
+        <result property="commissionMoney" column="commissionMoney" />
+        <result property="defaultYn" column="defaultYn" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+    </resultMap>
+    
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="commissionLevelColumns">
+        <![CDATA[
+        T1.id,
+        T1.levelName,
+        T1.commission1,
+        T1.commission2,
+        T1.commission3,
+        T1.orderMoney,
+        T1.orderCount,
+        T1.downCount,
+        T1.commissionMoney,
+        T1.defaultYn,
+        T1.deleteYn,
+        T1.disabledYn,
+        T1.createUser,
+        T1.createTime,
+        T1.updateUser,
+        T1.updateTime
+        ]]>
+    </sql>
+    
+    <!-- 查询from -->
+    <sql id="dynamicFrom">
+        FROM TBL_Commission_Level T1
+    </sql>
+    
+    <!-- 查询选择colum -->
+    <sql id="dynamicSelect">
+        SELECT
+        <include refid="commissionLevelColumns" />
+        <include refid="dynamicFrom" />
+    </sql>
+    
+    <!-- 查询条件 -->
+    <sql id="dynamicCondition">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用framework中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <if test="id != null">
+            AND T1.id = #{id}
+        </if>
+        <if test="idEx != null">
+            AND T1.id != #{idEx}
+        </if>
+        <if test="@Ognl@isNotEmpty(levelName)">
+            AND T1.levelName = #{levelName}
+        </if>
+        <if test="commission1 != null">
+            AND T1.commission1 = #{commission1}
+        </if>
+        <if test="commission2 != null">
+            AND T1.commission2 = #{commission2}
+        </if>
+        <if test="commission3 != null">
+            AND T1.commission3 = #{commission3}
+        </if>
+        <if test="orderMoney != null">
+            AND T1.orderMoney = #{orderMoney}
+        </if>
+        <if test="orderCount != null">
+            AND T1.orderCount = #{orderCount}
+        </if>
+        <if test="downCount != null">
+            AND T1.downCount = #{downCount}
+        </if>
+        <if test="commissionMoney != null">
+            AND T1.commissionMoney = #{commissionMoney}
+        </if>
+        <if test="@Ognl@isNotEmpty(defaultYn)">
+            AND T1.defaultYn = #{defaultYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(deleteYn)">
+            AND T1.deleteYn = #{deleteYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(disabledYn)">
+            AND T1.disabledYn = #{disabledYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(createUser)">
+            AND T1.createUser = #{createUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(updateUser)">
+            AND T1.updateUser = #{updateUser}
+        </if>
+    </sql>
+    
+    <!-- 查询where条件 -->
+    <sql id="dynamicWhere">
+        <where>
+            <include refid="dynamicCondition" />
+        </where>
+    </sql>
+    
+    <!-- 查询where条件(map) -->
+    <sql id="dynamicWhereEx">
+        <where>
+            <include refid="dynamicCondition" />
+            <if test="@Ognl@isNotEmpty(createTimeBegin)">
+                <![CDATA[AND T1.createTime >= #{createTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeEnd)">
+                <![CDATA[AND T1.createTime < date_add(#{createTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+                <![CDATA[AND T1.updateTime >= #{updateTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+                <![CDATA[AND T1.updateTime < date_add(#{updateTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+        </where>
+    </sql>
+
+    <!-- 排序条件 -->
+    <sql id="dynamicOrderBy">
+        <choose>
+            <when test="@Ognl@isNotEmpty(orderBy)">
+                <trim suffix="" suffixOverrides="order by">
+                <foreach collection="orderBy" item="order" open="order by " separator="," close=" ">
+                <choose>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'levelName'">
+                        T1.levelName <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'commission1'">
+                        T1.commission1 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'commission2'">
+                        T1.commission2 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'commission3'">
+                        T1.commission3 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'orderMoney'">
+                        T1.orderMoney <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'orderCount'">
+                        T1.orderCount <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'downCount'">
+                        T1.downCount <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'commissionMoney'">
+                        T1.commissionMoney <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'defaultYn'">
+                        T1.defaultYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'deleteYn'">
+                        T1.deleteYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'disabledYn'">
+                        T1.disabledYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createUser'">
+                        T1.createUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createTime'">
+                        T1.createTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateUser'">
+                        T1.updateUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateTime'">
+                        T1.updateTime <if test="!order.ascending"> desc </if>
+                    </when>
+                </choose>
+                </foreach>
+                </trim>
+            </when>
+            <otherwise>
+            order by T1.id desc
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 单条录入  -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO TBL_Commission_Level (
+            levelName ,
+            commission1 ,
+            commission2 ,
+            commission3 ,
+            orderMoney ,
+            orderCount ,
+            downCount ,
+            commissionMoney ,
+            defaultYn ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime 
+            ) VALUES (
+            #{levelName} ,
+            #{commission1} ,
+            #{commission2} ,
+            #{commission3} ,
+            #{orderMoney} ,
+            #{orderCount} ,
+            #{downCount} ,
+            #{commissionMoney} ,
+            #{defaultYn} ,
+            #{deleteYn} ,
+            #{disabledYn} ,
+            #{createUser} ,
+            #{createTime} ,
+            #{updateUser} ,
+            #{updateTime} 
+            )
+        ]]>
+        <selectKey resultType="java.lang.Integer"
+            order="AFTER"
+            keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    
+    <!-- 批量录入  -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO TBL_Commission_Level (
+            levelName ,
+            commission1 ,
+            commission2 ,
+            commission3 ,
+            orderMoney ,
+            orderCount ,
+            downCount ,
+            commissionMoney ,
+            defaultYn ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime 
+            ) 
+            VALUES 
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.levelName} ,
+            #{item.commission1} ,
+            #{item.commission2} ,
+            #{item.commission3} ,
+            #{item.orderMoney} ,
+            #{item.orderCount} ,
+            #{item.downCount} ,
+            #{item.commissionMoney} ,
+            #{item.defaultYn} ,
+            #{item.deleteYn} ,
+            #{item.disabledYn} ,
+            #{item.createUser} ,
+            #{item.createTime} ,
+            #{item.updateUser} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+    
+    <!-- 单条修改  -->
+    <update id="update">
+        UPDATE TBL_Commission_Level
+        <set>
+            <if test="@Ognl@isNotEmpty(levelName)">
+                levelName = #{levelName},
+            </if>
+            <if test="commission1 != null">
+                commission1 = #{commission1},
+            </if>
+            <if test="commission2 != null">
+                commission2 = #{commission2},
+            </if>
+            <if test="commission3 != null">
+                commission3 = #{commission3},
+            </if>
+            <if test="orderMoney != null">
+                orderMoney = #{orderMoney},
+            </if>
+            <if test="orderCount != null">
+                orderCount = #{orderCount},
+            </if>
+            <if test="downCount != null">
+                downCount = #{downCount},
+            </if>
+            <if test="commissionMoney != null">
+                commissionMoney = #{commissionMoney},
+            </if>
+            <if test="@Ognl@isNotEmpty(defaultYn)">
+                defaultYn = #{defaultYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(deleteYn)">
+                deleteYn = #{deleteYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(disabledYn)">
+                disabledYn = #{disabledYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(createUser)">
+                createUser = #{createUser},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateUser)">
+                updateUser = #{updateUser},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime}
+            </if>
+        </set>
+        WHERE 
+            id = #{id}
+    </update>
+    
+    <!-- 单条修改所有属性  -->
+    <update id="updateAll">
+    <![CDATA[
+        UPDATE TBL_Commission_Level SET
+            levelName = #{levelName} ,
+            commission1 = #{commission1} ,
+            commission2 = #{commission2} ,
+            commission3 = #{commission3} ,
+            orderMoney = #{orderMoney} ,
+            orderCount = #{orderCount} ,
+            downCount = #{downCount} ,
+            commissionMoney = #{commissionMoney} ,
+            defaultYn = #{defaultYn} ,
+            deleteYn = #{deleteYn} ,
+            disabledYn = #{disabledYn} ,
+            createUser = #{createUser} ,
+            createTime = #{createTime} ,
+            updateUser = #{updateUser} ,
+            updateTime = #{updateTime} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <!-- 删除主键  -->
+    <delete id="deleteByPK">
+    <![CDATA[
+        DELETE FROM TBL_Commission_Level WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <!-- 删除主键数组  -->
+    <delete id="deleteByArrPK" parameterType="java.util.List">
+        <![CDATA[DELETE FROM TBL_Commission_Level WHERE]]>
+        <foreach collection="list" item="item" index="index" open="id in (" separator="," close=")">
+            <![CDATA[#{item}]]>
+        </foreach>
+    </delete>
+    
+    <!-- 删除条件  -->
+    <delete id="delete">
+        <![CDATA[DELETE T1 FROM TBL_Commission_Level T1 ]]>
+        <include refid="dynamicWhere" />
+    </delete>
+    
+    <!-- 主键查询  -->
+    <select id="selectByPK" parameterType="java.lang.Integer" resultMap="commissionLevelResult">
+        <include refid="dynamicSelect" />
+        <![CDATA[
+            WHERE 
+            T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在主键 -->
+    <select id="existsByPK" parameterType="java.lang.Integer"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <![CDATA[
+        WHERE
+        T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在对象 -->
+    <select id="exists" parameterType="commissionLevel"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数 -->
+    <select id="count" resultType="int">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数参数Map -->
+    <select id="countByMap" resultType="int" parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询数量 -->
+    <select id="pageCount" resultType="int"
+        parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询 -->
+    <select id="pageQuery" resultMap="commissionLevelResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+
+    <!-- 查询条件Map -->
+    <select id="selectByMap" resultMap="commissionLevelResult"
+        parameterType="map">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+    </select>
+
+    <!-- 查询条件对象 -->
+    <select id="select" resultMap="commissionLevelResult"
+        parameterType="commissionLevel">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhere" />
+        order by T1.id desc
+    </select>
+
+    <!-- 查询条件拼接 -->
+    <select id="selectByCriteria" resultMap="commissionLevelResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <if test="_parameter != null">
+            <include refid="Common.criteria_Where_Clause" />
+        </if>
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+    
+    
+    
+</mapper>
+

@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="ProductOption">
+    
+    <resultMap id="productOptionResult" type="productOption">
+        <result property="id" column="id" />
+        <result property="productId" column="productId" />
+        <result property="productCode" column="productCode" />
+        <result property="title" column="title" />
+        <result property="thumb" column="thumb" />
+        <result property="productPrice" column="productPrice" />
+        <result property="marketPrice" column="marketPrice" />
+        <result property="costPrice" column="costPrice" />
+        <result property="stock" column="stock" />
+        <result property="weight" column="weight" />
+        <result property="displayOrder" column="displayOrder" />
+        <result property="specs" column="specs" />
+        <result property="skuId" column="skuId" />
+        <result property="goodsSn" column="goodsSn" />
+        <result property="productSn" column="productSn" />
+        <result property="isVirtual" column="isVirtual" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+    </resultMap>
+    
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="productOptionColumns">
+        <![CDATA[
+        T1.id,
+        T1.productId,
+        T1.productCode,
+        T1.title,
+        T1.thumb,
+        T1.productPrice,
+        T1.marketPrice,
+        T1.costPrice,
+        T1.stock,
+        T1.weight,
+        T1.displayOrder,
+        T1.specs,
+        T1.skuId,
+        T1.goodsSn,
+        T1.productSn,
+        T1.isVirtual,
+        T1.deleteYn,
+        T1.disabledYn,
+        T1.createUser,
+        T1.createTime,
+        T1.updateUser,
+        T1.updateTime
+        ]]>
+    </sql>
+    
+    <!-- 查询from -->
+    <sql id="dynamicFrom">
+        FROM TBL_Product_Option T1
+    </sql>
+    
+    <!-- 查询选择colum -->
+    <sql id="dynamicSelect">
+        SELECT
+        <include refid="productOptionColumns" />
+        <include refid="dynamicFrom" />
+    </sql>
+    
+    <!-- 查询条件 -->
+    <sql id="dynamicCondition">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用framework中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <if test="id != null">
+            AND T1.id = #{id}
+        </if>
+        <if test="idEx != null">
+            AND T1.id != #{idEx}
+        </if>
+        <if test="productId != null">
+            AND T1.productId = #{productId}
+        </if>
+        <if test="@Ognl@isNotEmpty(productCode)">
+            AND T1.productCode = #{productCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(title)">
+            AND T1.title = #{title}
+        </if>
+        <if test="@Ognl@isNotEmpty(thumb)">
+            AND T1.thumb = #{thumb}
+        </if>
+        <if test="productPrice != null">
+            AND T1.productPrice = #{productPrice}
+        </if>
+        <if test="marketPrice != null">
+            AND T1.marketPrice = #{marketPrice}
+        </if>
+        <if test="costPrice != null">
+            AND T1.costPrice = #{costPrice}
+        </if>
+        <if test="stock != null">
+            AND T1.stock = #{stock}
+        </if>
+        <if test="weight != null">
+            AND T1.weight = #{weight}
+        </if>
+        <if test="displayOrder != null">
+            AND T1.displayOrder = #{displayOrder}
+        </if>
+        <if test="@Ognl@isNotEmpty(specs)">
+            AND T1.specs = #{specs}
+        </if>
+        <if test="@Ognl@isNotEmpty(skuId)">
+            AND T1.skuId = #{skuId}
+        </if>
+        <if test="@Ognl@isNotEmpty(goodsSn)">
+            AND T1.goodsSn = #{goodsSn}
+        </if>
+        <if test="@Ognl@isNotEmpty(productSn)">
+            AND T1.productSn = #{productSn}
+        </if>
+        <if test="isVirtual != null">
+            AND T1.isVirtual = #{isVirtual}
+        </if>
+        <if test="@Ognl@isNotEmpty(deleteYn)">
+            AND T1.deleteYn = #{deleteYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(disabledYn)">
+            AND T1.disabledYn = #{disabledYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(createUser)">
+            AND T1.createUser = #{createUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(updateUser)">
+            AND T1.updateUser = #{updateUser}
+        </if>
+    </sql>
+    
+    <!-- 查询where条件 -->
+    <sql id="dynamicWhere">
+        <where>
+            <include refid="dynamicCondition" />
+        </where>
+    </sql>
+    
+    <!-- 查询where条件(map) -->
+    <sql id="dynamicWhereEx">
+        <where>
+            <include refid="dynamicCondition" />
+            <if test="@Ognl@isNotEmpty(createTimeBegin)">
+                <![CDATA[AND T1.createTime >= #{createTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeEnd)">
+                <![CDATA[AND T1.createTime < date_add(#{createTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+                <![CDATA[AND T1.updateTime >= #{updateTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+                <![CDATA[AND T1.updateTime < date_add(#{updateTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+        </where>
+    </sql>
+
+    <!-- 排序条件 -->
+    <sql id="dynamicOrderBy">
+        <choose>
+            <when test="@Ognl@isNotEmpty(orderBy)">
+                <trim suffix="" suffixOverrides="order by">
+                <foreach collection="orderBy" item="order" open="order by " separator="," close=" ">
+                <choose>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'productId'">
+                        T1.productId <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'productCode'">
+                        T1.productCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'title'">
+                        T1.title <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'thumb'">
+                        T1.thumb <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'productPrice'">
+                        T1.productPrice <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'marketPrice'">
+                        T1.marketPrice <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'costPrice'">
+                        T1.costPrice <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'stock'">
+                        T1.stock <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'weight'">
+                        T1.weight <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'displayOrder'">
+                        T1.displayOrder <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'specs'">
+                        T1.specs <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'skuId'">
+                        T1.skuId <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'goodsSn'">
+                        T1.goodsSn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'productSn'">
+                        T1.productSn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'isVirtual'">
+                        T1.isVirtual <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'deleteYn'">
+                        T1.deleteYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'disabledYn'">
+                        T1.disabledYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createUser'">
+                        T1.createUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createTime'">
+                        T1.createTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateUser'">
+                        T1.updateUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateTime'">
+                        T1.updateTime <if test="!order.ascending"> desc </if>
+                    </when>
+                </choose>
+                </foreach>
+                </trim>
+            </when>
+            <otherwise>
+            order by T1.id desc
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 单条录入  -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO TBL_Product_Option (
+            productId ,
+            productCode ,
+            title ,
+            thumb ,
+            productPrice ,
+            marketPrice ,
+            costPrice ,
+            stock ,
+            weight ,
+            displayOrder ,
+            specs ,
+            skuId ,
+            goodsSn ,
+            productSn ,
+            isVirtual ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime 
+            ) VALUES (
+            #{productId} ,
+            #{productCode} ,
+            #{title} ,
+            #{thumb} ,
+            #{productPrice} ,
+            #{marketPrice} ,
+            #{costPrice} ,
+            #{stock} ,
+            #{weight} ,
+            #{displayOrder} ,
+            #{specs} ,
+            #{skuId} ,
+            #{goodsSn} ,
+            #{productSn} ,
+            #{isVirtual} ,
+            #{deleteYn} ,
+            #{disabledYn} ,
+            #{createUser} ,
+            #{createTime} ,
+            #{updateUser} ,
+            #{updateTime} 
+            )
+        ]]>
+        <selectKey resultType="java.lang.Long"
+            order="AFTER"
+            keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    
+    <!-- 批量录入  -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO TBL_Product_Option (
+            productId ,
+            productCode ,
+            title ,
+            thumb ,
+            productPrice ,
+            marketPrice ,
+            costPrice ,
+            stock ,
+            weight ,
+            displayOrder ,
+            specs ,
+            skuId ,
+            goodsSn ,
+            productSn ,
+            isVirtual ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime 
+            ) 
+            VALUES 
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.productId} ,
+            #{item.productCode} ,
+            #{item.title} ,
+            #{item.thumb} ,
+            #{item.productPrice} ,
+            #{item.marketPrice} ,
+            #{item.costPrice} ,
+            #{item.stock} ,
+            #{item.weight} ,
+            #{item.displayOrder} ,
+            #{item.specs} ,
+            #{item.skuId} ,
+            #{item.goodsSn} ,
+            #{item.productSn} ,
+            #{item.isVirtual} ,
+            #{item.deleteYn} ,
+            #{item.disabledYn} ,
+            #{item.createUser} ,
+            #{item.createTime} ,
+            #{item.updateUser} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+    
+    <!-- 单条修改  -->
+    <update id="update">
+        UPDATE TBL_Product_Option
+        <set>
+            <if test="productId != null">
+                productId = #{productId},
+            </if>
+            <if test="@Ognl@isNotEmpty(productCode)">
+                productCode = #{productCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(title)">
+                title = #{title},
+            </if>
+            <if test="thumb != null">
+                thumb = #{thumb},
+            </if>
+            <if test="productPrice != null">
+                productPrice = #{productPrice},
+            </if>
+            <if test="marketPrice != null">
+                marketPrice = #{marketPrice},
+            </if>
+            <if test="costPrice != null">
+                costPrice = #{costPrice},
+            </if>
+            <if test="stock != null">
+                stock = #{stock},
+            </if>
+            <if test="weight != null">
+                weight = #{weight},
+            </if>
+            <if test="displayOrder != null">
+                displayOrder = #{displayOrder},
+            </if>
+            <if test="@Ognl@isNotEmpty(specs)">
+                specs = #{specs},
+            </if>
+            <if test="@Ognl@isNotEmpty(skuId)">
+                skuId = #{skuId},
+            </if>
+            <if test="@Ognl@isNotEmpty(goodsSn)">
+                goodsSn = #{goodsSn},
+            </if>
+            <if test="@Ognl@isNotEmpty(productSn)">
+                productSn = #{productSn},
+            </if>
+            <if test="isVirtual != null">
+                isVirtual = #{isVirtual},
+            </if>
+            <if test="@Ognl@isNotEmpty(deleteYn)">
+                deleteYn = #{deleteYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(disabledYn)">
+                disabledYn = #{disabledYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(createUser)">
+                createUser = #{createUser},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateUser)">
+                updateUser = #{updateUser},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime}
+            </if>
+        </set>
+        WHERE 
+            id = #{id}
+    </update>
+    
+    <!-- 单条修改所有属性  -->
+    <update id="updateAll">
+    <![CDATA[
+        UPDATE TBL_Product_Option SET
+            productId = #{productId} ,
+            productCode = #{productCode} ,
+            title = #{title} ,
+            thumb = #{thumb} ,
+            productPrice = #{productPrice} ,
+            marketPrice = #{marketPrice} ,
+            costPrice = #{costPrice} ,
+            stock = #{stock} ,
+            weight = #{weight} ,
+            displayOrder = #{displayOrder} ,
+            specs = #{specs} ,
+            skuId = #{skuId} ,
+            goodsSn = #{goodsSn} ,
+            productSn = #{productSn} ,
+            isVirtual = #{isVirtual} ,
+            deleteYn = #{deleteYn} ,
+            disabledYn = #{disabledYn} ,
+            createUser = #{createUser} ,
+            createTime = #{createTime} ,
+            updateUser = #{updateUser} ,
+            updateTime = #{updateTime} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <!-- 删除主键  -->
+    <delete id="deleteByPK">
+    <![CDATA[
+        DELETE FROM TBL_Product_Option WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <!-- 删除主键数组  -->
+    <delete id="deleteByArrPK" parameterType="java.util.List">
+        <![CDATA[DELETE FROM TBL_Product_Option WHERE]]>
+        <foreach collection="list" item="item" index="index" open="id in (" separator="," close=")">
+            <![CDATA[#{item}]]>
+        </foreach>
+    </delete>
+    
+    <!-- 删除条件  -->
+    <delete id="delete">
+        <![CDATA[DELETE T1 FROM TBL_Product_Option T1 ]]>
+        <include refid="dynamicWhere" />
+    </delete>
+    
+    <!-- 主键查询  -->
+    <select id="selectByPK" parameterType="java.lang.Long" resultMap="productOptionResult">
+        <include refid="dynamicSelect" />
+        <![CDATA[
+            WHERE 
+            T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在主键 -->
+    <select id="existsByPK" parameterType="java.lang.Long"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <![CDATA[
+        WHERE
+        T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在对象 -->
+    <select id="exists" parameterType="productOption"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数 -->
+    <select id="count" resultType="int">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数参数Map -->
+    <select id="countByMap" resultType="int" parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询数量 -->
+    <select id="pageCount" resultType="int"
+        parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询 -->
+    <select id="pageQuery" resultMap="productOptionResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+
+    <!-- 查询条件Map -->
+    <select id="selectByMap" resultMap="productOptionResult"
+        parameterType="map">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+    </select>
+
+    <!-- 查询条件对象 -->
+    <select id="select" resultMap="productOptionResult"
+        parameterType="productOption">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhere" />
+        order by T1.id desc
+    </select>
+
+    <!-- 查询条件拼接 -->
+    <select id="selectByCriteria" resultMap="productOptionResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <if test="_parameter != null">
+            <include refid="Common.criteria_Where_Clause" />
+        </if>
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+    
+    <select id="selectByProductId" parameterType="Long" resultMap="productOptionResult">
+    	<include refid="dynamicSelect" />
+    	WHERE T1.productId = #{productId}
+    	ORDER BY T1.displayOrder ASC
+    </select>
+    
+    
+    <delete id="deleteByMap">
+    	UPDATE TBL_Product_Option T1 
+    	<set>
+    		<if test="@Ognl@isNotEmpty(deleteYn)">
+    			T1.deleteYn = #{deleteYn},
+    		</if>
+    		<if test="@Ognl@isNotEmpty(updateUser)">
+    			T1.updateUser = #{updateUser},
+    		</if>
+    		<if test="@Ognl@isNotEmpty(updateTime)">
+    			T1.updateTime = #{updateTime},
+    		</if>
+    	</set>
+    	<where>
+    		<if test="productId != null">
+    			AND T1.productId = #{productId}
+    		</if>
+    		<if test="notIds">
+    			AND
+		        <foreach collection="notIds" item="item" index="index" open="id not in (" separator="," close=")">
+		            <![CDATA[#{item}]]>
+		        </foreach>
+    		</if>
+    	</where>
+    </delete>
+    
+    
+</mapper>
+

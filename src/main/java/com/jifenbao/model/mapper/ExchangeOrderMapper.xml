@@ -1,0 +1,1568 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="ExchangeOrder">
+
+
+
+    <resultMap id="exchangeOrderResultBase" type="exchangeOrder">
+        <result property="id" column="id" />
+        <result property="orderCode" column="orderCode" />
+        <result property="orderType" column="orderType" />
+        <result property="agentId" column="agentId" />
+        <result property="customerId" column="customerId" />
+        <result property="customerName" column="customerName" />
+        <result property="cardCode" column="cardCode" />
+        <result property="parentYn" column="parentYn" />
+        <result property="parentId" column="parentId" />
+        <result property="convertWay" column="convertWay" />
+        <result property="price" column="price" />
+        <result property="discountPrice" column="discountPrice" />
+        <result property="jifenPrice" column="jifenPrice" />
+        <result property="jifenPrice" column="jifenPrice" />
+        <result property="orderStatus" column="orderStatus" />
+        <result property="count" column="count" />
+        <result property="receiverName" column="receiverName" />
+        <result property="receiverTel" column="receiverTel" />
+        <result property="receiverStreet" column="receiverStreet" />
+        <result property="receiverProvince" column="receiverProvince" />
+        <result property="receiverCity" column="receiverCity" />
+        <result property="receiverAddress" column="receiverAddress" />
+        <result property="deliveryDate" column="deliveryDate" />
+        <result property="deliveryTime" column="deliveryTime" />
+        <result property="dropshipYn" column="dropshipYn" />
+        <result property="auditflag" column="auditflag" />
+        <result property="comment" column="comment" />
+        <result property="receiverId" column="receiverId" />
+        <result property="auditComment" column="auditComment" />
+        <result property="receiverCounty" column="receiverCounty" />
+        <result property="receiverPhone" column="receiverPhone" />
+        <result property="refundStatus" column="refundStatus" />
+        <result property="expressCompany" column="expressCompany" />
+        <result property="expressNumber" column="expressNumber" />
+        <result property="expressPrice" column="expressPrice" />
+        <result property="payType" column="payType" />
+        <result property="payTime" column="payTime" />
+        <result property="transId" column="transId" />
+        <result property="sendType" column="sendType" />
+        <result property="stockuptime" column="stockuptime" />
+        <result property="sendtime" column="sendtime" />
+        <result property="confirmtime" column="confirmtime" />
+        <result property="refundReason" column="refundReason" />
+        <result property="companyCode" column="companyCode" />
+        <result property="supplierCode" column="supplierCode" />
+        <result property="wasehouseId" column="wasehouseId" />
+        <result property="oldWasehouseId" column="oldWasehouseId" />
+        <result property="stockLevelDetailId" column="stockLevelDetailId" />
+        <result property="afterSalesOrderYn" column="afterSalesOrderYn" />
+        <result property="platform" column="platform" />
+        
+        <result property="string5" column="String5" />
+        <result property="string6" column="String6" />
+        <result property="string7" column="String7" />
+        <result property="string8" column="String8" />
+        <result property="string9" column="String9" />
+        <result property="string10" column="String10" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+      
+       
+       <!--  <collection property="expressCompanyName" ofType="java.lang.String"
+           column="expressCompany" select="FreightCompany.getFreightNameByName">
+        </collection> -->
+        
+    </resultMap>
+    
+    <resultMap id="exchangeOrderResultForSearch" type="exchangeOrder">
+        <result property="id" column="id" />
+        <result property="orderCode" column="orderCode" />
+        <result property="orderType" column="orderType" />
+        <result property="agentId" column="agentId" />
+        <result property="customerId" column="customerId" />
+        <result property="customerName" column="customerName" />
+        <result property="cardCode" column="cardCode" />
+        <result property="parentYn" column="parentYn" />
+        <result property="parentId" column="parentId" />
+        <result property="convertWay" column="convertWay" />
+        <result property="price" column="price" />
+        <result property="discountPrice" column="discountPrice" />
+        <result property="jifenPrice" column="jifenPrice" />
+        <result property="orderStatus" column="orderStatus" />
+        <result property="count" column="count" />
+        <result property="receiverName" column="receiverName" />
+        <result property="receiverTel" column="receiverTel" />
+        <result property="receiverStreet" column="receiverStreet" />
+        <result property="receiverProvince" column="receiverProvince" />
+        <result property="receiverCity" column="receiverCity" />
+        <result property="receiverAddress" column="receiverAddress" />
+        <result property="deliveryDate" column="deliveryDate" />
+        <result property="deliveryTime" column="deliveryTime" />
+        <result property="dropshipYn" column="dropshipYn" />
+        <result property="auditflag" column="auditflag" />
+        <result property="comment" column="comment" />
+        <result property="receiverId" column="receiverId" />
+        <result property="auditComment" column="auditComment" />
+        <result property="receiverCounty" column="receiverCounty" />
+        <result property="receiverPhone" column="receiverPhone" />
+        <result property="refundStatus" column="refundStatus" />
+        <result property="expressCompany" column="expressCompany" />
+        <result property="expressNumber" column="expressNumber" />
+        <result property="expressPrice" column="expressPrice" />
+        <result property="payType" column="payType" />
+        <result property="payTime" column="payTime" />
+        <result property="transId" column="transId" />
+        <result property="sendType" column="sendType" />
+        <result property="stockuptime" column="stockuptime" />
+        <result property="sendtime" column="sendtime" />
+        <result property="confirmtime" column="confirmtime" />
+        <result property="refundReason" column="refundReason" />
+        <result property="companyCode" column="companyCode" />
+        <result property="supplierCode" column="supplierCode" />
+        <result property="wasehouseId" column="wasehouseId" />
+        <result property="oldWasehouseId" column="oldWasehouseId" />
+        <result property="stockLevelDetailId" column="stockLevelDetailId" />
+        <result property="afterSalesOrderYn" column="afterSalesOrderYn" />
+        <result property="platform" column="platform" />
+        <result property="string5" column="String5" />
+        <result property="string6" column="String6" />
+        <result property="string7" column="String7" />
+        <result property="string8" column="String8" />
+        <result property="string9" column="String9" />
+        <result property="string10" column="String10" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+        <collection property="orderDetailList" ofType="exchangeOrderDetail"
+           column="orderCode" select="ExchangeOrderDetail.selectOrderDetailByOrder">
+        </collection>
+         <collection property="orderLogList" ofType="orderLog"
+           column="orderCode" select="OrderLog.selectOrderLogByOrderCode">
+        </collection>
+        <collection property="company" ofType="company"
+           column="companyCode" select="Company.getByCode">
+        </collection> 
+        <collection property="freightCompany" ofType="java.lang.String"
+           column="expressCompany" select="FreightCompany.getFreightByName">
+        </collection>
+        
+        
+    </resultMap>
+    
+    
+    
+    <resultMap id="exchangeOrderResult" type="exchangeOrder">
+        <result property="id" column="id" />
+        <result property="orderCode" column="orderCode" />
+        <result property="orderType" column="orderType" />
+        <result property="agentId" column="agentId" />
+        <result property="customerId" column="customerId" />
+        <result property="customerName" column="customerName" />
+        <result property="cardCode" column="cardCode" />
+        <result property="parentYn" column="parentYn" />
+        <result property="parentId" column="parentId" />
+        <result property="convertWay" column="convertWay" />
+        <result property="price" column="price" />
+        <result property="discountPrice" column="discountPrice" />
+        <result property="jifenPrice" column="jifenPrice" />
+        <result property="orderStatus" column="orderStatus" />
+        <result property="count" column="count" />
+        <result property="receiverName" column="receiverName" />
+        <result property="receiverTel" column="receiverTel" />
+        <result property="receiverStreet" column="receiverStreet" />
+        <result property="receiverProvince" column="receiverProvince" />
+        <result property="receiverCity" column="receiverCity" />
+        <result property="receiverAddress" column="receiverAddress" />
+        <result property="deliveryDate" column="deliveryDate" />
+        <result property="deliveryTime" column="deliveryTime" />
+        <result property="dropshipYn" column="dropshipYn" />
+        <result property="auditflag" column="auditflag" />
+        <result property="comment" column="comment" />
+        <result property="receiverId" column="receiverId" />
+        <result property="auditComment" column="auditComment" />
+        <result property="receiverCounty" column="receiverCounty" />
+        <result property="receiverPhone" column="receiverPhone" />
+        <result property="refundStatus" column="refundStatus" />
+        <result property="expressCompany" column="expressCompany" />
+        <result property="expressNumber" column="expressNumber" />
+        <result property="expressPrice" column="expressPrice" />
+        <result property="payType" column="payType" />
+        <result property="payTime" column="payTime" />
+        <result property="transId" column="transId" />
+        <result property="sendType" column="sendType" />
+        <result property="stockuptime" column="stockuptime" />
+        <result property="sendtime" column="sendtime" />
+        <result property="confirmtime" column="confirmtime" />
+        <result property="refundReason" column="refundReason" />
+        <result property="companyCode" column="companyCode" />
+        <result property="supplierCode" column="supplierCode" />
+        <result property="wasehouseId" column="wasehouseId" />
+        <result property="oldWasehouseId" column="oldWasehouseId" />
+        <result property="stockLevelDetailId" column="stockLevelDetailId" />
+        <result property="afterSalesOrderYn" column="afterSalesOrderYn" />
+        <result property="platform" column="platform" />
+        
+        <result property="string5" column="String5" />
+        <result property="string6" column="String6" />
+        <result property="string7" column="String7" />
+        <result property="string8" column="String8" />
+        <result property="string9" column="String9" />
+        <result property="string10" column="String10" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+        <collection property="orderLogList" ofType="orderLog"
+           column="orderCode" select="OrderLog.selectOrderLogByOrderCode">
+        </collection>
+        <!-- <collection property="expressCompanyName" ofType="java.lang.String"
+           column="expressCompany" select="FreightCompany.getFreightNameByName">
+        </collection> -->
+        <collection property="freightCompany" ofType="java.lang.String"
+           column="expressCompany" select="FreightCompany.getFreightByName">
+        </collection>
+    </resultMap>
+    
+    
+    
+    <resultMap id="exchangeOrderResultForExport" type="exchangeOrder" extends="exchangeOrderResultBase">
+        <collection property="freightCompany" ofType="java.lang.String"
+           column="expressCompany" select="FreightCompany.getFreightByName">
+        </collection>
+        <collection property="orderDetailList" ofType="exchangeOrderDetail"
+           column="orderCode" select="ExchangeOrderDetail.selectOrderDetailForExport">
+        </collection>
+       
+    </resultMap>
+    
+  
+    <resultMap id="exchangeOrderResultForMessage" type="exchangeOrder" extends="exchangeOrderResultBase">
+        <collection property="orderDetailList" ofType="exchangeOrderDetail"
+           column="orderCode" select="ExchangeOrderDetail.selectOrderDetailByOrder">
+        </collection>
+       
+    </resultMap>
+    
+  
+    
+    
+    <!-- 用于select查询公用抽取的列 -->
+   <sql id="exchangeOrderColumns">
+        <![CDATA[
+        T1.id,
+        T1.orderCode,
+        T1.orderType,
+        T1.agentId,
+        T1.customerId,
+        T1.customerName,
+        T1.cardCode,
+        T1.parentYn,
+        T1.parentId,
+        T1.convertWay,
+        T1.price,
+        T1.discountPrice,
+        T1.jifenPrice,
+        T1.orderStatus,
+        T1.count,
+        T1.receiverName,
+        T1.receiverTel,
+        T1.receiverStreet,
+        T1.receiverProvince,
+        T1.receiverCity,
+        T1.receiverAddress,
+        T1.deliveryDate,
+        T1.deliveryTime,
+        T1.dropshipYn,
+        T1.auditflag,
+        T1.comment,
+        T1.receiverId,
+        T1.auditComment,
+        T1.receiverCounty,
+        T1.receiverPhone,
+        T1.refundStatus,
+        T1.expressCompany,
+        T1.expressNumber,
+        T1.expressPrice,
+        T1.payType,
+        T1.payTime,
+        T1.transId,
+        T1.sendType,
+        T1.stockuptime,
+        T1.sendtime,
+        T1.confirmtime,
+        T1.refundReason,
+        T1.companyCode,
+        T1.supplierCode,
+        T1.wasehouseId,
+        T1.oldWasehouseId,
+        T1.stockLevelDetailId,
+        T1.afterSalesOrderYn,
+        T1.String5,
+        T1.String6,
+        T1.String7,
+        T1.String8,
+        T1.String9,
+        T1.String10,
+        T1.deleteYn,
+        T1.disabledYn,
+        T1.createUser,
+        T1.createTime,
+        T1.updateUser,
+        T1.updateTime
+        ]]>
+    </sql>
+    
+    
+    <!-- 查询from -->
+    <sql id="dynamicFrom">
+        FROM TBL_ExchangeOrder T1
+    </sql>
+    
+    <!-- 查询选择colum -->
+    <sql id="dynamicSelect">
+        SELECT
+        <include refid="exchangeOrderColumns" />
+        <include refid="dynamicFrom" />
+    </sql>
+    
+    <!-- 查询条件 -->
+    <sql id="dynamicCondition">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用framework中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <if test="id != null">
+            AND T1.id = #{id}
+        </if>
+        <if test="idEx != null">
+            AND T1.id != #{idEx}
+        </if>
+        <if test="@Ognl@isNotEmpty(orderCode)">
+            AND T1.orderCode = #{orderCode}
+        </if>
+       
+           
+            <choose>
+                    <when test="orderType == null">
+                       AND (T1.orderType = 1 OR  T1.orderType is null)
+                    </when>
+                    <when test="orderType == 1">
+                       AND (T1.orderType = #{orderType} OR  T1.orderType is null)
+                    </when>
+                    <otherwise>
+                       AND T1.orderType = #{orderType}
+                    </otherwise>
+          </choose>
+        
+            
+       
+        <if test="agentId != null">
+            AND T1.agentId = #{agentId}
+        </if>
+        <if test="customerId != null">
+            AND T1.customerId = #{customerId}
+        </if>
+        <if test="@Ognl@isNotEmpty(customerName)">
+            AND T1.customerName = #{customerName}
+        </if>
+        <if test="@Ognl@isNotEmpty(cardCode)">
+            AND T1.cardCode = #{cardCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(parentYn)">
+            AND T1.parentYn = #{parentYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(parentYnEx)">
+            AND (T1.parentYn IS NULL OR T1.parentYn != #{parentYnEx})
+        </if>
+        <if test="parentId != null">
+            AND T1.parentId = #{parentId}
+        </if>
+        <if test="@Ognl@isNotEmpty(convertWay)">
+            AND T1.convertWay = #{convertWay}
+        </if>
+        <if test="price != null">
+            AND T1.price = #{price}
+        </if>
+        <if test="discountPrice != null">
+            AND T1.discountPrice = #{discountPrice}
+        </if>
+        <if test="jifenPrice != null">
+            AND T1.jifenPrice = #{jifenPrice}
+        </if>
+        <if test="@Ognl@isNotEmpty(orderStatus)">
+            AND T1.orderStatus = #{orderStatus}
+        </if>
+        <if test="@Ognl@isNotEmpty(orderStatusEx)">
+            AND T1.orderStatus != #{orderStatusEx}
+        </if>
+        <if test="count != null">
+            AND T1.count = #{count}
+        </if>
+        <if test="@Ognl@isNotEmpty(receiverName)">
+            AND T1.receiverName = #{receiverName}
+        </if>
+        <if test="@Ognl@isNotEmpty(receiverTel)">
+            AND T1.receiverTel = #{receiverTel}
+        </if>
+        <if test="@Ognl@isNotEmpty(receiverStreet)">
+            AND T1.receiverStreet = #{receiverStreet}
+        </if>
+        <if test="@Ognl@isNotEmpty(receiverProvince)">
+            AND T1.receiverProvince = #{receiverProvince}
+        </if>
+        <if test="@Ognl@isNotEmpty(receiverCity)">
+            AND T1.receiverCity = #{receiverCity}
+        </if>
+        <if test="@Ognl@isNotEmpty(receiverAddress)">
+            AND T1.receiverAddress = #{receiverAddress}
+        </if>
+        <if test="@Ognl@isNotEmpty(deliveryDateExSelect)">
+       	   <choose>
+      	   	   <when test="@Ognl@isNotEmpty(deliveryDateEx)">
+	              AND T1.deliveryDate = #{deliveryDateEx}
+	           </when>
+	           <otherwise>
+	              AND (T1.deliveryDate IS NULL OR T1.deliveryDate = '' OR T1.deliveryDate = '任意时间')
+	           </otherwise>
+       	   </choose>
+        </if>
+        <if test="@Ognl@isNotEmpty(deliveryDate)">
+            AND T1.deliveryDate = #{deliveryDate}
+        </if>
+        <if test="@Ognl@isNotEmpty(deliveryTime)">
+            AND T1.deliveryTime = #{deliveryTime}
+        </if>
+        
+         <if test="@Ognl@isNotEmpty(dropshipYn)">
+             <if test="dropshipYn=='N'.toString()">
+                AND (T1.dropshipYn is null or  T1.dropshipYn ='' or T1.dropshipYn ='N'  )
+             </if>
+             <if test="dropshipYn=='Y'.toString()">
+                AND T1.dropshipYn = #{dropshipYn}
+             </if>
+        </if>
+        
+        <if test="@Ognl@isNotEmpty(auditflag)">
+            AND T1.auditflag = #{auditflag}
+        </if>
+        <if test="@Ognl@isNotEmpty(comment)">
+            AND T1.comment = #{comment}
+        </if>
+        <if test="receiverId != null">
+            AND T1.receiverId = #{receiverId}
+        </if>
+        <if test="@Ognl@isNotEmpty(auditComment)">
+            AND T1.auditComment = #{auditComment}
+        </if>
+        <if test="@Ognl@isNotEmpty(receiverCounty)">
+            AND T1.receiverCounty = #{receiverCounty}
+        </if>
+        <if test="@Ognl@isNotEmpty(receiverPhone)">
+            AND T1.receiverPhone = #{receiverPhone}
+        </if>
+        <if test="@Ognl@isNotEmpty(refundStatus)">
+            AND T1.refundStatus = #{refundStatus}
+        </if>
+        <if test="@Ognl@isNotEmpty(expressCompany)">
+            AND T1.expressCompany = #{expressCompany}
+        </if>
+        <if test="@Ognl@isNotEmpty(expressNumber)">
+            AND T1.expressNumber = #{expressNumber}
+        </if>
+        <if test="expressPrice != null">
+            AND T1.expressPrice = #{expressPrice}
+        </if>
+        <if test="@Ognl@isNotEmpty(payType)">
+            AND T1.payType = #{payType}
+        </if>
+        <if test="@Ognl@isNotEmpty(transId)">
+            AND T1.transId = #{transId}
+        </if>
+        <if test="sendType != null">
+            AND T1.sendType = #{sendType}
+        </if>
+        <if test="@Ognl@isNotEmpty(refundReason)">
+            AND T1.refundReason = #{refundReason}
+        </if>
+        <if test="@Ognl@isNotEmpty(companyCode)">
+            AND T1.companyCode = #{companyCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(supplierCode)">
+            AND T1.supplierCode = #{supplierCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(wasehouseId)">
+            AND T1.wasehouseId = #{wasehouseId}
+        </if>
+        <if test="oldWasehouseId != null">
+            AND T1.oldWasehouseId = #{oldWasehouseId}
+        </if>
+        <if test="stockLevelDetailId != null">
+            AND T1.stockLevelDetailId = #{stockLevelDetailId}
+        </if>
+        <if test="@Ognl@isNotEmpty(afterSalesOrderYn)">
+            AND T1.afterSalesOrderYn = #{afterSalesOrderYn}
+        </if>
+        <if test="platform != null">
+            AND T1.platform = #{platform}
+        </if>
+        <if test="@Ognl@isNotEmpty(string5)">
+            AND T1.String5 = #{string5}
+        </if>
+        <if test="@Ognl@isNotEmpty(string6)">
+            AND T1.String6 = #{string6}
+        </if>
+        <if test="@Ognl@isNotEmpty(string7)">
+            AND T1.String7 = #{string7}
+        </if>
+        <if test="@Ognl@isNotEmpty(string8)">
+            AND T1.String8 = #{string8}
+        </if>
+        <if test="@Ognl@isNotEmpty(string9)">
+            AND T1.String9 = #{string9}
+        </if>
+        <if test="@Ognl@isNotEmpty(string10)">
+            AND T1.String10 = #{string10}
+        </if>
+        <if test="@Ognl@isNotEmpty(deleteYn)">
+            AND T1.deleteYn = #{deleteYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(disabledYn)">
+            AND T1.disabledYn = #{disabledYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(createUser)">
+            AND T1.createUser = #{createUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(updateUser)">
+            AND T1.updateUser = #{updateUser}
+        </if>
+    </sql>
+    
+    <!-- 查询where条件 -->
+    <sql id="dynamicWhere">
+        <where>
+            <include refid="dynamicCondition" />
+        </where>
+    </sql>
+    
+    <!-- 查询where条件(map) -->
+    <sql id="dynamicWhereEx">
+        <where>
+            <include refid="dynamicCondition" />
+           <if test="@Ognl@isNotEmpty(payTimeBegin)">
+                <![CDATA[AND T1.payTime >= #{payTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(payTimeEnd)">
+                <![CDATA[AND T1.payTime < date_add(#{payTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(stockuptimeBegin)">
+                <![CDATA[AND T1.stockuptime >= #{stockuptimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(stockuptimeEnd)">
+                <![CDATA[AND T1.stockuptime < date_add(#{stockuptimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(sendtimeBegin)">
+                <![CDATA[AND T1.sendtime >= #{sendtimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(sendtimeEnd)">
+                <![CDATA[AND T1.sendtime < date_add(#{sendtimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmtimeBegin)">
+                <![CDATA[AND T1.confirmtime >= #{confirmtimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(confirmtimeEnd)">
+                <![CDATA[AND T1.confirmtime < date_add(#{confirmtimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeBegin)">
+                <![CDATA[AND T1.createTime >= #{createTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeEnd)">
+                <![CDATA[AND T1.createTime < date_add(#{createTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+                <![CDATA[AND T1.updateTime >= #{updateTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+                <![CDATA[AND T1.updateTime < date_add(#{updateTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(productTitle)">
+                <![CDATA[
+                AND(
+                 T1.orderCode in (
+                    select T2.orderCode from 
+                     TBL_ExchangeOrder_Detail T2,TBL_Product T3 WHERE T2.productCode = T3.`code` and T3.title like  CONCAT('%','${productTitle}','%' ) )
+                  
+                  or  T1.orderCode like CONCAT('%','${productTitle}','%' )
+                  )
+            ]]>
+            </if>
+            
+            <if test="@Ognl@isNotEmpty(nosend)">
+                <![CDATA[
+                AND
+                 ( T1.orderStatus='WAIT_ADUIT' OR T1.orderStatus='WAIT_SELLER_SEND_GOODS')
+            ]]>
+            </if>
+            
+            <if test="@Ognl@isNotEmpty(NO_FINISHE)">
+                <![CDATA[
+                AND
+                 ( T1.orderStatus='WAIT_ADUIT' OR T1.orderStatus='WAIT_SELLER_SEND_GOODS' OR T1.orderStatus = 'WAIT_BUYER_CONFIRM_GOODS')
+            ]]>
+            </if>
+            
+            <if test="@Ognl@isNotEmpty(FINISHE)">
+                <![CDATA[
+                AND
+                 ( T1.orderStatus='BUYER_CONFIRM_GOODS' OR T1.orderStatus='TRADE_FINISHE')
+            ]]>
+            </if>
+            
+            
+            
+            <if test="@Ognl@isNotEmpty(supplierList)">
+                 AND T1.supplierCode  in  
+                 <foreach item="item" index="index" collection="supplierList" open="(" separator="," close=")">  
+                     #{item.id}  
+                 </foreach> 
+            </if>
+            
+            <if test="@Ognl@isNotEmpty(warehouseList)">
+                 AND T1.wasehouseId  in  
+                 <foreach item="item" index="index" collection="warehouseList" open="(" separator="," close=")">  
+                     #{item.id}  
+                 </foreach> 
+            </if>
+           
+            
+        </where>
+    </sql>
+
+    <!-- 排序条件 -->
+   <sql id="dynamicOrderBy">
+        <choose>
+            <when test="@Ognl@isNotEmpty(orderBy)">
+                <trim suffix="" suffixOverrides="order by">
+                <foreach collection="orderBy" item="order" open="order by " separator="," close=" ">
+                <choose>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'orderCode'">
+                        T1.orderCode <if test="!order.ascending"> desc </if>
+                    </when>
+                     <when test="order.propertyName == 'orderType'">
+                        T1.orderType <if test="!order.ascending"> desc </if>
+                    </when>
+                     <when test="order.propertyName == 'agentId'">
+                        T1.agentId <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'customerId'">
+                        T1.customerId <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'customerName'">
+                        T1.customerName <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'cardCode'">
+                        T1.cardCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'parentYn'">
+                        T1.parentYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'parentId'">
+                        T1.parentId <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'convertWay'">
+                        T1.convertWay <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'price'">
+                        T1.price <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'discountPrice'">
+                        T1.discountPrice <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'jifenPrice'">
+                        T1.jifenPrice <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'orderStatus'">
+                        T1.orderStatus <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'count'">
+                        T1.count <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'receiverName'">
+                        T1.receiverName <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'receiverTel'">
+                        T1.receiverTel <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'receiverStreet'">
+                        T1.receiverStreet <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'receiverProvince'">
+                        T1.receiverProvince <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'receiverCity'">
+                        T1.receiverCity <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'receiverAddress'">
+                        T1.receiverAddress <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'deliveryDate'">
+                        T1.deliveryDate <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'deliveryTime'">
+                        T1.deliveryTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'dropshipYn'">
+                        T1.dropshipYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'auditflag'">
+                        T1.auditflag <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'comment'">
+                        T1.comment <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'receiverId'">
+                        T1.receiverId <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'auditComment'">
+                        T1.auditComment <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'receiverCounty'">
+                        T1.receiverCounty <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'receiverPhone'">
+                        T1.receiverPhone <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'refundStatus'">
+                        T1.refundStatus <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'expressCompany'">
+                        T1.expressCompany <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'expressNumber'">
+                        T1.expressNumber <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'expressPrice'">
+                        T1.expressPrice <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'payType'">
+                        T1.payType <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'payTime'">
+                        T1.payTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'transId'">
+                        T1.transId <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'sendType'">
+                        T1.sendType <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'stockuptime'">
+                        T1.stockuptime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'sendtime'">
+                        T1.sendtime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'confirmtime'">
+                        T1.confirmtime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'refundReason'">
+                        T1.refundReason <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'companyCode'">
+                        T1.companyCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'supplierCode'">
+                        T1.supplierCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'wasehouseId'">
+                        T1.wasehouseId <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'oldWasehouseId'">
+                        T1.oldWasehouseId <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'stockLevelDetailId'">
+                        T1.stockLevelDetailId <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'afterSalesOrderYn'">
+                        T1.afterSalesOrderYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string5'">
+                        T1.String5 <if test="!order.ascending"> desc </if>
+                    </when>
+                     <when test="order.propertyName == 'platform'">
+                        T1.platform <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string6'">
+                        T1.String6 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string7'">
+                        T1.String7 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string8'">
+                        T1.String8 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string9'">
+                        T1.String9 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string10'">
+                        T1.String10 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'deleteYn'">
+                        T1.deleteYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'disabledYn'">
+                        T1.disabledYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createUser'">
+                        T1.createUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createTime'">
+                        T1.createTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateUser'">
+                        T1.updateUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateTime'">
+                        T1.updateTime <if test="!order.ascending"> desc </if>
+                    </when>
+                </choose>
+                </foreach>
+                </trim>
+            </when>
+            <otherwise>
+            order by T1.id desc
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 单条录入  -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO TBL_ExchangeOrder (
+            orderCode ,
+            orderType,
+            agentId,
+            customerId ,
+            customerName ,
+            cardCode ,
+            parentYn ,
+            parentId ,
+            convertWay ,
+            price ,
+            discountPrice ,
+            jifenPrice,
+            orderStatus ,
+            count ,
+            receiverName ,
+            receiverTel ,
+            receiverStreet ,
+            receiverProvince ,
+            receiverCity ,
+            receiverAddress ,
+            deliveryDate ,
+            deliveryTime,
+            dropshipYn ,
+            auditflag ,
+            comment ,
+            receiverId ,
+            auditComment ,
+            receiverCounty ,
+            receiverPhone ,
+            refundStatus ,
+            expressCompany ,
+            expressNumber ,
+            expressPrice ,
+            payType ,
+            payTime ,
+            transId ,
+            sendType ,
+            stockuptime ,
+            sendtime ,
+            confirmtime ,
+            refundReason ,
+            companyCode ,
+            supplierCode ,
+            wasehouseId ,
+            oldWasehouseId ,
+            stockLevelDetailId ,
+            afterSalesOrderYn ,
+            platform,
+            String5 ,
+            String6 ,
+            String7 ,
+            String8 ,
+            String9 ,
+            String10 ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime 
+            ) VALUES (
+            #{orderCode} ,
+            #{orderType},
+            #{agentId},
+            #{customerId} ,
+            #{customerName} ,
+            #{cardCode} ,
+            #{parentYn} ,
+            #{parentId} ,
+            #{convertWay} ,
+            #{price} ,
+            #{discountPrice} ,
+            #{jifenPrice} ,
+            #{orderStatus} ,
+            #{count} ,
+            #{receiverName} ,
+            #{receiverTel} ,
+            #{receiverStreet} ,
+            #{receiverProvince} ,
+            #{receiverCity} ,
+            #{receiverAddress} ,
+            #{deliveryDate} ,
+            #{deliveryTime},
+            #{dropshipYn} ,
+            #{auditflag} ,
+            #{comment} ,
+            #{receiverId} ,
+            #{auditComment} ,
+            #{receiverCounty} ,
+            #{receiverPhone} ,
+            #{refundStatus} ,
+            #{expressCompany} ,
+            #{expressNumber} ,
+            #{expressPrice} ,
+            #{payType} ,
+            #{payTime} ,
+            #{transId} ,
+            #{sendType} ,
+            #{stockuptime} ,
+            #{sendtime} ,
+            #{confirmtime} ,
+            #{refundReason} ,
+            #{companyCode} ,
+            #{supplierCode} ,
+            #{wasehouseId} ,
+            #{oldWasehouseId} ,
+            #{stockLevelDetailId} ,
+            #{afterSalesOrderYn} ,
+            #{platform},
+            #{string5} ,
+            #{string6} ,
+            #{string7} ,
+            #{string8} ,
+            #{string9} ,
+            #{string10} ,
+            #{deleteYn} ,
+            #{disabledYn} ,
+            #{createUser} ,
+            #{createTime} ,
+            #{updateUser} ,
+            #{updateTime} 
+            )
+        ]]>
+        <selectKey resultType="java.lang.Long"
+            order="AFTER"
+            keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    
+    <!-- 批量录入  -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO TBL_ExchangeOrder (
+            orderCode ,
+            orderType,
+            agentId,
+            customerId ,
+            customerName ,
+            cardCode ,
+            parentYn ,
+            parentId ,
+            convertWay ,
+            price ,
+            discountPrice ,
+            jifenPrice ,
+            orderStatus ,
+            count ,
+            receiverName ,
+            receiverTel ,
+            receiverStreet ,
+            receiverProvince ,
+            receiverCity ,
+            receiverAddress ,
+            deliveryDate ,
+            deliveryTime,
+            dropshipYn ,
+            auditflag ,
+            comment ,
+            receiverId ,
+            auditComment ,
+            receiverCounty ,
+            receiverPhone ,
+            refundStatus ,
+            expressCompany ,
+            expressNumber ,
+            expressPrice ,
+            payType ,
+            payTime ,
+            transId ,
+            sendType ,
+            stockuptime ,
+            sendtime ,
+            confirmtime ,
+            refundReason ,
+            companyCode ,
+            supplierCode ,
+            wasehouseId ,
+            oldWasehouseId ,
+            stockLevelDetailId ,
+            afterSalesOrderYn ,
+            platform,
+            String5 ,
+            String6 ,
+            String7 ,
+            String8 ,
+            String9 ,
+            String10 ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime 
+            ) 
+            VALUES 
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.orderCode} ,
+            #{item.orderType} ,
+            #{item.agentId} ,
+            #{item.customerId} ,
+            #{item.customerName} ,
+            #{item.cardCode} ,
+            #{item.parentYn} ,
+            #{item.parentId} ,
+            #{item.convertWay} ,
+            #{item.price} ,
+            #{item.discountPrice} ,
+            #{item.jifenPrice} ,
+            #{item.orderStatus} ,
+            #{item.count} ,
+            #{item.receiverName} ,
+            #{item.receiverTel} ,
+            #{item.receiverStreet} ,
+            #{item.receiverProvince} ,
+            #{item.receiverCity} ,
+            #{item.receiverAddress} ,
+            #{item.deliveryDate} ,
+            #{item.deliveryTime} ,
+            #{item.dropshipYn} ,
+            #{item.auditflag} ,
+            #{item.comment} ,
+            #{item.receiverId} ,
+            #{item.auditComment} ,
+            #{item.receiverCounty} ,
+            #{item.receiverPhone} ,
+            #{item.refundStatus} ,
+            #{item.expressCompany} ,
+            #{item.expressNumber} ,
+            #{item.expressPrice} ,
+            #{item.payType} ,
+            #{item.payTime} ,
+            #{item.transId} ,
+            #{item.sendType} ,
+            #{item.stockuptime} ,
+            #{item.sendtime} ,
+            #{item.confirmtime} ,
+            #{item.refundReason} ,
+            #{item.companyCode} ,
+            #{item.supplierCode} ,
+            #{item.wasehouseId} ,
+            #{item.oldWasehouseId} ,
+            #{item.stockLevelDetailId} ,
+            #{item.afterSalesOrderYn} ,
+            #{item.platform} ,
+            #{item.string5} ,
+            #{item.string6} ,
+            #{item.string7} ,
+            #{item.string8} ,
+            #{item.string9} ,
+            #{item.string10} ,
+            #{item.deleteYn} ,
+            #{item.disabledYn} ,
+            #{item.createUser} ,
+            #{item.createTime} ,
+            #{item.updateUser} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+    
+    <!-- 单条修改  -->
+    <update id="update">
+        UPDATE TBL_ExchangeOrder
+        <set>
+            <if test="@Ognl@isNotEmpty(orderCode)">
+                orderCode = #{orderCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(orderType)">
+                orderType = #{orderType},
+            </if>
+            <if test="@Ognl@isNotEmpty(agentId)">
+                agentId = #{agentId},
+            </if>
+            <if test="@Ognl@isNotEmpty(customerId)">
+                customerId = #{customerId},
+            </if>
+            <if test="@Ognl@isNotEmpty(customerName)">
+                customerName = #{customerName},
+            </if>
+            <if test="@Ognl@isNotEmpty(cardCode)">
+                cardCode = #{cardCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(parentYn)">
+                parentYn = #{parentYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(parentId)">
+                parentId = #{parentId},
+            </if>
+            <if test="@Ognl@isNotEmpty(convertWay)">
+                convertWay = #{convertWay},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="discountPrice != null">
+                discountPrice = #{discountPrice},
+            </if>
+            <if test="jifenPrice != null">
+                jifenPrice = #{jifenPrice},
+            </if>
+            <if test="@Ognl@isNotEmpty(orderStatus)">
+                orderStatus = #{orderStatus},
+            </if>
+            <if test="count != null">
+                count = #{count},
+            </if>
+            <if test="@Ognl@isNotEmpty(receiverName)">
+                receiverName = #{receiverName},
+            </if>
+            <if test="@Ognl@isNotEmpty(receiverTel)">
+                receiverTel = #{receiverTel},
+            </if>
+            <if test="@Ognl@isNotEmpty(receiverStreet)">
+                receiverStreet = #{receiverStreet},
+            </if>
+            <if test="@Ognl@isNotEmpty(receiverProvince)">
+                receiverProvince = #{receiverProvince},
+            </if>
+            <if test="@Ognl@isNotEmpty(receiverCity)">
+                receiverCity = #{receiverCity},
+            </if>
+            <if test="@Ognl@isNotEmpty(receiverAddress)">
+                receiverAddress = #{receiverAddress},
+            </if>
+            <if test="@Ognl@isNotEmpty(deliveryDate)">
+                deliveryDate = #{deliveryDate},
+            </if>
+            <if test="@Ognl@isNotEmpty(deliveryTime)">
+                deliveryTime = #{deliveryTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(dropshipYn)">
+                dropshipYn = #{dropshipYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(auditflag)">
+                auditflag = #{auditflag},
+            </if>
+            <if test="@Ognl@isNotEmpty(comment)">
+                comment = #{comment},
+            </if>
+            <if test="receiverId != null">
+                receiverId = #{receiverId},
+            </if>
+            <if test="@Ognl@isNotEmpty(auditComment)">
+                auditComment = #{auditComment},
+            </if>
+            <if test="receiverCounty!=null">
+                receiverCounty = #{receiverCounty},
+            </if>
+            <if test="@Ognl@isNotEmpty(receiverPhone)">
+                receiverPhone = #{receiverPhone},
+            </if>
+            <if test="@Ognl@isNotEmpty(refundStatus)">
+                refundStatus = #{refundStatus},
+            </if>
+            <if test="@Ognl@isNotEmpty(expressCompany)">
+                expressCompany = #{expressCompany},
+            </if>
+            <if test="@Ognl@isNotEmpty(expressNumber)">
+                expressNumber = #{expressNumber},
+            </if>
+            <if test="expressPrice != null">
+                expressPrice = #{expressPrice},
+            </if>
+            <if test="@Ognl@isNotEmpty(payType)">
+                payType = #{payType},
+            </if>
+            <if test="payTime != null">
+                payTime = #{payTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(transId)">
+                transId = #{transId},
+            </if>
+            <if test="sendType != null">
+                sendType = #{sendType},
+            </if>
+            <if test="stockuptime != null">
+                stockuptime = #{stockuptime},
+            </if>
+            <if test="sendtime != null">
+                sendtime = #{sendtime},
+            </if>
+            <if test="confirmtime != null">
+                confirmtime = #{confirmtime},
+            </if>
+            <if test="@Ognl@isNotEmpty(refundReason)">
+                refundReason = #{refundReason},
+            </if>
+            <if test="@Ognl@isNotEmpty(companyCode)">
+                companyCode = #{companyCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(supplierCode)">
+                supplierCode = #{supplierCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(wasehouseId)">
+                wasehouseId = #{wasehouseId},
+            </if>
+            <if test="oldWasehouseId != null">
+                oldWasehouseId = #{oldWasehouseId},
+            </if>
+            <if test="stockLevelDetailId != null">
+                stockLevelDetailId = #{stockLevelDetailId},
+            </if>
+            <if test="@Ognl@isNotEmpty(afterSalesOrderYn)">
+                afterSalesOrderYn = #{afterSalesOrderYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(platform)">
+                platform = #{platform},
+            </if>
+            <if test="@Ognl@isNotEmpty(string5)">
+                String5 = #{string5},
+            </if>
+            <if test="@Ognl@isNotEmpty(string6)">
+                String6 = #{string6},
+            </if>
+            <if test="@Ognl@isNotEmpty(string7)">
+                String7 = #{string7},
+            </if>
+            <if test="@Ognl@isNotEmpty(string8)">
+                String8 = #{string8},
+            </if>
+            <if test="@Ognl@isNotEmpty(string9)">
+                String9 = #{string9},
+            </if>
+            <if test="@Ognl@isNotEmpty(string10)">
+                String10 = #{string10},
+            </if>
+            <if test="@Ognl@isNotEmpty(deleteYn)">
+                deleteYn = #{deleteYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(disabledYn)">
+                disabledYn = #{disabledYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(createUser)">
+                createUser = #{createUser},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateUser)">
+                updateUser = #{updateUser},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime}
+            </if>
+        </set>
+        WHERE 
+            id = #{id}
+    </update>
+    
+    <!-- 单条修改所有属性  -->
+    <update id="updateAll">
+    <![CDATA[
+        UPDATE TBL_ExchangeOrder SET
+            orderCode = #{orderCode} ,
+            orderType = #{orderType} ,
+            agentId = #{agentId} ,
+            customerId = #{customerId} ,
+            customerName = #{customerName} ,
+            cardCode = #{cardCode} ,
+            parentYn = #{parentYn} ,
+            parentId = #{parentId} ,
+            convertWay = #{convertWay} ,
+            price = #{price} ,
+            discountPrice = #{discountPrice} ,
+            jifenPrice = #{jifenPrice} ,
+            orderStatus = #{orderStatus} ,
+            count = #{count} ,
+            receiverName = #{receiverName} ,
+            receiverTel = #{receiverTel} ,
+            receiverStreet = #{receiverStreet} ,
+            receiverProvince = #{receiverProvince} ,
+            receiverCity = #{receiverCity} ,
+            receiverAddress = #{receiverAddress} ,
+            deliveryDate = #{deliveryDate} ,
+            deliveryTime = #{deliveryTime} ,
+            dropshipYn = #{dropshipYn} ,
+            auditflag = #{auditflag} ,
+            comment = #{comment} ,
+            receiverId = #{receiverId} ,
+            auditComment = #{auditComment} ,
+            receiverCounty = #{receiverCounty} ,
+            receiverPhone = #{receiverPhone} ,
+            refundStatus = #{refundStatus} ,
+            expressCompany = #{expressCompany} ,
+            expressNumber = #{expressNumber} ,
+            expressPrice = #{expressPrice} ,
+            payType = #{payType} ,
+            payTime = #{payTime} ,
+            transId = #{transId} ,
+            sendType = #{sendType} ,
+            stockuptime = #{stockuptime} ,
+            sendtime = #{sendtime} ,
+            confirmtime = #{confirmtime} ,
+            refundReason = #{refundReason} ,
+            companyCode = #{companyCode} ,
+            supplierCode = #{supplierCode} ,
+            wasehouseId = #{wasehouseId} ,
+            oldWasehouseId = #{oldWasehouseId} ,
+            stockLevelDetailId = #{stockLevelDetailId} ,
+            afterSalesOrderYn = #{afterSalesOrderYn} ,
+            platform = #{platform} ,
+            String5 = #{string5} ,
+            String6 = #{string6} ,
+            String7 = #{string7} ,
+            String8 = #{string8} ,
+            String9 = #{string9} ,
+            String10 = #{string10} ,
+            deleteYn = #{deleteYn} ,
+            disabledYn = #{disabledYn} ,
+            createUser = #{createUser} ,
+            createTime = #{createTime} ,
+            updateUser = #{updateUser} ,
+            updateTime = #{updateTime} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <!-- 删除主键  -->
+    <delete id="deleteByPK">
+    <![CDATA[
+        DELETE FROM TBL_ExchangeOrder WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <!-- 删除主键数组  -->
+    <delete id="deleteByArrPK" parameterType="java.util.List">
+        <![CDATA[DELETE FROM TBL_ExchangeOrder WHERE]]>
+        <foreach collection="list" item="item" index="index" open="id in (" separator="," close=")">
+            <![CDATA[#{item}]]>
+        </foreach>
+    </delete>
+    
+    <!-- 删除条件  -->
+    <delete id="delete">
+        <![CDATA[DELETE T1 FROM TBL_ExchangeOrder T1 ]]>
+        <include refid="dynamicWhere" />
+    </delete>
+    
+    <!-- 主键查询  -->
+    <select id="selectByPK" parameterType="java.lang.Long" resultMap="exchangeOrderResult">
+        <include refid="dynamicSelect" />
+        <![CDATA[
+            WHERE 
+            T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在主键 -->
+    <select id="existsByPK" parameterType="java.lang.Long"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <![CDATA[
+        WHERE
+        T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在对象 -->
+    <select id="exists" parameterType="exchangeOrder"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数 -->
+    <select id="count" resultType="int">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数参数Map -->
+    <select id="countByMap" resultType="int" parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询数量 -->
+    <select id="pageCount" resultType="int"
+        parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询 -->
+    <select id="pageQuery" resultMap="exchangeOrderResultForSearch"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+
+    <!-- 查询条件Map -->
+    <select id="selectByMap" resultMap="exchangeOrderResultForSearch"
+        parameterType="map">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+    </select>
+
+    <!-- 查询条件对象 -->
+    <select id="select" resultMap="exchangeOrderResult"
+        parameterType="exchangeOrder">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhere" />
+        order by T1.id desc
+    </select>
+
+    <!-- 查询条件拼接 -->
+    <select id="selectByCriteria" resultMap="exchangeOrderResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <if test="_parameter != null">
+            <include refid="Common.criteria_Where_Clause" />
+        </if>
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+    
+    <!-- 通过订单号查询订单 -->
+    <select id="selectOrderByOrderCode" resultMap="exchangeOrderResult"
+        parameterType="String">
+        <include refid="dynamicSelect" />
+        <where>
+          T1.orderCode=#{orderCode} and  T1.deleteYn='0'
+        </where>
+        order by T1.createTime desc
+    </select>
+    
+    
+    <!-- 通过订单号查询补发货订单 -->
+    <select id="selectNoPayOrderByOrderCode" resultMap="exchangeOrderResult"
+        parameterType="String">
+        <include refid="dynamicSelect" />
+        <where>
+          T1.orderCode=#{orderCode} and  T1.deleteYn='0'
+           and (T1.String5 is null or T1.String5 ='' or T1.String5='N')
+        </where>
+        order by T1.createTime desc
+    </select>
+    
+    
+       
+    
+    <!-- 通过卡号查询订单 -->
+    <select id="selectOrderByCardCode" resultMap="exchangeOrderResult"
+        parameterType="String">
+        <include refid="dynamicSelect" />
+        <where>
+          T1.cardCode=#{cardCode} and  T1.deleteYn='0'
+          and T1.orderStatus !='TRADE_CLOSED'
+          and (T1.String5 is null or T1.String5 ='' or T1.String5='N')
+        </where>
+        order by T1.createTime desc
+    </select>
+    
+     <!-- 订单号管理 -->
+     <select id="getMaxOrderCode" resultType="String"
+        parameterType="String">
+        select  orderCode  from TBL_ExchangeOrder  T1  WHERE
+         T1.id = (select max(id) from TBL_ExchangeOrder )
+        order by id desc
+    </select>
+    
+    <!-- 导出 -->
+    <select id="selectByMapForExport" resultMap="exchangeOrderResultForExport"
+        parameterType="map">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+    </select>
+    
+  
+  <!-- 只查自己不查询相关表  -->
+  <select id="selectByProp" resultMap="exchangeOrderResultBase"
+        parameterType="exchangeOrder">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhere" />
+         and  T1.deleteYn='0'  and  T1.disabledYn='0' 
+         order by T1.id desc
+    </select>
+    
+    
+    <!-- 只查订单和订单详情  -->
+  <select id="selectOrderAndDetailByCode" resultMap="exchangeOrderResultForMessage"
+        parameterType="String">
+        <include refid="dynamicSelect" />
+        <where>
+          T1.orderCode=#{orderCode} and  T1.deleteYn='0'
+        </where>
+        order by T1.createTime desc
+    </select>
+    
+   
+   <select id="seldectOrderByIds" resultMap="exchangeOrderResultForSearch">
+   		<include refid="dynamicSelect"/>
+   		WHERE T1.id IN 
+   		 <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+   		 	${item}
+   		 </foreach>
+   </select>
+    
+</mapper>
+

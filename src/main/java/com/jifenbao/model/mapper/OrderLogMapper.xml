@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="OrderLog">
+    
+    <resultMap id="orderLogResult" type="orderLog">
+        <result property="id" column="id" />
+        <result property="orderCode" column="orderCode" />
+        <result property="exectPerson" column="exectPerson" />
+        <result property="exectTime" column="exectTime" />
+        <result property="logStatusName" column="logStatusName" />
+        <result property="satisfaction" column="satisfaction" />
+        <result property="expressNumber" column="expressNumber" />
+        <result property="expressCompany" column="expressCompany" />
+        <result property="logcomment" column="logcomment" />
+        <result property="logInfo" column="logInfo" />
+        <result property="expressType" column="expressType" />
+        <result property="orderType" column="orderType" />
+        <result property="string2" column="string2" />
+        <result property="string3" column="string3" />
+        <result property="string4" column="string4" />
+        <result property="string5" column="string5" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+    </resultMap>
+    
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="orderLogColumns">
+        <![CDATA[
+        T1.id,
+        T1.orderCode,
+        T1.exectPerson,
+        T1.exectTime,
+        T1.logStatusName,
+        T1.satisfaction,
+        T1.expressNumber,
+        T1.expressCompany,
+        T1.logcomment,
+        T1.logInfo,
+        T1.expressType,
+        T1.orderType,
+        T1.string2,
+        T1.string3,
+        T1.string4,
+        T1.string5,
+        T1.deleteYn,
+        T1.disabledYn,
+        T1.createUser,
+        T1.createTime,
+        T1.updateUser,
+        T1.updateTime
+        ]]>
+    </sql>
+    
+    <!-- 查询from -->
+    <sql id="dynamicFrom">
+        FROM TBL_Order_Log T1
+    </sql>
+    
+    <!-- 查询选择colum -->
+    <sql id="dynamicSelect">
+        SELECT
+        <include refid="orderLogColumns" />
+        <include refid="dynamicFrom" />
+    </sql>
+    
+    <!-- 查询条件 -->
+    <sql id="dynamicCondition">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用framework中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <if test="id != null">
+            AND T1.id = #{id}
+        </if>
+        <if test="idEx != null">
+            AND T1.id != #{idEx}
+        </if>
+        <if test="@Ognl@isNotEmpty(orderCode)">
+            AND T1.orderCode = #{orderCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(exectPerson)">
+            AND T1.exectPerson = #{exectPerson}
+        </if>
+        <if test="@Ognl@isNotEmpty(logStatusName)">
+            AND T1.logStatusName = #{logStatusName}
+        </if>
+        <if test="satisfaction != null">
+            AND T1.satisfaction = #{satisfaction}
+        </if>
+        <if test="@Ognl@isNotEmpty(expressNumber)">
+            AND T1.expressNumber = #{expressNumber}
+        </if>
+        <if test="@Ognl@isNotEmpty(expressCompany)">
+            AND T1.expressCompany = #{expressCompany}
+        </if>
+        <if test="@Ognl@isNotEmpty(logcomment)">
+            AND T1.logcomment = #{logcomment}
+        </if>
+        <if test="@Ognl@isNotEmpty(logInfo)">
+            AND T1.logInfo = #{logInfo}
+        </if>
+        <if test="@Ognl@isNotEmpty(expressType)">
+            AND T1.expressType = #{expressType}
+        </if>
+        <if test="@Ognl@isNotEmpty(orderType)">
+            AND T1.orderType = #{orderType}
+        </if>
+        <if test="@Ognl@isNotEmpty(string2)">
+            AND T1.string2 = #{string2}
+        </if>
+        <if test="@Ognl@isNotEmpty(string3)">
+            AND T1.string3 = #{string3}
+        </if>
+        <if test="@Ognl@isNotEmpty(string4)">
+            AND T1.string4 = #{string4}
+        </if>
+        <if test="@Ognl@isNotEmpty(string5)">
+            AND T1.string5 = #{string5}
+        </if>
+        <if test="@Ognl@isNotEmpty(deleteYn)">
+            AND T1.deleteYn = #{deleteYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(disabledYn)">
+            AND T1.disabledYn = #{disabledYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(createUser)">
+            AND T1.createUser = #{createUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(updateUser)">
+            AND T1.updateUser = #{updateUser}
+        </if>
+    </sql>
+    
+    <!-- 查询where条件 -->
+    <sql id="dynamicWhere">
+        <where>
+            <include refid="dynamicCondition" />
+        </where>
+    </sql>
+    
+    <!-- 查询where条件(map) -->
+    <sql id="dynamicWhereEx">
+        <where>
+            <include refid="dynamicCondition" />
+            <if test="@Ognl@isNotEmpty(exectTimeBegin)">
+                <![CDATA[AND T1.exectTime >= #{exectTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(exectTimeEnd)">
+                <![CDATA[AND T1.exectTime < date_add(#{exectTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeBegin)">
+                <![CDATA[AND T1.createTime >= #{createTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeEnd)">
+                <![CDATA[AND T1.createTime < date_add(#{createTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+                <![CDATA[AND T1.updateTime >= #{updateTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+                <![CDATA[AND T1.updateTime < date_add(#{updateTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+        </where>
+    </sql>
+
+    <!-- 排序条件 -->
+    <sql id="dynamicOrderBy">
+        <choose>
+            <when test="@Ognl@isNotEmpty(orderBy)">
+                <trim suffix="" suffixOverrides="order by">
+                <foreach collection="orderBy" item="order" open="order by " separator="," close=" ">
+                <choose>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'orderCode'">
+                        T1.orderCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'exectPerson'">
+                        T1.exectPerson <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'exectTime'">
+                        T1.exectTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'logStatusName'">
+                        T1.logStatusName <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'satisfaction'">
+                        T1.satisfaction <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'expressNumber'">
+                        T1.expressNumber <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'expressCompany'">
+                        T1.expressCompany <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'logcomment'">
+                        T1.logcomment <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'logInfo'">
+                        T1.logInfo <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'expressType'">
+                        T1.expressType <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'orderType'">
+                        T1.orderType <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string2'">
+                        T1.string2 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string3'">
+                        T1.string3 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string4'">
+                        T1.string4 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string5'">
+                        T1.string5 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'deleteYn'">
+                        T1.deleteYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'disabledYn'">
+                        T1.disabledYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createUser'">
+                        T1.createUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createTime'">
+                        T1.createTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateUser'">
+                        T1.updateUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateTime'">
+                        T1.updateTime <if test="!order.ascending"> desc </if>
+                    </when>
+                </choose>
+                </foreach>
+                </trim>
+            </when>
+            <otherwise>
+            order by T1.id desc
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 单条录入  -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO TBL_Order_Log (
+            orderCode ,
+            exectPerson ,
+            exectTime ,
+            logStatusName ,
+            satisfaction ,
+            expressNumber ,
+            expressCompany ,
+            logcomment ,
+            logInfo ,
+            expressType ,
+            orderType ,
+            string2 ,
+            string3 ,
+            string4 ,
+            string5 ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime 
+            ) VALUES (
+            #{orderCode} ,
+            #{exectPerson} ,
+            #{exectTime} ,
+            #{logStatusName} ,
+            #{satisfaction} ,
+            #{expressNumber} ,
+            #{expressCompany} ,
+            #{logcomment} ,
+            #{logInfo} ,
+            #{expressType} ,
+            #{orderType} ,
+            #{string2} ,
+            #{string3} ,
+            #{string4} ,
+            #{string5} ,
+            #{deleteYn} ,
+            #{disabledYn} ,
+            #{createUser} ,
+            #{createTime} ,
+            #{updateUser} ,
+            #{updateTime} 
+            )
+        ]]>
+        <selectKey resultType="java.lang.Long"
+            order="AFTER"
+            keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    
+    <!-- 批量录入  -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO TBL_Order_Log (
+            orderCode ,
+            exectPerson ,
+            exectTime ,
+            logStatusName ,
+            satisfaction ,
+            expressNumber ,
+            expressCompany ,
+            logcomment ,
+            logInfo ,
+            expressType ,
+            orderType ,
+            string2 ,
+            string3 ,
+            string4 ,
+            string5 ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime 
+            ) 
+            VALUES 
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.orderCode} ,
+            #{item.exectPerson} ,
+            #{item.exectTime} ,
+            #{item.logStatusName} ,
+            #{item.satisfaction} ,
+            #{item.expressNumber} ,
+            #{item.expressCompany} ,
+            #{item.logcomment} ,
+            #{item.logInfo} ,
+            #{item.expressType} ,
+            #{item.orderType} ,
+            #{item.string2} ,
+            #{item.string3} ,
+            #{item.string4} ,
+            #{item.string5} ,
+            #{item.deleteYn} ,
+            #{item.disabledYn} ,
+            #{item.createUser} ,
+            #{item.createTime} ,
+            #{item.updateUser} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+    
+    <!-- 单条修改  -->
+    <update id="update">
+        UPDATE TBL_Order_Log
+        <set>
+            <if test="@Ognl@isNotEmpty(orderCode)">
+                orderCode = #{orderCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(exectPerson)">
+                exectPerson = #{exectPerson},
+            </if>
+            <if test="exectTime != null">
+                exectTime = #{exectTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(logStatusName)">
+                logStatusName = #{logStatusName},
+            </if>
+            <if test="satisfaction != null">
+                satisfaction = #{satisfaction},
+            </if>
+            <if test="@Ognl@isNotEmpty(expressNumber)">
+                expressNumber = #{expressNumber},
+            </if>
+            <if test="@Ognl@isNotEmpty(expressCompany)">
+                expressCompany = #{expressCompany},
+            </if>
+            <if test="@Ognl@isNotEmpty(logcomment)">
+                logcomment = #{logcomment},
+            </if>
+            <if test="@Ognl@isNotEmpty(logInfo)">
+                logInfo = #{logInfo},
+            </if>
+            <if test="@Ognl@isNotEmpty(expressType)">
+                expressType = #{expressType},
+            </if>
+            <if test="@Ognl@isNotEmpty(orderType)">
+                orderType = #{orderType},
+            </if>
+            <if test="@Ognl@isNotEmpty(string2)">
+                string2 = #{string2},
+            </if>
+            <if test="@Ognl@isNotEmpty(string3)">
+                string3 = #{string3},
+            </if>
+            <if test="@Ognl@isNotEmpty(string4)">
+                string4 = #{string4},
+            </if>
+            <if test="@Ognl@isNotEmpty(string5)">
+                string5 = #{string5},
+            </if>
+            <if test="@Ognl@isNotEmpty(deleteYn)">
+                deleteYn = #{deleteYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(disabledYn)">
+                disabledYn = #{disabledYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(createUser)">
+                createUser = #{createUser},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateUser)">
+                updateUser = #{updateUser},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime}
+            </if>
+        </set>
+        WHERE 
+            id = #{id}
+    </update>
+    
+    <!-- 单条修改所有属性  -->
+    <update id="updateAll">
+    <![CDATA[
+        UPDATE TBL_Order_Log SET
+            orderCode = #{orderCode} ,
+            exectPerson = #{exectPerson} ,
+            exectTime = #{exectTime} ,
+            logStatusName = #{logStatusName} ,
+            satisfaction = #{satisfaction} ,
+            expressNumber = #{expressNumber} ,
+            expressCompany = #{expressCompany} ,
+            logcomment = #{logcomment} ,
+            logInfo = #{logInfo} ,
+            expressType = #{expressType} ,
+            orderType = #{orderType} ,
+            string2 = #{string2} ,
+            string3 = #{string3} ,
+            string4 = #{string4} ,
+            string5 = #{string5} ,
+            deleteYn = #{deleteYn} ,
+            disabledYn = #{disabledYn} ,
+            createUser = #{createUser} ,
+            createTime = #{createTime} ,
+            updateUser = #{updateUser} ,
+            updateTime = #{updateTime} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <!-- 删除主键  -->
+    <delete id="deleteByPK">
+    <![CDATA[
+        DELETE FROM TBL_Order_Log WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <!-- 删除主键数组  -->
+    <delete id="deleteByArrPK" parameterType="java.util.List">
+        <![CDATA[DELETE FROM TBL_Order_Log WHERE]]>
+        <foreach collection="list" item="item" index="index" open="id in (" separator="," close=")">
+            <![CDATA[#{item}]]>
+        </foreach>
+    </delete>
+    
+    <!-- 删除条件  -->
+    <delete id="delete">
+        <![CDATA[DELETE T1 FROM TBL_Order_Log T1 ]]>
+        <include refid="dynamicWhere" />
+    </delete>
+    
+    <!-- 主键查询  -->
+    <select id="selectByPK" parameterType="java.lang.Long" resultMap="orderLogResult">
+        <include refid="dynamicSelect" />
+        <![CDATA[
+            WHERE 
+            T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在主键 -->
+    <select id="existsByPK" parameterType="java.lang.Long"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <![CDATA[
+        WHERE
+        T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在对象 -->
+    <select id="exists" parameterType="orderLog"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数 -->
+    <select id="count" resultType="int">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数参数Map -->
+    <select id="countByMap" resultType="int" parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询数量 -->
+    <select id="pageCount" resultType="int"
+        parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询 -->
+    <select id="pageQuery" resultMap="orderLogResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+
+    <!-- 查询条件Map -->
+    <select id="selectByMap" resultMap="orderLogResult"
+        parameterType="map">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+    </select>
+
+    <!-- 查询条件对象 -->
+    <select id="select" resultMap="orderLogResult"
+        parameterType="orderLog">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhere" />
+        order by T1.id desc
+    </select>
+
+    <!-- 查询条件拼接 -->
+    <select id="selectByCriteria" resultMap="orderLogResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <if test="_parameter != null">
+            <include refid="Common.criteria_Where_Clause" />
+        </if>
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+    
+    <!-- 根据订单号查询操作日志信息 -->
+    <select id="selectOrderLogByOrderCode" resultMap="orderLogResult"
+        parameterType="String">
+        <include refid="dynamicSelect" />
+        <where>
+          orderCode=#{orderCode}  and (orderType is null or orderType='1')
+        </where>
+        order by T1.createTime asc
+    </select>
+    
+    <!-- 根据电影订单号查询操作日志信息 -->
+    <select id="selectFilmOrderLogByOrderCode" resultMap="orderLogResult"
+        parameterType="String">
+        <include refid="dynamicSelect" />
+        <where>
+          orderCode=#{orderCode}  and orderType = '2'
+        </where>
+        order by T1.createTime asc
+    </select>
+    
+    
+    
+    <select id="getOrderLogByOrderType" resultMap="orderLogResult"
+        parameterType="map">
+        <include refid="dynamicSelect" />
+        <where>
+          <if test="@Ognl@isNotEmpty(orderCode)">
+              T1.orderCode = #{orderCode}
+          </if>
+          <if test="orderCode==null">
+               AND (T1.orderType  is null or  T1.orderType=='1')
+          </if>
+          <if test="@Ognl@isNotEmpty(orderType)">
+              AND T1.orderType = #{orderType}
+          </if>
+         
+        </where>
+        order by T1.createTime asc
+    </select>
+    
+    
+    
+    
+</mapper>
+

@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- DBUnit flatXml DataFile -->
+<dataset>
+
+    <TBL_ProductComment
+        id='697'
+        companyCode='CompanyCode353'
+        productCode='ProductCode078'
+        title='Title502'
+        showCode='ShowCode231'
+        marketPrice='430'
+        salesPrice='763'
+        purchasePrice='516'
+        sales='Sales748'
+        description='Description300'
+        deleteYn='1'
+        disabledYn='1'
+        createUser='CreateUser014'
+        createTime='2016-01-06 17:38:22.646'
+        updateUser='UpdateUser651'
+        updateTime='2016-01-06 17:38:22.646'
+    />
+
+    <TBL_ProductComment
+        id='554'
+        companyCode='CompanyCode806'
+        productCode='ProductCode172'
+        title='Title788'
+        showCode='ShowCode025'
+        marketPrice='478'
+        salesPrice='402'
+        purchasePrice='836'
+        sales='Sales597'
+        description='Description190'
+        deleteYn='1'
+        disabledYn='1'
+        createUser='CreateUser870'
+        createTime='2016-01-06 17:38:22.646'
+        updateUser='UpdateUser325'
+        updateTime='2016-01-06 17:38:22.646'
+    />
+
+</dataset>

@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="CustomerReceive">
+    
+    <resultMap id="customerReceiveResult" type="customerReceive">
+        <result property="id" column="id" />
+        <result property="customerName" column="customerName" />
+        <result property="receiver" column="receiver" />
+        <result property="phone" column="phone" />
+        <result property="province" column="province" />
+        <result property="city" column="city" />
+        <result property="street" column="street" />
+        <result property="address" column="address" />
+        <result property="defaultYn" column="defaultYn" />
+        <result property="county" column="county" />
+        <result property="tel" column="tel" />
+        <result property="string3" column="String3" />
+        <result property="string4" column="String4" />
+        <result property="string5" column="String5" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+    </resultMap>
+    
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="customerReceiveColumns">
+        <![CDATA[
+        T1.id,
+        T1.customerName,
+        T1.receiver,
+        T1.phone,
+        T1.province,
+        T1.city,
+        T1.street,
+        T1.address,
+        T1.defaultYn,
+        T1.county,
+        T1.tel,
+        T1.String3,
+        T1.String4,
+        T1.String5,
+        T1.deleteYn,
+        T1.disabledYn,
+        T1.createUser,
+        T1.createTime,
+        T1.updateUser,
+        T1.updateTime
+        ]]>
+    </sql>
+    
+    <!-- 查询from -->
+    <sql id="dynamicFrom">
+        FROM TBL_Customer_Receive T1
+    </sql>
+    
+    <!-- 查询选择colum -->
+    <sql id="dynamicSelect">
+        SELECT
+        <include refid="customerReceiveColumns" />
+        <include refid="dynamicFrom" />
+    </sql>
+    
+    <!-- 查询条件 -->
+    <sql id="dynamicCondition">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用framework中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <if test="id != null">
+            AND T1.id = #{id}
+        </if>
+        <if test="idEx != null">
+            AND T1.id != #{idEx}
+        </if>
+        <if test="customerName != null">
+            AND T1.customerName = #{customerName}
+        </if>
+        <if test="@Ognl@isNotEmpty(receiver)">
+            AND T1.receiver = #{receiver}
+        </if>
+        <if test="@Ognl@isNotEmpty(phone)">
+            AND T1.phone = #{phone}
+        </if>
+        <if test="@Ognl@isNotEmpty(province)">
+            AND T1.province = #{province}
+        </if>
+        <if test="@Ognl@isNotEmpty(city)">
+            AND T1.city = #{city}
+        </if>
+        <if test="@Ognl@isNotEmpty(street)">
+            AND T1.street = #{street}
+        </if>
+        <if test="@Ognl@isNotEmpty(address)">
+            AND T1.address = #{address}
+        </if>
+        <if test="@Ognl@isNotEmpty(defaultYn)">
+            AND T1.defaultYn = #{defaultYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(county)">
+            AND T1.county = #{county}
+        </if>
+        <if test="@Ognl@isNotEmpty(tel)">
+            AND T1.tel = #{tel}
+        </if>
+        <if test="@Ognl@isNotEmpty(string3)">
+            AND T1.String3 = #{string3}
+        </if>
+        <if test="@Ognl@isNotEmpty(string4)">
+            AND T1.String4 = #{string4}
+        </if>
+        <if test="@Ognl@isNotEmpty(string5)">
+            AND T1.String5 = #{string5}
+        </if>
+        <if test="@Ognl@isNotEmpty(deleteYn)">
+            AND T1.deleteYn = #{deleteYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(disabledYn)">
+            AND T1.disabledYn = #{disabledYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(createUser)">
+            AND T1.createUser = #{createUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(updateUser)">
+            AND T1.updateUser = #{updateUser}
+        </if>
+    </sql>
+    
+    <!-- 查询where条件 -->
+    <sql id="dynamicWhere">
+        <where>
+            <include refid="dynamicCondition" />
+        </where>
+    </sql>
+    
+    <!-- 查询where条件(map) -->
+    <sql id="dynamicWhereEx">
+        <where>
+            <include refid="dynamicCondition" />
+            <if test="@Ognl@isNotEmpty(createTimeBegin)">
+                <![CDATA[AND T1.createTime >= #{createTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeEnd)">
+                <![CDATA[AND T1.createTime < date_add(#{createTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+                <![CDATA[AND T1.updateTime >= #{updateTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+                <![CDATA[AND T1.updateTime < date_add(#{updateTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+        </where>
+    </sql>
+
+    <!-- 排序条件 -->
+    <sql id="dynamicOrderBy">
+        <choose>
+            <when test="@Ognl@isNotEmpty(orderBy)">
+                <trim suffix="" suffixOverrides="order by">
+                <foreach collection="orderBy" item="order" open="order by " separator="," close=" ">
+                <choose>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'customerName'">
+                        T1.customerName <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'receiver'">
+                        T1.receiver <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'phone'">
+                        T1.phone <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'province'">
+                        T1.province <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'city'">
+                        T1.city <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'street'">
+                        T1.street <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'address'">
+                        T1.address <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'defaultYn'">
+                        T1.defaultYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'county'">
+                        T1.county <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'tel'">
+                        T1.tel <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string3'">
+                        T1.String3 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string4'">
+                        T1.String4 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string5'">
+                        T1.String5 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'deleteYn'">
+                        T1.deleteYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'disabledYn'">
+                        T1.disabledYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createUser'">
+                        T1.createUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createTime'">
+                        T1.createTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateUser'">
+                        T1.updateUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateTime'">
+                        T1.updateTime <if test="!order.ascending"> desc </if>
+                    </when>
+                </choose>
+                </foreach>
+                </trim>
+            </when>
+            <otherwise>
+            order by T1.id desc
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 单条录入  -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO TBL_Customer_Receive (
+            customerName ,
+            receiver ,
+            phone ,
+            province ,
+            city ,
+            street ,
+            address ,
+            defaultYn ,
+            county ,
+            tel ,
+            String3 ,
+            String4 ,
+            String5 ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime 
+            ) VALUES (
+            #{customerName} ,
+            #{receiver} ,
+            #{phone} ,
+            #{province} ,
+            #{city} ,
+            #{street} ,
+            #{address} ,
+            #{defaultYn} ,
+            #{county} ,
+            #{tel} ,
+            #{string3} ,
+            #{string4} ,
+            #{string5} ,
+            #{deleteYn} ,
+            #{disabledYn} ,
+            #{createUser} ,
+            #{createTime} ,
+            #{updateUser} ,
+            #{updateTime} 
+            )
+        ]]>
+        <selectKey resultType="java.lang.Long"
+            order="AFTER"
+            keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    
+    <!-- 批量录入  -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO TBL_Customer_Receive (
+            customerName ,
+            receiver ,
+            phone ,
+            province ,
+            city ,
+            street ,
+            address ,
+            defaultYn ,
+            county ,
+            tel ,
+            String3 ,
+            String4 ,
+            String5 ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime 
+            ) 
+            VALUES 
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.customerName} ,
+            #{item.receiver} ,
+            #{item.phone} ,
+            #{item.province} ,
+            #{item.city} ,
+            #{item.street} ,
+            #{item.address} ,
+            #{item.defaultYn} ,
+            #{item.county} ,
+            #{item.tel} ,
+            #{item.string3} ,
+            #{item.string4} ,
+            #{item.string5} ,
+            #{item.deleteYn} ,
+            #{item.disabledYn} ,
+            #{item.createUser} ,
+            #{item.createTime} ,
+            #{item.updateUser} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+    
+    <!-- 单条修改  -->
+    <update id="update">
+        UPDATE TBL_Customer_Receive
+        <set>
+            <if test="customerName != null">
+                customerName = #{customerName},
+            </if>
+            <if test="@Ognl@isNotEmpty(receiver)">
+                receiver = #{receiver},
+            </if>
+            <if test="@Ognl@isNotEmpty(phone)">
+                phone = #{phone},
+            </if>
+            <if test="@Ognl@isNotEmpty(province)">
+                province = #{province},
+            </if>
+            <if test="@Ognl@isNotEmpty(city)">
+                city = #{city},
+            </if>
+            <if test="@Ognl@isNotEmpty(street)">
+                street = #{street},
+            </if>
+            <if test="@Ognl@isNotEmpty(address)">
+                address = #{address},
+            </if>
+            <if test="@Ognl@isNotEmpty(defaultYn)">
+                defaultYn = #{defaultYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(county)">
+                county = #{county},
+            </if>
+            <if test="@Ognl@isNotEmpty(tel)">
+                tel = #{tel},
+            </if>
+            <if test="@Ognl@isNotEmpty(string3)">
+                String3 = #{string3},
+            </if>
+            <if test="@Ognl@isNotEmpty(string4)">
+                String4 = #{string4},
+            </if>
+            <if test="@Ognl@isNotEmpty(string5)">
+                String5 = #{string5},
+            </if>
+            <if test="@Ognl@isNotEmpty(deleteYn)">
+                deleteYn = #{deleteYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(disabledYn)">
+                disabledYn = #{disabledYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(createUser)">
+                createUser = #{createUser},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateUser)">
+                updateUser = #{updateUser},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime}
+            </if>
+        </set>
+        WHERE 
+            id = #{id}
+    </update>
+    
+    <!-- 单条修改所有属性  -->
+    <update id="updateAll">
+    <![CDATA[
+        UPDATE TBL_Customer_Receive SET
+            customerName = #{customerName} ,
+            receiver = #{receiver} ,
+            phone = #{phone} ,
+            province = #{province} ,
+            city = #{city} ,
+            street = #{street} ,
+            address = #{address} ,
+            defaultYn = #{defaultYn} ,
+            county = #{county} ,
+            tel = #{tel} ,
+            String3 = #{string3} ,
+            String4 = #{string4} ,
+            String5 = #{string5} ,
+            deleteYn = #{deleteYn} ,
+            disabledYn = #{disabledYn} ,
+            createUser = #{createUser} ,
+            createTime = #{createTime} ,
+            updateUser = #{updateUser} ,
+            updateTime = #{updateTime} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <!-- 删除主键  -->
+    <delete id="deleteByPK">
+    <![CDATA[
+        DELETE FROM TBL_Customer_Receive WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <!-- 删除主键数组  -->
+    <delete id="deleteByArrPK" parameterType="java.util.List">
+        <![CDATA[DELETE FROM TBL_Customer_Receive WHERE]]>
+        <foreach collection="list" item="item" index="index" open="id in (" separator="," close=")">
+            <![CDATA[#{item}]]>
+        </foreach>
+    </delete>
+    
+    <!-- 删除条件  -->
+    <delete id="delete">
+        <![CDATA[DELETE T1 FROM TBL_Customer_Receive T1 ]]>
+        <include refid="dynamicWhere" />
+    </delete>
+    
+    <!-- 主键查询  -->
+    <select id="selectByPK" parameterType="java.lang.Long" resultMap="customerReceiveResult">
+        <include refid="dynamicSelect" />
+        <![CDATA[
+            WHERE 
+            T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在主键 -->
+    <select id="existsByPK" parameterType="java.lang.Long"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <![CDATA[
+        WHERE
+        T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在对象 -->
+    <select id="exists" parameterType="customerReceive"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数 -->
+    <select id="count" resultType="int">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数参数Map -->
+    <select id="countByMap" resultType="int" parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询数量 -->
+    <select id="pageCount" resultType="int"
+        parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询 -->
+    <select id="pageQuery" resultMap="customerReceiveResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+
+    <!-- 查询条件Map -->
+    <select id="selectByMap" resultMap="customerReceiveResult"
+        parameterType="map">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+    </select>
+
+    <!-- 查询条件对象 -->
+    <select id="select" resultMap="customerReceiveResult"
+        parameterType="customerReceive">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhere" />
+        order by T1.id desc
+    </select>
+
+    <!-- 查询条件拼接 -->
+    <select id="selectByCriteria" resultMap="customerReceiveResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <if test="_parameter != null">
+            <include refid="Common.criteria_Where_Clause" />
+        </if>
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+    
+    
+    
+</mapper>
+

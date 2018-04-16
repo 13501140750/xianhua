@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="Warehouse">
+    
+    <resultMap id="warehouseResult" type="warehouse">
+        <result property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="contact" column="contact" />
+        <result property="phone" column="phone" />
+        <result property="province" column="province" />
+        <result property="city" column="city" />
+        <result property="county" column="county" />
+        <result property="address" column="address" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+        <result property="type" column="type" />
+        <result property="supplierId" column="supplierId" />
+        <association property="supplier" column="supplierId" select="selectSupplier"></association>
+        <association property="provinceName" column="province"  select="selectRegionName"></association>
+        <association property="cityName" column="city" select="selectRegionName"></association>
+        <association property="countyName" column="county" select="selectRegionName"></association>
+    </resultMap>
+    
+    <resultMap id="supplierResult" type="supplier">
+        <result property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="type" column="type" />
+        <result property="companyCode" column="companyCode" />
+        <result property="description" column="description" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+        <association property="company" column="companyCode" select="Company.getByCode"></association>
+    </resultMap>
+    
+    
+    
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="warehouseColumns">
+        <![CDATA[
+        T1.id,
+        T1.name,
+        T1.contact,
+        T1.phone,
+        T1.province,
+        T1.city,
+        T1.county,
+        T1.address,
+        T1.deleteYn,
+        T1.disabledYn,
+        T1.createUser,
+        T1.createTime,
+        T1.updateUser,
+        T1.updateTime,
+        T1.type,
+        T1.supplierId
+        ]]>
+    </sql>
+    
+    <!-- 查询from -->
+    <sql id="dynamicFrom">
+        FROM TBL_Warehouse T1
+    </sql>
+    
+    <!-- 查询选择colum -->
+    <sql id="dynamicSelect">
+        SELECT
+        <include refid="warehouseColumns" />
+        <include refid="dynamicFrom" />
+    </sql>
+    
+    <!-- 查询条件 -->
+    <sql id="dynamicCondition">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用framework中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <if test="id != null">
+            AND T1.id = #{id}
+        </if>
+        <if test="idEx != null">
+            AND T1.id != #{idEx}
+        </if>
+        <if test="@Ognl@isNotEmpty(name)">
+            AND T1.name = #{name}
+        </if>
+        <if test="@Ognl@isNotEmpty(contact)">
+            AND T1.contact = #{contact}
+        </if>
+        <if test="@Ognl@isNotEmpty(phone)">
+            AND T1.phone = #{phone}
+        </if>
+        <if test="province != null">
+            AND T1.province = #{province}
+        </if>
+        <if test="city != null">
+            AND T1.city = #{city}
+        </if>
+        <if test="county != null">
+            AND T1.county = #{county}
+        </if>
+        <if test="@Ognl@isNotEmpty(address)">
+            AND T1.address = #{address}
+        </if>
+        <if test="@Ognl@isNotEmpty(deleteYn)">
+            AND T1.deleteYn = #{deleteYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(disabledYn)">
+            AND T1.disabledYn = #{disabledYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(createUser)">
+            AND T1.createUser = #{createUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(updateUser)">
+            AND T1.updateUser = #{updateUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(type)">
+            AND T1.type = #{type}
+        </if>
+        <if test="supplierId != null">
+            AND T1.supplierId = #{supplierId}
+        </if>
+    </sql>
+    
+    <!-- 查询where条件 -->
+    <sql id="dynamicWhere">
+        <where>
+            <include refid="dynamicCondition" />
+        </where>
+    </sql>
+    
+    <!-- 查询where条件(map) -->
+    <sql id="dynamicWhereEx">
+        <where>
+            <include refid="dynamicCondition" />
+            <if test="@Ognl@isNotEmpty(createTimeBegin)">
+                <![CDATA[AND T1.createTime >= #{createTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeEnd)">
+                <![CDATA[AND T1.createTime < date_add(#{createTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+                <![CDATA[AND T1.updateTime >= #{updateTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+                <![CDATA[AND T1.updateTime < date_add(#{updateTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(searchText)">
+                <![CDATA[
+                AND (
+                 T1.phone  like     CONCAT(CONCAT('%', #{searchText}), '%')
+                 or 
+                 T1.province  like     CONCAT(CONCAT('%', #{searchText}), '%')
+                 or
+                 T1.name  like     CONCAT(CONCAT('%', #{searchText}), '%')
+                  or
+                 T1.contact  like     CONCAT(CONCAT('%', #{searchText}), '%')
+                 
+                )
+                ]]>
+            </if>
+        </where>
+    </sql>
+
+    <!-- 排序条件 -->
+    <sql id="dynamicOrderBy">
+        <choose>
+            <when test="@Ognl@isNotEmpty(orderBy)">
+                <trim suffix="" suffixOverrides="order by">
+                <foreach collection="orderBy" item="order" open="order by " separator="," close=" ">
+                <choose>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'name'">
+                        T1.name <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'contact'">
+                        T1.contact <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'phone'">
+                        T1.phone <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'province'">
+                        T1.province <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'city'">
+                        T1.city <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'county'">
+                        T1.county <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'address'">
+                        T1.address <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'deleteYn'">
+                        T1.deleteYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'disabledYn'">
+                        T1.disabledYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createUser'">
+                        T1.createUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createTime'">
+                        T1.createTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateUser'">
+                        T1.updateUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateTime'">
+                        T1.updateTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'type'">
+                        T1.type <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'supplierId'">
+                        T1.supplierId <if test="!order.ascending"> desc </if>
+                    </when>
+                </choose>
+                </foreach>
+                </trim>
+            </when>
+            <otherwise>
+            order by T1.id desc
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 单条录入  -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO TBL_Warehouse (
+            name ,
+            contact ,
+            phone ,
+            province ,
+            city ,
+            county ,
+            address ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime ,
+            type ,
+            supplierId 
+            ) VALUES (
+            #{name} ,
+            #{contact} ,
+            #{phone} ,
+            #{province} ,
+            #{city} ,
+            #{county} ,
+            #{address} ,
+            #{deleteYn} ,
+            #{disabledYn} ,
+            #{createUser} ,
+            #{createTime} ,
+            #{updateUser} ,
+            #{updateTime} ,
+            #{type} ,
+            #{supplierId} 
+            )
+        ]]>
+        <selectKey resultType="java.lang.Integer"
+            order="AFTER"
+            keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    
+    <!-- 批量录入  -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO TBL_Warehouse (
+            name ,
+            contact ,
+            phone ,
+            province ,
+            city ,
+            county ,
+            address ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime ,
+            type ,
+            supplierId 
+            ) 
+            VALUES 
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.name} ,
+            #{item.contact} ,
+            #{item.phone} ,
+            #{item.province} ,
+            #{item.city} ,
+            #{item.county} ,
+            #{item.address} ,
+            #{item.deleteYn} ,
+            #{item.disabledYn} ,
+            #{item.createUser} ,
+            #{item.createTime} ,
+            #{item.updateUser} ,
+            #{item.updateTime} ,
+            #{item.type} ,
+            #{item.supplierId} 
+            )
+        </foreach>
+    </insert>
+    
+    <!-- 单条修改  -->
+    <update id="update">
+        UPDATE TBL_Warehouse
+        <set>
+            <if test="@Ognl@isNotEmpty(name)">
+                name = #{name},
+            </if>
+            <if test="@Ognl@isNotEmpty(contact)">
+                contact = #{contact},
+            </if>
+            <if test="@Ognl@isNotEmpty(phone)">
+                phone = #{phone},
+            </if>
+            <if test="province != null">
+                province = #{province},
+            </if>
+            <if test="city != null">
+                city = #{city},
+            </if>
+            <if test="county != null">
+                county = #{county},
+            </if>
+            <if test="@Ognl@isNotEmpty(address)">
+                address = #{address},
+            </if>
+            <if test="@Ognl@isNotEmpty(deleteYn)">
+                deleteYn = #{deleteYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(disabledYn)">
+                disabledYn = #{disabledYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(createUser)">
+                createUser = #{createUser},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateUser)">
+                updateUser = #{updateUser},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="supplierId != null">
+                supplierId = #{supplierId}
+            </if>
+        </set>
+        WHERE 
+            id = #{id}
+    </update>
+    
+    <!-- 单条修改所有属性  -->
+    <update id="updateAll">
+    <![CDATA[
+        UPDATE TBL_Warehouse SET
+            name = #{name} ,
+            contact = #{contact} ,
+            phone = #{phone} ,
+            province = #{province} ,
+            city = #{city} ,
+            county = #{county} ,
+            address = #{address} ,
+            deleteYn = #{deleteYn} ,
+            disabledYn = #{disabledYn} ,
+            createUser = #{createUser} ,
+            createTime = #{createTime} ,
+            updateUser = #{updateUser} ,
+            updateTime = #{updateTime} ,
+            type = #{type} ,
+            supplierId = #{supplierId} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <!-- 删除主键  -->
+    <delete id="deleteByPK">
+    <![CDATA[
+        DELETE FROM TBL_Warehouse WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <!-- 删除主键数组  -->
+    <delete id="deleteByArrPK" parameterType="java.util.List">
+        <![CDATA[DELETE FROM TBL_Warehouse WHERE]]>
+        <foreach collection="list" item="item" index="index" open="id in (" separator="," close=")">
+            <![CDATA[#{item}]]>
+        </foreach>
+    </delete>
+    
+    <!-- 删除条件  -->
+    <delete id="delete">
+        <![CDATA[DELETE T1 FROM TBL_Warehouse T1 ]]>
+        <include refid="dynamicWhere" />
+    </delete>
+    
+    <!-- 主键查询  -->
+    <select id="selectByPK" parameterType="java.lang.Integer" resultMap="warehouseResult">
+        <include refid="dynamicSelect" />
+        <![CDATA[
+            WHERE 
+            T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在主键 -->
+    <select id="existsByPK" parameterType="java.lang.Integer"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <![CDATA[
+        WHERE
+        T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在对象 -->
+    <select id="exists" parameterType="warehouse"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数 -->
+    <select id="count" resultType="int">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数参数Map -->
+    <select id="countByMap" resultType="int" parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询数量 -->
+    <select id="pageCount" resultType="int"
+        parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询 -->
+    <select id="pageQuery" resultMap="warehouseResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+
+    <!-- 查询条件Map -->
+    <select id="selectByMap" resultMap="warehouseResult"
+        parameterType="map">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+    </select>
+
+    <!-- 查询条件对象 -->
+    <select id="select" resultMap="warehouseResult"
+        parameterType="warehouse">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhere" />
+        order by T1.id desc
+    </select>
+
+    <!-- 查询条件拼接 -->
+    <select id="selectByCriteria" resultMap="warehouseResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <if test="_parameter != null">
+            <include refid="Common.criteria_Where_Clause" />
+        </if>
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+    
+    <!-- 查询供应商 -->
+    <select id="selectSupplier" resultMap="supplierResult" parameterType="int">
+        SELECT
+        T1.id,
+        T1.name,
+        T1.type,
+        T1.companyCode,
+        T1.description,
+        T1.deleteYn,
+        T1.disabledYn,
+        T1.createUser,
+        T1.createTime,
+        T1.updateUser,
+        T1.updateTime
+        FROM TBL_Supplier T1
+        WHERE T1.deleteYn = 0 AND T1.disabledYn = 0 AND T1.id = #{id}
+    </select>
+    
+    <!-- 查询地区名称  -->
+    <select id="selectRegionName" resultType="String" parameterType="int">
+    SELECT
+    T1.name
+    FROM TBL_Region T1
+    WHERE T1.code = #{code}
+    </select>
+    
+    <select id="selectWarehoseByCompanyCode" resultMap="warehouseResult" parameterType="map">
+        
+         select *  from TBL_Warehouse T1
+        where supplierId in
+        (select T2.id  from TBL_Supplier T2
+        
+        <where>
+            <if test="@Ognl@isNotEmpty(companyType)">
+                (
+               <choose>
+                   <when test="companyType=='supplier'">
+                      (companyCode=#{companyCode} and type='1')
+                     
+                      <if test="forprod==null">
+                        or type='0'
+                      </if>
+                    </when>
+                    <otherwise>
+                      companyCode=#{companyCode}  or type='1'
+                    </otherwise>
+               </choose>
+               )
+            </if>
+            and T2.disabledYn='0'  and T2.deleteYn='0')
+        </where>
+        
+        and T1.disabledYn='0'  and T1.deleteYn='0'
+        order by T1.type,T1.id
+    </select>
+    
+    
+    <!-- 关联查询 -->
+    <select id="selectById" resultMap="warehouseResult"   parameterType="String">
+         select  *  from  TBL_Warehouse where id=#{warehouseId}      and disabledYn='0' and  deleteYn='0'
+    </select>
+    
+</mapper>
+

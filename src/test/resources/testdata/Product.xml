@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- DBUnit flatXml DataFile -->
+<dataset>
+
+    <TBL_Product
+        id='591'
+        code='Code754'
+        title='Title175'
+        features='Features340'
+        prdCatCode='PrdCatCode827'
+        brandCode='BrandCode698'
+        standard='Standard538'
+        prdPlace='PrdPlace069'
+        sampling='0'
+        image0='840'
+        
+        approvalStatus='ApprovalStatus906'
+        approvalOpinion='ApprovalOpinion557'
+        deleteYn='1'
+        disabledYn='1'
+        createUser='CreateUser256'
+        createTime='2015-12-16 12:16:02.623'
+        updateUser='UpdateUser084'
+        updateTime='2015-12-16 12:16:02.623'
+    />
+
+    <TBL_Product
+        id='653'
+        code='Code400'
+        title='Title426'
+        features='Features915'
+        prdCatCode='PrdCatCode130'
+        brandCode='BrandCode640'
+        standard='Standard221'
+        prdPlace='PrdPlace570'
+        sampling='4'
+        
+        image0='ImageId728'
+        approvalStatus='ApprovalStatus647'
+        approvalOpinion='ApprovalOpinion605'
+        deleteYn='1'
+        disabledYn='1'
+        createUser='CreateUser162'
+        createTime='2015-12-16 12:16:02.623'
+        updateUser='UpdateUser820'
+        updateTime='2015-12-16 12:16:02.623'
+    />
+
+</dataset>

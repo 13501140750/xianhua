@@ -1,0 +1,607 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="ProductRs">
+    
+    <resultMap id="productRsResult" type="productRs">
+        <result property="id" column="id" />
+        <result property="productCode" column="productCode" />
+        <result property="sort" column="sort" />
+        <result property="recommendId" column="recommendId" />
+        <result property="pubImage" column="pubImage" />
+        <result property="string2" column="string2" />
+        <result property="string3" column="string3" />
+        <result property="string4" column="string4" />
+        <result property="string5" column="string5" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+    </resultMap>
+    
+    <resultMap id="productRsResultForMap" type="productRs">
+        <result property="id" column="id" />
+        <result property="productCode" column="productCode" />
+        <result property="sort" column="sort" />
+        <result property="recommendId" column="recommendId" />
+        <result property="pubImage" column="pubImage" />
+        <result property="string2" column="string2" />
+        <result property="string3" column="string3" />
+        <result property="string4" column="string4" />
+        <result property="string5" column="string5" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+        <!-- <collection property="product" ofType="product"
+           column="productCode" select="Product.selectPrdForProductRs">
+        </collection> -->
+        <collection property="product"  ofType="product">
+           <result property="title" column="title" />
+           <result property="showCode" column="showCode" />
+           <result property="image0" column="image0" />
+           <result property="navCategory" column="navCategory" />
+           <result property="prdCatCode" column="prdCatCode" />
+           <result property="showCode" column="showCode" />
+           <result property="brandName" column="brandName" />
+           <result property="brandCode" column="brandCode" />
+           <result property="salesPrice" column="salesPrice" />
+           <result property="supplyPrice" column="supplyPrice" />
+           <result property="showType" column="showType" />
+           <result property="jifenPrice" column="jifenPrice" />
+           <collection property="navigationCatString" ofType="String"
+                column="navCategory" select="NavigationCategory.getShowCatForPrd">
+           </collection>
+          <collection property="comment"  ofType="productComment">
+           <result property="id" column="comment_id" />
+           <result property="title" column="comment_title" />
+           <result property="marketPrice" column="comment_marketPrice" />
+           <result property="salesPrice" column="comment_salesPrice" />
+           <result property="showCode" column="comment_showCode" />
+           <result property="companyCode" column="comment_companyCode" />
+         </collection>
+        
+        <collection property="customizine"  ofType="companyCustomizine">
+           <result property="id" column="customizne_id" />
+           <result property="madePriceRate" column="madePriceRate" />
+           <result property="madePriceType" column="madePriceType" />
+           <result property="priceAdjust" column="priceAdjust" />
+           <result property="priceExchangeRate" column="priceExchangeRate" />
+        </collection>
+        </collection>
+    </resultMap>
+    
+     
+    
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="productRsColumns">
+        <![CDATA[
+        T1.id,
+        T1.productCode,
+        T1.sort,
+        T1.recommendId,
+        T1.pubImage,
+        T1.string2,
+        T1.string3,
+        T1.string4,
+        T1.string5,
+        T1.deleteYn,
+        T1.disabledYn,
+        T1.createUser,
+        T1.createTime,
+        T1.updateUser,
+        T1.updateTime
+        ]]>
+    </sql>
+    
+    
+    <sql id="dynamicSelect">
+       
+        select T1.*,T2.supplyPrice,T2.title,T2.image0,T2.showCode,T2.brandCode,T2.navCategory,T2.prdCatCode,T3.name as brandName ,T2.salesPrice,
+         
+         <if test="@Ognl@isNotEmpty(commentCompanyCode)">
+           T5.title as comment_title,
+           T5.marketPrice as comment_marketPrice,
+           T5.salesPrice as comment_salesPrice,
+           T5.showCode as comment_showCode,
+           T5.id as comment_id,
+           T5.companyCode as comment_companyCode,
+           T6.id as customizne_id, 
+           T6.productShowType as showType,
+           T6.priceExchangeRate,
+           T6.madePriceType,
+           T6.priceAdjust,
+           T6.madePriceRate
+        </if>
+        <if test="commentCompanyCode==null">
+          (select case when (T4.system_value='' or T4.system_value is null) then 1  else   T4.system_value END 
+          from TBL_SystemSetting T4 where T4.system_key='EXCHANGE_RATE' )*T2.salesPrice as jifenPrice
+         </if>
+         
+         from  TBL_Product_rs T1,  TBL_Product T2
+         left join TBL_Brand T3 on T3.code=T2.brandCode and T3.disabledYn = 0 and T3.deleteYn = 0
+         <if test="@Ognl@isNotEmpty(commentCompanyCode)">
+           left join TBL_ProductComment T5 on T5.productCode = T2.code and T5.disabledYn = 0 and   T5.deleteYn = 0
+             AND T5.companyCode = #{commentCompanyCode}
+           left join TBL_Company_Customizine T6 on 1=1 and T6.companyCode = #{commentCompanyCode} and T6.modifyPrdPriceYn='Y'
+            and T6.disabledYn = 0 and   T6.deleteYn = 0
+        </if>
+          
+        
+        
+    </sql>
+    
+    
+    <!-- 查询from -->
+    <sql id="dynamicFrom">
+        FROM TBL_Product_rs T1
+    </sql>
+    
+    <!-- 查询选择colum -->
+    <sql id="dynamicSelectBase">
+        SELECT
+        <include refid="productRsColumns" />
+        <include refid="dynamicFrom" />
+    </sql>
+    
+    <!-- 查询条件 -->
+    <sql id="dynamicCondition">
+         T2.code=T1.productCode
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用framework中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <if test="id != null">
+            AND T1.id = #{id}
+        </if>
+        <if test="idEx != null">
+            AND T1.id != #{idEx}
+        </if>
+        <if test="@Ognl@isNotEmpty(productCode)">
+            AND T1.productCode = #{productCode}
+        </if>
+        <if test="sort != null">
+            AND T1.sort = #{sort}
+        </if>
+        <if test="recommendId != null">
+            AND T1.recommendId = #{recommendId}
+        </if>
+        <if test="@Ognl@isNotEmpty(pubImage)">
+            AND T1.pubImage = #{pubImage}
+        </if>
+        <if test="@Ognl@isNotEmpty(string2)">
+            AND T1.string2 = #{string2}
+        </if>
+        <if test="@Ognl@isNotEmpty(string3)">
+            AND T1.string3 = #{string3}
+        </if>
+        <if test="@Ognl@isNotEmpty(string4)">
+            AND T1.string4 = #{string4}
+        </if>
+        <if test="@Ognl@isNotEmpty(string5)">
+            AND T1.string5 = #{string5}
+        </if>
+        <if test="@Ognl@isNotEmpty(deleteYn)">
+            AND T1.deleteYn = #{deleteYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(disabledYn)">
+            AND T1.disabledYn = #{disabledYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(createUser)">
+            AND T1.createUser = #{createUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(updateUser)">
+            AND T1.updateUser = #{updateUser}
+        </if>
+    </sql>
+    
+    <!-- 查询where条件 -->
+    <sql id="dynamicWhere">
+        <where>
+            <include refid="dynamicCondition" />
+        </where>
+    </sql>
+    
+    <!-- 查询where条件(map) -->
+    <sql id="dynamicWhereEx">
+        <where>
+            <include refid="dynamicCondition" />
+            <if test="@Ognl@isNotEmpty(createTimeBegin)">
+                <![CDATA[AND T1.createTime >= #{createTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeEnd)">
+                <![CDATA[AND T1.createTime < date_add(#{createTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+                <![CDATA[AND T1.updateTime >= #{updateTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+                <![CDATA[AND T1.updateTime < date_add(#{updateTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(seachText)">
+                AND (
+                 T2.title  like     CONCAT(CONCAT('%', #{seachText}), '%')
+                  or 
+                 T2.showCode  like  CONCAT(CONCAT('%', #{seachText}), '%')
+               )
+            </if>
+             <if test="@Ognl@isNotEmpty(brandCode)">
+                AND T2.brandCode  = #{brandCode}
+            </if>
+              <if test="@Ognl@isNotEmpty(navcatCode)">
+                AND T2.navCategory  like  CONCAT(CONCAT('%', #{navcatCode}), '%') 
+            </if>
+            <if test="@Ognl@isNotEmpty(highestSalePrice)">
+                <![CDATA[ AND ( T2.salesPrice    <= #{highestSalePrice}   )]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(lowestSalePrice)">
+                 <![CDATA[ AND ( T2.salesPrice    >= #{lowestSalePrice}   )]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(prdCodeList)">
+                 AND T2.prdCatCode  in  
+                 <foreach item="item" index="index" collection="prdCodeList" open="(" separator="," close=")">  
+                     #{item}  
+                 </foreach> 
+            </if>
+        </where>
+    </sql>
+
+    <!-- 排序条件 -->
+    <sql id="dynamicOrderBy">
+        <choose>
+            <when test="@Ognl@isNotEmpty(orderBy)">
+                <trim suffix="" suffixOverrides="order by">
+                <foreach collection="orderBy" item="order" open="order by " separator="," close=" ">
+                <choose>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'productCode'">
+                        T1.productCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'sort'">
+                        T1.sort <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'recommendId'">
+                        T1.recommendId <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'pubImage'">
+                        T1.pubImage <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string2'">
+                        T1.string2 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string3'">
+                        T1.string3 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string4'">
+                        T1.string4 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string5'">
+                        T1.string5 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'deleteYn'">
+                        T1.deleteYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'disabledYn'">
+                        T1.disabledYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createUser'">
+                        T1.createUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createTime'">
+                        T1.createTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateUser'">
+                        T1.updateUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateTime'">
+                        T1.updateTime <if test="!order.ascending"> desc </if>
+                    </when>
+                </choose>
+                </foreach>
+                </trim>
+            </when>
+            <otherwise>
+            order by T1.id desc
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 单条录入  -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO TBL_Product_rs (
+            productCode ,
+            sort ,
+            recommendId ,
+            pubImage ,
+            string2 ,
+            string3 ,
+            string4 ,
+            string5 ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime 
+            ) VALUES (
+            #{productCode} ,
+            #{sort} ,
+            #{recommendId} ,
+            #{pubImage} ,
+            #{string2} ,
+            #{string3} ,
+            #{string4} ,
+            #{string5} ,
+            #{deleteYn} ,
+            #{disabledYn} ,
+            #{createUser} ,
+            #{createTime} ,
+            #{updateUser} ,
+            #{updateTime} 
+            )
+        ]]>
+        <selectKey resultType="java.lang.Integer"
+            order="AFTER"
+            keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    
+    <!-- 批量录入  -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO TBL_Product_rs (
+            productCode ,
+            sort ,
+            recommendId ,
+            pubImage ,
+            string2 ,
+            string3 ,
+            string4 ,
+            string5 ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime 
+            ) 
+            VALUES 
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.productCode} ,
+            #{item.sort} ,
+            #{item.recommendId} ,
+            #{item.pubImage} ,
+            #{item.string2} ,
+            #{item.string3} ,
+            #{item.string4} ,
+            #{item.string5} ,
+            #{item.deleteYn} ,
+            #{item.disabledYn} ,
+            #{item.createUser} ,
+            #{item.createTime} ,
+            #{item.updateUser} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+    
+    <!-- 单条修改  -->
+    <update id="update">
+        UPDATE TBL_Product_rs
+        <set>
+            <if test="@Ognl@isNotEmpty(productCode)">
+                productCode = #{productCode},
+            </if>
+            <if test="sort != null">
+                sort = #{sort},
+            </if>
+            <if test="@Ognl@isNotEmpty(recommendId)">
+                recommendId = #{recommendId},
+            </if>
+            <if test="@Ognl@isNotEmpty(pubImage)">
+                pubImage = #{pubImage},
+            </if>
+            <if test="@Ognl@isNotEmpty(string2)">
+                string2 = #{string2},
+            </if>
+            <if test="@Ognl@isNotEmpty(string3)">
+                string3 = #{string3},
+            </if>
+            <if test="@Ognl@isNotEmpty(string4)">
+                string4 = #{string4},
+            </if>
+            <if test="@Ognl@isNotEmpty(string5)">
+                string5 = #{string5},
+            </if>
+            <if test="@Ognl@isNotEmpty(deleteYn)">
+                deleteYn = #{deleteYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(disabledYn)">
+                disabledYn = #{disabledYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(createUser)">
+                createUser = #{createUser},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateUser)">
+                updateUser = #{updateUser},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime}
+            </if>
+        </set>
+        WHERE 
+            id = #{id}
+    </update>
+    
+    <!-- 单条修改所有属性  -->
+    <update id="updateAll">
+    <![CDATA[
+        UPDATE TBL_Product_rs SET
+            productCode = #{productCode} ,
+            sort = #{sort} ,
+            recommendId = #{recommendId} ,
+            pubImage = #{pubImage} ,
+            string2 = #{string2} ,
+            string3 = #{string3} ,
+            string4 = #{string4} ,
+            string5 = #{string5} ,
+            deleteYn = #{deleteYn} ,
+            disabledYn = #{disabledYn} ,
+            createUser = #{createUser} ,
+            createTime = #{createTime} ,
+            updateUser = #{updateUser} ,
+            updateTime = #{updateTime} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <!-- 删除主键  -->
+    <delete id="deleteByPK">
+    <![CDATA[
+        DELETE FROM TBL_Product_rs WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <!-- 删除主键数组  -->
+    <delete id="deleteByArrPK" parameterType="java.util.List">
+        <![CDATA[DELETE FROM TBL_Product_rs WHERE]]>
+        <foreach collection="list" item="item" index="index" open="id in (" separator="," close=")">
+            <![CDATA[#{item}]]>
+        </foreach>
+    </delete>
+    
+    <!-- 删除条件  -->
+    <delete id="delete">
+        <![CDATA[DELETE T1 FROM TBL_Product_rs T1 ]]>
+        <include refid="dynamicWhere" />
+    </delete>
+    
+    <!-- 主键查询  -->
+    <select id="selectByPK" parameterType="java.lang.Integer" resultMap="productRsResultForMap">
+        <include refid="dynamicSelect" />
+        <![CDATA[
+            WHERE 
+            T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- recommendId 查询 -->
+    <select id="selectByRecommendId" parameterType="java.lang.Integer" resultMap="productRsResultForMap">
+        select T1.*,T2.supplyPrice,T2.title,T2.image0,T2.showCode,T2.brandCode,T2.navCategory,T2.prdCatCode,T2.salesPrice
+        from  TBL_Product_rs T1,  TBL_Product T2 
+        <![CDATA[
+            WHERE 
+             T2.code=T1.productCode
+             AND T1.recommendId = #{recommendId} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在主键 -->
+    <select id="existsByPK" parameterType="java.lang.Integer"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <![CDATA[
+        WHERE
+        T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在对象 -->
+    <select id="exists" parameterType="productRs"
+        resultType="boolean">
+        SELECT min(1)
+        <!-- <include refid="dynamicFrom" />  -->
+         from  TBL_Product_rs T1, 
+         TBL_Product T2
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数 -->
+    <select id="count" resultType="int">
+        SELECT count(1)
+        <!-- <include refid="dynamicFrom" />  -->
+         from  TBL_Product_rs T1, 
+         TBL_Product T2
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数参数Map -->
+    <select id="countByMap" resultType="int" parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询数量 -->
+    <select id="pageCount" resultType="int"
+        parameterType="map">
+        SELECT count(1) 
+       <!--  <include refid="dynamicFrom" />-->
+        
+        from  TBL_Product_rs T1, 
+         TBL_Product T2
+        
+        
+        
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询 -->
+    <select id="pageQuery" resultMap="productRsResultForMap"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+
+    <!-- 查询条件Map -->
+    <select id="selectByMap" resultMap="productRsResultForMap"
+        parameterType="map">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+    </select>
+
+    <!-- 查询条件对象 -->
+    <select id="select" resultMap="productRsResult"
+        parameterType="productRs">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhere" />
+        order by T1.id desc
+    </select>
+
+    <!-- 查询条件拼接 -->
+    <select id="selectByCriteria" resultMap="productRsResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <if test="_parameter != null">
+            <include refid="Common.criteria_Where_Clause" />
+        </if>
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+    
+    
+    
+</mapper>
+

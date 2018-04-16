@@ -1,0 +1,1021 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="Company">
+    
+    <resultMap id="companyResult" type="company">
+        <result property="id" column="id" />
+        <result property="code" column="code" />
+        <result property="name" column="name" />
+        <result property="type" column="type" />
+        <result property="logo" column="logo" />
+        <result property="province" column="province" />
+        <result property="city" column="city" />
+        <result property="county" column="county" />
+        <result property="street" column="street" />
+        <result property="address" column="address" />
+        <result property="phone" column="phone" />
+        <result property="fax" column="fax" />
+        <result property="mobile" column="mobile" />
+        <result property="email" column="email" />
+        <result property="wechatNo" column="wechatNo" />
+        <result property="customerNo" column="customerNo" />
+        <result property="registerdCapital" column="registerdCapital" />
+        <result property="businessLicenceNo" column="businessLicenceNo" />
+        <result property="organizationNo" column="organizationNo" />
+        <result property="taxRegistrationNo" column="taxRegistrationNo" />
+        <result property="defaultWarehouseCode" column="defaultWarehouseCode" />
+        <result property="defaultExpressCode" column="defaultExpressCode" />
+        <result property="smtpAdress" column="smtpAdress" />
+        <result property="smtpPort" column="smtpPort" />
+        <result property="smtpSengder" column="smtpSengder" />
+        <result property="smtpAuth" column="smtpAuth" />
+        <result property="smtpUser" column="smtpUser" />
+        <result property="smtpPassword" column="smtpPassword" />
+        <result property="serviceCompanyCode" column="serviceCompanyCode" />
+        <result property="warehouseAddress" column="warehouseAddress" />
+        <result property="coopModel" column="coopModel" />
+        <result property="paymentModel" column="paymentModel" />
+        <result property="contractValidDate" column="contractValidDate" />
+        <result property="contractNo" column="contractNo" />
+        <result property="qq" column="qq" />
+        <result property="string1" column="String1" />
+        <result property="string2" column="String2" />
+        <result property="string3" column="String3" />
+        <result property="string4" column="String4" />
+        <result property="string5" column="String5" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+        <result property="subDomain" column="subDomain" />
+    </resultMap>
+    
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="companyColumns">
+        <![CDATA[
+        T1.id,
+        T1.code,
+        T1.name,
+        T1.type,
+        T1.logo,
+        T1.province,
+        T1.city,
+        T1.county,
+        T1.street,
+        T1.address,
+        T1.phone,
+        T1.fax,
+        T1.mobile,
+        T1.email,
+        T1.wechatNo,
+        T1.customerNo,
+        T1.registerdCapital,
+        T1.businessLicenceNo,
+        T1.organizationNo,
+        T1.taxRegistrationNo,
+        T1.defaultWarehouseCode,
+        T1.defaultExpressCode,
+        T1.smtpAdress,
+        T1.smtpPort,
+        T1.smtpSengder,
+        T1.smtpAuth,
+        T1.smtpUser,
+        T1.smtpPassword,
+        T1.serviceCompanyCode,
+        T1.warehouseAddress,
+        T1.coopModel,
+        T1.paymentModel,
+        T1.contractValidDate,
+        T1.contractNo,
+        T1.qq,
+        T1.String1,
+        T1.String2,
+        T1.String3,
+        T1.String4,
+        T1.String5,
+        T1.deleteYn,
+        T1.disabledYn,
+        T1.createUser,
+        T1.createTime,
+        T1.updateUser,
+        T1.updateTime,
+        T1.subDomain
+        ]]>
+    </sql>
+    
+    <!-- 查询from -->
+    <sql id="dynamicFrom">
+        FROM TBL_Company T1
+    </sql>
+    
+    <!-- 查询选择colum -->
+    <sql id="dynamicSelect">
+        SELECT
+        <include refid="companyColumns" />
+        <include refid="dynamicFrom" />
+    </sql>
+    
+    <!-- 查询条件 -->
+    <sql id="dynamicCondition">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用framework中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <if test="id != null">
+            AND T1.id = #{id}
+        </if>
+        <if test="idEx != null">
+            AND T1.id != #{idEx}
+        </if>
+        <if test="@Ognl@isNotEmpty(code)">
+            AND T1.code = #{code}
+        </if>
+        <if test="@Ognl@isNotEmpty(name)">
+            AND T1.name = #{name}
+        </if>
+        <if test="@Ognl@isNotEmpty(type)">
+            AND T1.type = #{type}
+        </if>
+        <if test="@Ognl@isNotEmpty(logo)">
+            AND T1.logo = #{logo}
+        </if>
+        <if test="@Ognl@isNotEmpty(province)">
+            AND T1.province = #{province}
+        </if>
+        <if test="@Ognl@isNotEmpty(city)">
+            AND T1.city = #{city}
+        </if>
+        <if test="@Ognl@isNotEmpty(county)">
+            AND T1.county = #{county}
+        </if>
+        <if test="@Ognl@isNotEmpty(street)">
+            AND T1.street = #{street}
+        </if>
+        <if test="@Ognl@isNotEmpty(address)">
+            AND T1.address = #{address}
+        </if>
+        <if test="@Ognl@isNotEmpty(phone)">
+            AND T1.phone = #{phone}
+        </if>
+        <if test="@Ognl@isNotEmpty(fax)">
+            AND T1.fax = #{fax}
+        </if>
+        <if test="@Ognl@isNotEmpty(mobile)">
+            AND T1.mobile = #{mobile}
+        </if>
+        <if test="@Ognl@isNotEmpty(email)">
+            AND T1.email = #{email}
+        </if>
+        <if test="@Ognl@isNotEmpty(wechatNo)">
+            AND T1.wechatNo = #{wechatNo}
+        </if>
+        <if test="@Ognl@isNotEmpty(customerNo)">
+            AND T1.customerNo = #{customerNo}
+        </if>
+        <if test="@Ognl@isNotEmpty(registerdCapital)">
+            AND T1.registerdCapital = #{registerdCapital}
+        </if>
+        <if test="@Ognl@isNotEmpty(businessLicenceNo)">
+            AND T1.businessLicenceNo = #{businessLicenceNo}
+        </if>
+        <if test="@Ognl@isNotEmpty(organizationNo)">
+            AND T1.organizationNo = #{organizationNo}
+        </if>
+        <if test="@Ognl@isNotEmpty(taxRegistrationNo)">
+            AND T1.taxRegistrationNo = #{taxRegistrationNo}
+        </if>
+        <if test="@Ognl@isNotEmpty(defaultWarehouseCode)">
+            AND T1.defaultWarehouseCode = #{defaultWarehouseCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(defaultExpressCode)">
+            AND T1.defaultExpressCode = #{defaultExpressCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(smtpAdress)">
+            AND T1.smtpAdress = #{smtpAdress}
+        </if>
+        <if test="@Ognl@isNotEmpty(smtpPort)">
+            AND T1.smtpPort = #{smtpPort}
+        </if>
+        <if test="@Ognl@isNotEmpty(smtpSengder)">
+            AND T1.smtpSengder = #{smtpSengder}
+        </if>
+        <if test="@Ognl@isNotEmpty(smtpAuth)">
+            AND T1.smtpAuth = #{smtpAuth}
+        </if>
+        <if test="@Ognl@isNotEmpty(smtpUser)">
+            AND T1.smtpUser = #{smtpUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(smtpPassword)">
+            AND T1.smtpPassword = #{smtpPassword}
+        </if>
+        <if test="@Ognl@isNotEmpty(serviceCompanyCode)">
+            AND T1.serviceCompanyCode = #{serviceCompanyCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(warehouseAddress)">
+            AND T1.warehouseAddress = #{warehouseAddress}
+        </if>
+        <if test="@Ognl@isNotEmpty(coopModel)">
+            AND T1.coopModel = #{coopModel}
+        </if>
+        <if test="@Ognl@isNotEmpty(paymentModel)">
+            AND T1.paymentModel = #{paymentModel}
+        </if>
+        <if test="@Ognl@isNotEmpty(contractValidDate)">
+            AND T1.contractValidDate = #{contractValidDate}
+        </if>
+        <if test="@Ognl@isNotEmpty(contractNo)">
+            AND T1.contractNo = #{contractNo}
+        </if>
+        <if test="@Ognl@isNotEmpty(qq)">
+            AND T1.qq = #{qq}
+        </if>
+        <if test="@Ognl@isNotEmpty(string1)">
+            AND T1.String1 = #{string1}
+        </if>
+        <if test="@Ognl@isNotEmpty(string2)">
+            AND T1.String2 = #{string2}
+        </if>
+        <if test="@Ognl@isNotEmpty(string3)">
+            AND T1.String3 = #{string3}
+        </if>
+        <if test="@Ognl@isNotEmpty(string4)">
+            AND T1.String4 = #{string4}
+        </if>
+        <if test="@Ognl@isNotEmpty(string5)">
+            AND T1.String5 = #{string5}
+        </if>
+        <if test="@Ognl@isNotEmpty(deleteYn)">
+            AND T1.deleteYn = #{deleteYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(disabledYn)">
+            AND T1.disabledYn = #{disabledYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(createUser)">
+            AND T1.createUser = #{createUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(updateUser)">
+            AND T1.updateUser = #{updateUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(subDomain)">
+            AND T1.subDomain = #{subDomain}
+        </if>
+    </sql>
+    
+    <!-- 查询where条件 -->
+    <sql id="dynamicWhere">
+        <where>
+            <include refid="dynamicCondition" />
+        </where>
+    </sql>
+    
+    <!-- 查询where条件(map) -->
+    <sql id="dynamicWhereEx">
+        <where>
+            <include refid="dynamicCondition" />
+            <if test="@Ognl@isNotEmpty(createTimeBegin)">
+                <![CDATA[AND T1.createTime >= #{createTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeEnd)">
+                <![CDATA[AND T1.createTime < date_add(#{createTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+                <![CDATA[AND T1.updateTime >= #{updateTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+                <![CDATA[AND T1.updateTime < date_add(#{updateTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+              <if test="@Ognl@isNotEmpty(isnotsupplier)">
+                AND ( T1.type is not null AND T1.type != 'supplier' )
+            </if>
+             <if test="@Ognl@isNotEmpty(seachText)">
+                AND (
+                 T1.name  like     CONCAT(CONCAT('%', #{seachText}), '%')
+                
+               )
+            </if>
+        </where>
+    </sql>
+
+    <!-- 排序条件 -->
+    <sql id="dynamicOrderBy">
+        <choose>
+            <when test="@Ognl@isNotEmpty(orderBy)">
+                <trim suffix="" suffixOverrides="order by">
+                <foreach collection="orderBy" item="order" open="order by " separator="," close=" ">
+                <choose>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'code'">
+                        T1.code <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'name'">
+                        T1.name <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'type'">
+                        T1.type <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'logo'">
+                        T1.logo <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'province'">
+                        T1.province <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'city'">
+                        T1.city <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'county'">
+                        T1.county <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'street'">
+                        T1.street <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'address'">
+                        T1.address <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'phone'">
+                        T1.phone <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'fax'">
+                        T1.fax <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'mobile'">
+                        T1.mobile <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'email'">
+                        T1.email <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'wechatNo'">
+                        T1.wechatNo <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'customerNo'">
+                        T1.customerNo <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'registerdCapital'">
+                        T1.registerdCapital <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'businessLicenceNo'">
+                        T1.businessLicenceNo <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'organizationNo'">
+                        T1.organizationNo <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'taxRegistrationNo'">
+                        T1.taxRegistrationNo <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'defaultWarehouseCode'">
+                        T1.defaultWarehouseCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'defaultExpressCode'">
+                        T1.defaultExpressCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'smtpAdress'">
+                        T1.smtpAdress <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'smtpPort'">
+                        T1.smtpPort <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'smtpSengder'">
+                        T1.smtpSengder <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'smtpAuth'">
+                        T1.smtpAuth <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'smtpUser'">
+                        T1.smtpUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'smtpPassword'">
+                        T1.smtpPassword <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'serviceCompanyCode'">
+                        T1.serviceCompanyCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'warehouseAddress'">
+                        T1.warehouseAddress <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'coopModel'">
+                        T1.coopModel <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'paymentModel'">
+                        T1.paymentModel <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'contractValidDate'">
+                        T1.contractValidDate <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'contractNo'">
+                        T1.contractNo <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'qq'">
+                        T1.qq <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string1'">
+                        T1.String1 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string2'">
+                        T1.String2 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string3'">
+                        T1.String3 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string4'">
+                        T1.String4 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string5'">
+                        T1.String5 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'deleteYn'">
+                        T1.deleteYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'disabledYn'">
+                        T1.disabledYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createUser'">
+                        T1.createUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createTime'">
+                        T1.createTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateUser'">
+                        T1.updateUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateTime'">
+                        T1.updateTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'subDomain'">
+                        T1.subDomain <if test="!order.ascending"> desc </if>
+                    </when>
+                </choose>
+                </foreach>
+                </trim>
+            </when>
+            <otherwise>
+            order by T1.id desc
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 单条录入  -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO TBL_Company (
+            code ,
+            name ,
+            type ,
+            logo ,
+            province ,
+            city ,
+            county ,
+            street ,
+            address ,
+            phone ,
+            fax ,
+            mobile ,
+            email ,
+            wechatNo ,
+            customerNo ,
+            registerdCapital ,
+            businessLicenceNo ,
+            organizationNo ,
+            taxRegistrationNo ,
+            defaultWarehouseCode ,
+            defaultExpressCode ,
+            smtpAdress ,
+            smtpPort ,
+            smtpSengder ,
+            smtpAuth ,
+            smtpUser ,
+            smtpPassword ,
+            serviceCompanyCode ,
+            warehouseAddress ,
+            coopModel ,
+            paymentModel ,
+            contractValidDate ,
+            contractNo ,
+            qq ,
+            String1 ,
+            String2 ,
+            String3 ,
+            String4 ,
+            String5 ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime ,
+            subDomain 
+            ) VALUES (
+            #{code} ,
+            #{name} ,
+            #{type} ,
+            #{logo} ,
+            #{province} ,
+            #{city} ,
+            #{county} ,
+            #{street} ,
+            #{address} ,
+            #{phone} ,
+            #{fax} ,
+            #{mobile} ,
+            #{email} ,
+            #{wechatNo} ,
+            #{customerNo} ,
+            #{registerdCapital} ,
+            #{businessLicenceNo} ,
+            #{organizationNo} ,
+            #{taxRegistrationNo} ,
+            #{defaultWarehouseCode} ,
+            #{defaultExpressCode} ,
+            #{smtpAdress} ,
+            #{smtpPort} ,
+            #{smtpSengder} ,
+            #{smtpAuth} ,
+            #{smtpUser} ,
+            #{smtpPassword} ,
+            #{serviceCompanyCode} ,
+            #{warehouseAddress} ,
+            #{coopModel} ,
+            #{paymentModel} ,
+            #{contractValidDate} ,
+            #{contractNo} ,
+            #{qq} ,
+            #{string1} ,
+            #{string2} ,
+            #{string3} ,
+            #{string4} ,
+            #{string5} ,
+            #{deleteYn} ,
+            #{disabledYn} ,
+            #{createUser} ,
+            #{createTime} ,
+            #{updateUser} ,
+            #{updateTime} ,
+            #{subDomain} 
+            )
+        ]]>
+        <selectKey resultType="java.lang.Long"
+            order="AFTER"
+            keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    
+    <!-- 批量录入  -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO TBL_Company (
+            code ,
+            name ,
+            type ,
+            logo ,
+            province ,
+            city ,
+            county ,
+            street ,
+            address ,
+            phone ,
+            fax ,
+            mobile ,
+            email ,
+            wechatNo ,
+            customerNo ,
+            registerdCapital ,
+            businessLicenceNo ,
+            organizationNo ,
+            taxRegistrationNo ,
+            defaultWarehouseCode ,
+            defaultExpressCode ,
+            smtpAdress ,
+            smtpPort ,
+            smtpSengder ,
+            smtpAuth ,
+            smtpUser ,
+            smtpPassword ,
+            serviceCompanyCode ,
+            warehouseAddress ,
+            coopModel ,
+            paymentModel ,
+            contractValidDate ,
+            contractNo ,
+            qq ,
+            String1 ,
+            String2 ,
+            String3 ,
+            String4 ,
+            String5 ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime ,
+            subDomain 
+            ) 
+            VALUES 
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.code} ,
+            #{item.name} ,
+            #{item.type} ,
+            #{item.logo} ,
+            #{item.province} ,
+            #{item.city} ,
+            #{item.county} ,
+            #{item.street} ,
+            #{item.address} ,
+            #{item.phone} ,
+            #{item.fax} ,
+            #{item.mobile} ,
+            #{item.email} ,
+            #{item.wechatNo} ,
+            #{item.customerNo} ,
+            #{item.registerdCapital} ,
+            #{item.businessLicenceNo} ,
+            #{item.organizationNo} ,
+            #{item.taxRegistrationNo} ,
+            #{item.defaultWarehouseCode} ,
+            #{item.defaultExpressCode} ,
+            #{item.smtpAdress} ,
+            #{item.smtpPort} ,
+            #{item.smtpSengder} ,
+            #{item.smtpAuth} ,
+            #{item.smtpUser} ,
+            #{item.smtpPassword} ,
+            #{item.serviceCompanyCode} ,
+            #{item.warehouseAddress} ,
+            #{item.coopModel} ,
+            #{item.paymentModel} ,
+            #{item.contractValidDate} ,
+            #{item.contractNo} ,
+            #{item.qq} ,
+            #{item.string1} ,
+            #{item.string2} ,
+            #{item.string3} ,
+            #{item.string4} ,
+            #{item.string5} ,
+            #{item.deleteYn} ,
+            #{item.disabledYn} ,
+            #{item.createUser} ,
+            #{item.createTime} ,
+            #{item.updateUser} ,
+            #{item.updateTime} ,
+            #{item.subDomain} 
+            )
+        </foreach>
+    </insert>
+    
+    <!-- 单条修改  -->
+    <update id="update">
+        UPDATE TBL_Company
+        <set>
+            <if test="@Ognl@isNotEmpty(code)">
+                code = #{code},
+            </if>
+            <if test="@Ognl@isNotEmpty(name)">
+                name = #{name},
+            </if>
+            <if test="@Ognl@isNotEmpty(type)">
+                type = #{type},
+            </if>
+            <if test="@Ognl@isNotEmpty(logo)">
+                logo = #{logo},
+            </if>
+            <if test="@Ognl@isNotEmpty(province)">
+                province = #{province},
+            </if>
+            <if test="@Ognl@isNotEmpty(city)">
+                city = #{city},
+            </if>
+            <if test="@Ognl@isNotEmpty(county)">
+                county = #{county},
+            </if>
+            <if test="@Ognl@isNotEmpty(street)">
+                street = #{street},
+            </if>
+            <if test="@Ognl@isNotEmpty(address)">
+                address = #{address},
+            </if>
+            <if test="@Ognl@isNotEmpty(phone)">
+                phone = #{phone},
+            </if>
+            <if test="@Ognl@isNotEmpty(fax)">
+                fax = #{fax},
+            </if>
+            <if test="@Ognl@isNotEmpty(mobile)">
+                mobile = #{mobile},
+            </if>
+            <if test="@Ognl@isNotEmpty(email)">
+                email = #{email},
+            </if>
+            <if test="@Ognl@isNotEmpty(wechatNo)">
+                wechatNo = #{wechatNo},
+            </if>
+            <if test="@Ognl@isNotEmpty(customerNo)">
+                customerNo = #{customerNo},
+            </if>
+            <if test="@Ognl@isNotEmpty(registerdCapital)">
+                registerdCapital = #{registerdCapital},
+            </if>
+            <if test="@Ognl@isNotEmpty(businessLicenceNo)">
+                businessLicenceNo = #{businessLicenceNo},
+            </if>
+            <if test="@Ognl@isNotEmpty(organizationNo)">
+                organizationNo = #{organizationNo},
+            </if>
+            <if test="@Ognl@isNotEmpty(taxRegistrationNo)">
+                taxRegistrationNo = #{taxRegistrationNo},
+            </if>
+            <if test="@Ognl@isNotEmpty(defaultWarehouseCode)">
+                defaultWarehouseCode = #{defaultWarehouseCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(defaultExpressCode)">
+                defaultExpressCode = #{defaultExpressCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(smtpAdress)">
+                smtpAdress = #{smtpAdress},
+            </if>
+            <if test="@Ognl@isNotEmpty(smtpPort)">
+                smtpPort = #{smtpPort},
+            </if>
+            <if test="@Ognl@isNotEmpty(smtpSengder)">
+                smtpSengder = #{smtpSengder},
+            </if>
+            <if test="@Ognl@isNotEmpty(smtpAuth)">
+                smtpAuth = #{smtpAuth},
+            </if>
+            <if test="@Ognl@isNotEmpty(smtpUser)">
+                smtpUser = #{smtpUser},
+            </if>
+            <if test="@Ognl@isNotEmpty(smtpPassword)">
+                smtpPassword = #{smtpPassword},
+            </if>
+            <if test="@Ognl@isNotEmpty(serviceCompanyCode)">
+                serviceCompanyCode = #{serviceCompanyCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(warehouseAddress)">
+                warehouseAddress = #{warehouseAddress},
+            </if>
+            <if test="@Ognl@isNotEmpty(coopModel)">
+                coopModel = #{coopModel},
+            </if>
+            <if test="@Ognl@isNotEmpty(paymentModel)">
+                paymentModel = #{paymentModel},
+            </if>
+            <if test="@Ognl@isNotEmpty(contractValidDate)">
+                contractValidDate = #{contractValidDate},
+            </if>
+            <if test="@Ognl@isNotEmpty(contractNo)">
+                contractNo = #{contractNo},
+            </if>
+            <if test="@Ognl@isNotEmpty(qq)">
+                qq = #{qq},
+            </if>
+            <if test="@Ognl@isNotEmpty(string1)">
+                String1 = #{string1},
+            </if>
+            <if test="@Ognl@isNotEmpty(string2)">
+                String2 = #{string2},
+            </if>
+            <if test="@Ognl@isNotEmpty(string3)">
+                String3 = #{string3},
+            </if>
+            <if test="@Ognl@isNotEmpty(string4)">
+                String4 = #{string4},
+            </if>
+            <if test="@Ognl@isNotEmpty(string5)">
+                String5 = #{string5},
+            </if>
+            <if test="@Ognl@isNotEmpty(deleteYn)">
+                deleteYn = #{deleteYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(disabledYn)">
+                disabledYn = #{disabledYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(createUser)">
+                createUser = #{createUser},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateUser)">
+                updateUser = #{updateUser},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(subDomain)">
+                subDomain = #{subDomain}
+            </if>
+        </set>
+        WHERE 
+            id = #{id}
+    </update>
+    
+    <!-- 单条修改所有属性  -->
+    <update id="updateAll">
+    <![CDATA[
+        UPDATE TBL_Company SET
+            code = #{code} ,
+            name = #{name} ,
+            type = #{type} ,
+            logo = #{logo} ,
+            province = #{province} ,
+            city = #{city} ,
+            county = #{county} ,
+            street = #{street} ,
+            address = #{address} ,
+            phone = #{phone} ,
+            fax = #{fax} ,
+            mobile = #{mobile} ,
+            email = #{email} ,
+            wechatNo = #{wechatNo} ,
+            customerNo = #{customerNo} ,
+            registerdCapital = #{registerdCapital} ,
+            businessLicenceNo = #{businessLicenceNo} ,
+            organizationNo = #{organizationNo} ,
+            taxRegistrationNo = #{taxRegistrationNo} ,
+            defaultWarehouseCode = #{defaultWarehouseCode} ,
+            defaultExpressCode = #{defaultExpressCode} ,
+            smtpAdress = #{smtpAdress} ,
+            smtpPort = #{smtpPort} ,
+            smtpSengder = #{smtpSengder} ,
+            smtpAuth = #{smtpAuth} ,
+            smtpUser = #{smtpUser} ,
+            smtpPassword = #{smtpPassword} ,
+            serviceCompanyCode = #{serviceCompanyCode} ,
+            warehouseAddress = #{warehouseAddress} ,
+            coopModel = #{coopModel} ,
+            paymentModel = #{paymentModel} ,
+            contractValidDate = #{contractValidDate} ,
+            contractNo = #{contractNo} ,
+            qq = #{qq} ,
+            String1 = #{string1} ,
+            String2 = #{string2} ,
+            String3 = #{string3} ,
+            String4 = #{string4} ,
+            String5 = #{string5} ,
+            deleteYn = #{deleteYn} ,
+            disabledYn = #{disabledYn} ,
+            createUser = #{createUser} ,
+            createTime = #{createTime} ,
+            updateUser = #{updateUser} ,
+            updateTime = #{updateTime} ,
+            subDomain = #{subDomain} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <!-- 删除主键  -->
+    <delete id="deleteByPK">
+    <![CDATA[
+        DELETE FROM TBL_Company WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <!-- 删除主键数组  -->
+    <delete id="deleteByArrPK" parameterType="java.util.List">
+        <![CDATA[DELETE FROM TBL_Company WHERE]]>
+        <foreach collection="list" item="item" index="index" open="id in (" separator="," close=")">
+            <![CDATA[#{item}]]>
+        </foreach>
+    </delete>
+    
+    <!-- 删除条件  -->
+    <delete id="delete">
+        <![CDATA[DELETE T1 FROM TBL_Company T1 ]]>
+        <include refid="dynamicWhere" />
+    </delete>
+    
+    <!-- 主键查询  -->
+    <select id="selectByPK" parameterType="java.lang.Long" resultMap="companyResult">
+        <include refid="dynamicSelect" />
+        <![CDATA[
+            WHERE 
+            T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在主键 -->
+    <select id="existsByPK" parameterType="java.lang.Long"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <![CDATA[
+        WHERE
+        T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在对象 -->
+    <select id="exists" parameterType="company"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数 -->
+    <select id="count" resultType="int">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数参数Map -->
+    <select id="countByMap" resultType="int" parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询数量 -->
+    <select id="pageCount" resultType="int"
+        parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询 -->
+    <select id="pageQuery" resultMap="companyResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+
+    <!-- 查询条件Map -->
+    <select id="selectByMap" resultMap="companyResult"
+        parameterType="map">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+    </select>
+
+    <!-- 查询条件对象 -->
+    <select id="select" resultMap="companyResult"
+        parameterType="company">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhere" />
+        order by T1.id desc
+    </select>
+
+    <!-- 查询条件拼接 -->
+    <select id="selectByCriteria" resultMap="companyResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <if test="_parameter != null">
+            <include refid="Common.criteria_Where_Clause" />
+        </if>
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+    
+    
+     <!-- EX -->
+     <select id="getByCode" resultMap="companyResult"
+        parameterType="string">
+        <include refid="dynamicSelect" />
+         <where>
+           T1.code = #{companyCode}
+           and T1.deleteYn='0'
+         </where>
+    </select>
+    
+    <select id="getMaxCatCode" resultType="java.lang.String"
+        parameterType="java.lang.String">
+      select  code  from TBL_Company  T1  WHERE
+         T1.id = (select max(id) from TBL_Company )
+        order by id desc
+    </select>
+    
+    
+    <select id="getCompanyByCustomName" resultMap="companyResult"
+        parameterType="String">
+      select T3.* from TBL_Customer_Info T1,TBL_Login_Info T2
+LEFT JOIN TBL_Company T3 on T2.companyCode = T3.code and T3.disabledYn='0' and T3.deleteYn='0'
+ where T1.id=T2.customerId and T1.name=#{customerName}
+  and T1.disabledYn='0' and T1.deleteYn='0' and T2.disabledYn='0' and T2.deleteYn='0'
+    </select>
+    
+    
+     <select id="getCompanyByCardno" resultMap="companyResult"
+        parameterType="String">
+       select T2.* from TBL_Card T1
+       LEFT JOIN TBL_Company T2 on T1.companyCode = T2.code and T2.disabledYn='0' and T2.deleteYn='0'
+       where T1.no=#{cardno} and T1.disabledYn='0' and T1.deleteYn='0' 
+
+    </select>
+    
+</mapper>
+

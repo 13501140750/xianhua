@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="Common">
+    
+    <sql id="criteria_Where_Clause">
+        <where>
+        <foreach collection="andConditions" item="condition" open=" " separator="or" close="  ">
+            <if test="condition.valid">
+                (
+                <trim prefixOverrides="and">
+                <foreach collection="condition.criteriaWithoutValue" item="criteriaWithoutValue" open=" " separator="and" close="  ">
+${criteriaWithoutValue}                </foreach>
+                <trim prefix="and">
+                <foreach collection="condition.criteriaWithSingleValue" item="criteriaWithSingleValue" open=" " separator="and" close="  ">
+${criteriaWithSingleValue.condition}#{criteriaWithSingleValue.value}                </foreach>
+                </trim>
+                <trim prefix="and">
+                <foreach collection="condition.criteriaWithListValue" item="criteriaWithListValue" open=" " separator="and" close="  ">
+${criteriaWithListValue.condition}                 <foreach collection="criteriaWithListValue.value" item="item" open="(" separator="," close=" )">
+#{item}                 </foreach>
+                </foreach>
+                </trim>
+                <trim prefix="and">
+                <foreach collection="condition.criteriaWithBetweenValue" item="criteriaWithBetweenValue" open=" " separator="and" close="  ">
+${criteriaWithBetweenValue.condition}                <foreach collection="criteriaWithBetweenValue.value" item="item" open="" separator="and" close=" ">
+#{item}                </foreach>
+                </foreach>
+                </trim>
+                </trim>
+                )
+            </if>
+        </foreach>
+        </where>
+    </sql>
+    
+    <sql id="Common.pageStart">
+        <if test="@Ognl@isNotEmpty(limit)">
+            <if test="limit.end > 0">
+            <![CDATA[
+               select row_.* from (
+              ]]>
+            </if>
+        </if>
+    </sql>
+    
+    <sql id="Common.pageEnd">
+        <if test="@Ognl@isNotEmpty(limit)">
+            <if test="limit.end > 0">
+            <![CDATA[
+               ) row_ limit #{limit.start}, #{limit.pageSize}
+              ]]>
+            </if>
+        </if>
+    </sql>
+    
+</mapper>

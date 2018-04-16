@@ -1,0 +1,785 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="Refund">
+    
+    <resultMap id="refundResult" type="refund">
+        <result property="id" column="id" />
+        <result property="orderCode" column="orderCode" />
+        <result property="subOrderCode" column="subOrderCode" />
+        <result property="refundCode" column="refundCode" />
+        <result property="customerName" column="customerName" />
+        <result property="refundTime" column="refundTime" />
+        <result property="refundStatus" column="refundStatus" />
+        <result property="refundReason" column="refundReason" />
+        <result property="refundPrice" column="refundPrice" />
+        <result property="refundType" column="refundType" />
+        <result property="refundPhase" column="refundPhase" />
+        <result property="attch1" column="attch1" />
+        <result property="attch2" column="attch2" />
+        <result property="attch3" column="attch3" />
+        <result property="comment" column="comment" />
+        <result property="productCode" column="productCode" />
+        <result property="feightCompany" column="feightCompany" />
+        <result property="feightNum" column="feightNum" />
+        <result property="againSales" column="againSales" />
+        <result property="string1" column="string1" />
+        <result property="string2" column="string2" />
+        <result property="string3" column="string3" />
+        <result property="string4" column="string4" />
+        <result property="string5" column="string5" />
+        <result property="string6" column="string6" />
+        <result property="string7" column="string7" />
+        <result property="string8" column="string8" />
+        <result property="string9" column="string9" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+    </resultMap>
+    
+    
+     <resultMap id="refundResultEx" type="refund" extends="refundResult">
+        <association property="exchangeOrder" column="orderCode" select="ExchangeOrder.selectOrderByOrderCode"></association>
+        <association property="detailList" column="{orderCode=orderCode,subOrderCode=subOrderCode}" select="ExchangeOrderDetail.selectOrderDetailForRefund"></association>
+     </resultMap>
+     
+     <resultMap id="refundResultWithAttch" type="refund" extends="refundResult">
+        <association property="attchObj1" column="attch1" select="Attch.selectByPK"></association>
+        <association property="attchObj2" column="attch2" select="Attch.selectByPK"></association>
+        <association property="attchObj3" column="attch3" select="Attch.selectByPK"></association>
+     </resultMap>
+    
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="refundColumns">
+        <![CDATA[
+        T1.id,
+        T1.orderCode,
+        T1.subOrderCode,
+        T1.refundCode,
+        T1.customerName,
+        T1.refundTime,
+        T1.refundStatus,
+        T1.refundReason,
+        T1.refundPrice,
+        T1.refundType,
+        T1.refundPhase,
+        T1.attch1,
+        T1.attch2,
+        T1.attch3,
+        T1.comment,
+        T1.productCode,
+        T1.feightCompany,
+        T1.feightNum,
+        T1.againSales,
+        T1.string1,
+        T1.string2,
+        T1.string3,
+        T1.string4,
+        T1.string5,
+        T1.string6,
+        T1.string7,
+        T1.string8,
+        T1.string9,
+        T1.deleteYn,
+        T1.disabledYn,
+        T1.createUser,
+        T1.createTime,
+        T1.updateUser,
+        T1.updateTime
+        ]]>
+    </sql>
+    
+    <!-- 查询from -->
+    <sql id="dynamicFrom">
+        FROM TBL_Refund T1
+    </sql>
+    
+    <!-- 查询选择colum -->
+    <sql id="dynamicSelect">
+        SELECT
+        <include refid="refundColumns" />
+        <include refid="dynamicFrom" />
+    </sql>
+    
+    <!-- 查询条件 -->
+    <sql id="dynamicCondition">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用framework中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <if test="id != null">
+            AND T1.id = #{id}
+        </if>
+        <if test="idEx != null">
+            AND T1.id != #{idEx}
+        </if>
+        <if test="@Ognl@isNotEmpty(orderCode)">
+            AND T1.orderCode = #{orderCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(subOrderCode)">
+            AND T1.subOrderCode = #{subOrderCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(refundCode)">
+            AND T1.refundCode = #{refundCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(customerName)">
+            AND T1.customerName = #{customerName}
+        </if>
+        <if test="@Ognl@isNotEmpty(refundStatus)">
+            AND T1.refundStatus = #{refundStatus}
+        </if>
+        <if test="@Ognl@isNotEmpty(refundReason)">
+            AND T1.refundReason = #{refundReason}
+        </if>
+        <if test="refundPrice != null">
+            AND T1.refundPrice = #{refundPrice}
+        </if>
+        <if test="@Ognl@isNotEmpty(refundType)">
+            AND T1.refundType = #{refundType}
+        </if>
+        <if test="@Ognl@isNotEmpty(refundPhase)">
+            AND T1.refundPhase = #{refundPhase}
+        </if>
+        <if test="@Ognl@isNotEmpty(attch1)">
+            AND T1.attch1 = #{attch1}
+        </if>
+        <if test="@Ognl@isNotEmpty(attch2)">
+            AND T1.attch2 = #{attch2}
+        </if>
+        <if test="@Ognl@isNotEmpty(attch3)">
+            AND T1.attch3 = #{attch3}
+        </if>
+        <if test="@Ognl@isNotEmpty(comment)">
+            AND T1.comment = #{comment}
+        </if>
+        <if test="@Ognl@isNotEmpty(productCode)">
+            AND T1.productCode = #{productCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(feightCompany)">
+            AND T1.feightCompany = #{feightCompany}
+        </if>
+        <if test="@Ognl@isNotEmpty(feightNum)">
+            AND T1.feightNum = #{feightNum}
+        </if>
+        <if test="@Ognl@isNotEmpty(againSales)">
+            AND T1.againSales = #{againSales}
+        </if>
+        <if test="@Ognl@isNotEmpty(string1)">
+            AND T1.string1 = #{string1}
+        </if>
+        <if test="@Ognl@isNotEmpty(string2)">
+            AND T1.string2 = #{string2}
+        </if>
+        <if test="@Ognl@isNotEmpty(string3)">
+            AND T1.string3 = #{string3}
+        </if>
+        <if test="@Ognl@isNotEmpty(string4)">
+            AND T1.string4 = #{string4}
+        </if>
+        <if test="@Ognl@isNotEmpty(string5)">
+            AND T1.string5 = #{string5}
+        </if>
+        <if test="@Ognl@isNotEmpty(string6)">
+            AND T1.string6 = #{string6}
+        </if>
+        <if test="@Ognl@isNotEmpty(string7)">
+            AND T1.string7 = #{string7}
+        </if>
+        <if test="@Ognl@isNotEmpty(string8)">
+            AND T1.string8 = #{string8}
+        </if>
+        <if test="@Ognl@isNotEmpty(string9)">
+            AND T1.string9 = #{string9}
+        </if>
+        <if test="@Ognl@isNotEmpty(deleteYn)">
+            AND T1.deleteYn = #{deleteYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(disabledYn)">
+            AND T1.disabledYn = #{disabledYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(createUser)">
+            AND T1.createUser = #{createUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(updateUser)">
+            AND T1.updateUser = #{updateUser}
+        </if>
+    </sql>
+    
+    <!-- 查询where条件 -->
+    <sql id="dynamicWhere">
+        <where>
+            <include refid="dynamicCondition" />
+        </where>
+    </sql>
+    
+    <!-- 查询where条件(map) -->
+    <sql id="dynamicWhereEx">
+        <where>
+            <include refid="dynamicCondition" />
+            <if test="@Ognl@isNotEmpty(refundTimeBegin)">
+                <![CDATA[AND T1.refundTime >= #{refundTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(refundTimeEnd)">
+                <![CDATA[AND T1.refundTime < date_add(#{refundTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeBegin)">
+                <![CDATA[AND T1.createTime >= #{createTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeEnd)">
+                <![CDATA[AND T1.createTime < date_add(#{createTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+                <![CDATA[AND T1.updateTime >= #{updateTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+                <![CDATA[AND T1.updateTime < date_add(#{updateTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+        </where>
+    </sql>
+
+    <!-- 排序条件 -->
+    <sql id="dynamicOrderBy">
+        <choose>
+            <when test="@Ognl@isNotEmpty(orderBy)">
+                <trim suffix="" suffixOverrides="order by">
+                <foreach collection="orderBy" item="order" open="order by " separator="," close=" ">
+                <choose>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'orderCode'">
+                        T1.orderCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'subOrderCode'">
+                        T1.subOrderCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'refundCode'">
+                        T1.refundCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'customerName'">
+                        T1.customerName <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'refundTime'">
+                        T1.refundTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'refundStatus'">
+                        T1.refundStatus <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'refundReason'">
+                        T1.refundReason <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'refundPrice'">
+                        T1.refundPrice <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'refundType'">
+                        T1.refundType <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'refundPhase'">
+                        T1.refundPhase <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'attch1'">
+                        T1.attch1 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'attch2'">
+                        T1.attch2 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'attch3'">
+                        T1.attch3 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'comment'">
+                        T1.comment <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'productCode'">
+                        T1.productCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'feightCompany'">
+                        T1.feightCompany <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'feightNum'">
+                        T1.feightNum <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'againSales'">
+                        T1.againSales <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string1'">
+                        T1.string1 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string2'">
+                        T1.string2 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string3'">
+                        T1.string3 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string4'">
+                        T1.string4 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string5'">
+                        T1.string5 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string6'">
+                        T1.string6 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string7'">
+                        T1.string7 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string8'">
+                        T1.string8 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string9'">
+                        T1.string9 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'deleteYn'">
+                        T1.deleteYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'disabledYn'">
+                        T1.disabledYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createUser'">
+                        T1.createUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createTime'">
+                        T1.createTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateUser'">
+                        T1.updateUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateTime'">
+                        T1.updateTime <if test="!order.ascending"> desc </if>
+                    </when>
+                </choose>
+                </foreach>
+                </trim>
+            </when>
+            <otherwise>
+            order by T1.id desc
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 单条录入  -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO TBL_Refund (
+            orderCode ,
+            subOrderCode ,
+            refundCode ,
+            customerName ,
+            refundTime ,
+            refundStatus ,
+            refundReason ,
+            refundPrice ,
+            refundType ,
+            refundPhase ,
+            attch1 ,
+            attch2 ,
+            attch3 ,
+            comment ,
+            productCode ,
+            feightCompany ,
+            feightNum ,
+            againSales ,
+            string1 ,
+            string2 ,
+            string3 ,
+            string4 ,
+            string5 ,
+            string6 ,
+            string7 ,
+            string8 ,
+            string9 ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime 
+            ) VALUES (
+            #{orderCode} ,
+            #{subOrderCode} ,
+            #{refundCode} ,
+            #{customerName} ,
+            #{refundTime} ,
+            #{refundStatus} ,
+            #{refundReason} ,
+            #{refundPrice} ,
+            #{refundType} ,
+            #{refundPhase} ,
+            #{attch1} ,
+            #{attch2} ,
+            #{attch3} ,
+            #{comment} ,
+            #{productCode} ,
+            #{feightCompany} ,
+            #{feightNum} ,
+            #{againSales} ,
+            #{string1} ,
+            #{string2} ,
+            #{string3} ,
+            #{string4} ,
+            #{string5} ,
+            #{string6} ,
+            #{string7} ,
+            #{string8} ,
+            #{string9} ,
+            #{deleteYn} ,
+            #{disabledYn} ,
+            #{createUser} ,
+            #{createTime} ,
+            #{updateUser} ,
+            #{updateTime} 
+            )
+        ]]>
+        <selectKey resultType="java.lang.Integer"
+            order="AFTER"
+            keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    
+    <!-- 批量录入  -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO TBL_Refund (
+            orderCode ,
+            subOrderCode ,
+            refundCode ,
+            customerName ,
+            refundTime ,
+            refundStatus ,
+            refundReason ,
+            refundPrice ,
+            refundType ,
+            refundPhase ,
+            attch1 ,
+            attch2 ,
+            attch3 ,
+            comment ,
+            productCode ,
+            feightCompany ,
+            feightNum ,
+            againSales ,
+            string1 ,
+            string2 ,
+            string3 ,
+            string4 ,
+            string5 ,
+            string6 ,
+            string7 ,
+            string8 ,
+            string9 ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime 
+            ) 
+            VALUES 
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.orderCode} ,
+            #{item.subOrderCode} ,
+            #{item.refundCode} ,
+            #{item.customerName} ,
+            #{item.refundTime} ,
+            #{item.refundStatus} ,
+            #{item.refundReason} ,
+            #{item.refundPrice} ,
+            #{item.refundType} ,
+            #{item.refundPhase} ,
+            #{item.attch1} ,
+            #{item.attch2} ,
+            #{item.attch3} ,
+            #{item.comment} ,
+            #{item.productCode} ,
+            #{item.feightCompany} ,
+            #{item.feightNum} ,
+            #{item.againSales} ,
+            #{item.string1} ,
+            #{item.string2} ,
+            #{item.string3} ,
+            #{item.string4} ,
+            #{item.string5} ,
+            #{item.string6} ,
+            #{item.string7} ,
+            #{item.string8} ,
+            #{item.string9} ,
+            #{item.deleteYn} ,
+            #{item.disabledYn} ,
+            #{item.createUser} ,
+            #{item.createTime} ,
+            #{item.updateUser} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+    
+    <!-- 单条修改  -->
+    <update id="update">
+        UPDATE TBL_Refund
+        <set>
+            <if test="@Ognl@isNotEmpty(orderCode)">
+                orderCode = #{orderCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(subOrderCode)">
+                subOrderCode = #{subOrderCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(refundCode)">
+                refundCode = #{refundCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(customerName)">
+                customerName = #{customerName},
+            </if>
+            <if test="refundTime != null">
+                refundTime = #{refundTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(refundStatus)">
+                refundStatus = #{refundStatus},
+            </if>
+            <if test="@Ognl@isNotEmpty(refundReason)">
+                refundReason = #{refundReason},
+            </if>
+            <if test="refundPrice != null">
+                refundPrice = #{refundPrice},
+            </if>
+            <if test="@Ognl@isNotEmpty(refundType)">
+                refundType = #{refundType},
+            </if>
+            <if test="@Ognl@isNotEmpty(refundPhase)">
+                refundPhase = #{refundPhase},
+            </if>
+            <if test="@Ognl@isNotEmpty(attch1)">
+                attch1 = #{attch1},
+            </if>
+            <if test="@Ognl@isNotEmpty(attch2)">
+                attch2 = #{attch2},
+            </if>
+            <if test="@Ognl@isNotEmpty(attch3)">
+                attch3 = #{attch3},
+            </if>
+            <if test="@Ognl@isNotEmpty(comment)">
+                comment = #{comment},
+            </if>
+            <if test="@Ognl@isNotEmpty(productCode)">
+                productCode = #{productCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(feightCompany)">
+                feightCompany = #{feightCompany},
+            </if>
+            <if test="@Ognl@isNotEmpty(feightNum)">
+                feightNum = #{feightNum},
+            </if>
+            <if test="@Ognl@isNotEmpty(againSales)">
+                againSales = #{againSales},
+            </if>
+            <if test="@Ognl@isNotEmpty(string1)">
+                string1 = #{string1},
+            </if>
+            <if test="@Ognl@isNotEmpty(string2)">
+                string2 = #{string2},
+            </if>
+            <if test="@Ognl@isNotEmpty(string3)">
+                string3 = #{string3},
+            </if>
+            <if test="@Ognl@isNotEmpty(string4)">
+                string4 = #{string4},
+            </if>
+            <if test="@Ognl@isNotEmpty(string5)">
+                string5 = #{string5},
+            </if>
+            <if test="@Ognl@isNotEmpty(string6)">
+                string6 = #{string6},
+            </if>
+            <if test="@Ognl@isNotEmpty(string7)">
+                string7 = #{string7},
+            </if>
+            <if test="@Ognl@isNotEmpty(string8)">
+                string8 = #{string8},
+            </if>
+            <if test="@Ognl@isNotEmpty(string9)">
+                string9 = #{string9},
+            </if>
+            <if test="@Ognl@isNotEmpty(deleteYn)">
+                deleteYn = #{deleteYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(disabledYn)">
+                disabledYn = #{disabledYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(createUser)">
+                createUser = #{createUser},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateUser)">
+                updateUser = #{updateUser},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime}
+            </if>
+        </set>
+        WHERE 
+            id = #{id}
+    </update>
+    
+    <!-- 单条修改所有属性  -->
+    <update id="updateAll">
+    <![CDATA[
+        UPDATE TBL_Refund SET
+            orderCode = #{orderCode} ,
+            subOrderCode = #{subOrderCode} ,
+            refundCode = #{refundCode} ,
+            customerName = #{customerName} ,
+            refundTime = #{refundTime} ,
+            refundStatus = #{refundStatus} ,
+            refundReason = #{refundReason} ,
+            refundPrice = #{refundPrice} ,
+            refundType = #{refundType} ,
+            refundPhase = #{refundPhase} ,
+            attch1 = #{attch1} ,
+            attch2 = #{attch2} ,
+            attch3 = #{attch3} ,
+            comment = #{comment} ,
+            productCode = #{productCode} ,
+            feightCompany = #{feightCompany} ,
+            feightNum = #{feightNum} ,
+            againSales = #{againSales} ,
+            string1 = #{string1} ,
+            string2 = #{string2} ,
+            string3 = #{string3} ,
+            string4 = #{string4} ,
+            string5 = #{string5} ,
+            string6 = #{string6} ,
+            string7 = #{string7} ,
+            string8 = #{string8} ,
+            string9 = #{string9} ,
+            deleteYn = #{deleteYn} ,
+            disabledYn = #{disabledYn} ,
+            createUser = #{createUser} ,
+            createTime = #{createTime} ,
+            updateUser = #{updateUser} ,
+            updateTime = #{updateTime} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <!-- 删除主键  -->
+    <delete id="deleteByPK">
+    <![CDATA[
+        DELETE FROM TBL_Refund WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <!-- 删除主键数组  -->
+    <delete id="deleteByArrPK" parameterType="java.util.List">
+        <![CDATA[DELETE FROM TBL_Refund WHERE]]>
+        <foreach collection="list" item="item" index="index" open="id in (" separator="," close=")">
+            <![CDATA[#{item}]]>
+        </foreach>
+    </delete>
+    
+    <!-- 删除条件  -->
+    <delete id="delete">
+        <![CDATA[DELETE T1 FROM TBL_Refund T1 ]]>
+        <include refid="dynamicWhere" />
+    </delete>
+    
+    <!-- 主键查询  -->
+    <select id="selectByPK" parameterType="java.lang.Integer" resultMap="refundResultWithAttch">
+        <include refid="dynamicSelect" />
+        <![CDATA[
+            WHERE 
+            T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在主键 -->
+    <select id="existsByPK" parameterType="java.lang.Integer"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <![CDATA[
+        WHERE
+        T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在对象 -->
+    <select id="exists" parameterType="refund"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数 -->
+    <select id="count" resultType="int">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数参数Map -->
+    <select id="countByMap" resultType="int" parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询数量 -->
+    <select id="pageCount" resultType="int"
+        parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询 -->
+    <select id="pageQuery" resultMap="refundResultEx"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+
+    <!-- 查询条件Map -->
+    <select id="selectByMap" resultMap="refundResult"
+        parameterType="map">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+    </select>
+
+    <!-- 查询条件对象 -->
+    <select id="select" resultMap="refundResult"
+        parameterType="refund">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhere" />
+        order by T1.id desc
+    </select>
+
+    <!-- 查询条件拼接 -->
+    <select id="selectByCriteria" resultMap="refundResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <if test="_parameter != null">
+            <include refid="Common.criteria_Where_Clause" />
+        </if>
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+    
+    
+    
+</mapper>
+

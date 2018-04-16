@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- DBUnit flatXml DataFile -->
+<dataset>
+
+    <TBL_Product_Group
+        id='501'
+        groupPrdcode='GroupPrdcode106'
+        prdCode='PrdCode974'
+        deleteYn='1'
+        disabledYn='1'
+        createUser='CreateUser885'
+        createTime='2015-12-21 12:42:59.023'
+        updateUser='UpdateUser672'
+        updateTime='2015-12-21 12:42:59.023'
+    />
+
+    <TBL_Product_Group
+        id='994'
+        groupPrdcode='GroupPrdcode629'
+        prdCode='PrdCode062'
+        deleteYn='1'
+        disabledYn='1'
+        createUser='CreateUser489'
+        createTime='2015-12-21 12:42:59.023'
+        updateUser='UpdateUser651'
+        updateTime='2015-12-21 12:42:59.023'
+    />
+
+</dataset>

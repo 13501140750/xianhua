@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="LoginInfo">
+    
+    <resultMap id="loginInfoResult" type="loginInfo">
+        <result property="loginName" column="loginName" />
+        <result property="password" column="password" />
+        <result property="customerId" column="customerId" />
+        <result property="companyId" column="companyId" />
+        <result property="companyCode" column="companyCode" />
+        <result property="email" column="email" />
+        <result property="mobile" column="mobile" />
+        <result property="lastLoginTime" column="lastLoginTime" />
+        <result property="lastLoginIp" column="lastLoginIp" />
+        <result property="loginCount" column="loginCount" />
+        <result property="source" column="source" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+        <result property="validcode" column="validcode" />
+        <result property="expiredTime" column="expiredTime" />
+    </resultMap>
+    
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="loginInfoColumns">
+        <![CDATA[
+        T1.loginName,
+        T1.password,
+        T1.customerId,
+        T1.companyCode,
+        T1.companyId,
+        T1.email,
+        T1.mobile,
+        T1.lastLoginTime,
+        T1.lastLoginIp,
+        T1.loginCount,
+        T1.source,
+        T1.deleteYn,
+        T1.disabledYn,
+        T1.createUser,
+        T1.createTime,
+        T1.updateUser,
+        T1.updateTime,
+        T1.validcode,
+        T1.expiredTime
+        ]]>
+    </sql>
+    
+    <!-- 查询from -->
+    <sql id="dynamicFrom">
+        FROM TBL_Login_Info T1
+    </sql>
+    
+    <!-- 查询选择colum -->
+    <sql id="dynamicSelect">
+        SELECT
+        <include refid="loginInfoColumns" />
+        <include refid="dynamicFrom" />
+    </sql>
+    
+    <!-- 查询条件 -->
+    <sql id="dynamicCondition">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用framework中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <if test="@Ognl@isNotEmpty(loginName)">
+            AND T1.loginName = #{loginName}
+        </if>
+        <if test="@Ognl@isNotEmpty(loginNameEx)">
+            AND T1.loginName != #{loginNameEx}
+        </if>
+        <if test="@Ognl@isNotEmpty(password)">
+            AND T1.password = #{password}
+        </if>
+        <if test="customerId != null">
+            AND T1.customerId = #{customerId}
+        </if>
+        <if test="companyId != null">
+            AND T1.companyId = #{companyId}
+        </if>
+        <if test="companyCode != null">
+            AND T1.companyCode = #{companyCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(email)">
+            AND T1.email = #{email}
+        </if>
+        <if test="@Ognl@isNotEmpty(mobile)">
+            AND T1.mobile = #{mobile}
+        </if>
+        <if test="@Ognl@isNotEmpty(lastLoginIp)">
+            AND T1.lastLoginIp = #{lastLoginIp}
+        </if>
+        <if test="loginCount != null">
+            AND T1.loginCount = #{loginCount}
+        </if>
+        <if test="@Ognl@isNotEmpty(source)">
+            AND T1.source = #{source}
+        </if>
+        <if test="@Ognl@isNotEmpty(deleteYn)">
+            AND T1.deleteYn = #{deleteYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(disabledYn)">
+            AND T1.disabledYn = #{disabledYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(createUser)">
+            AND T1.createUser = #{createUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(updateUser)">
+            AND T1.updateUser = #{updateUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(validcode)">
+            AND T1.validcode = #{validcode}
+        </if>
+    </sql>
+    
+    <!-- 查询where条件 -->
+    <sql id="dynamicWhere">
+        <where>
+            <include refid="dynamicCondition" />
+        </where>
+    </sql>
+    
+    <!-- 查询where条件(map) -->
+    <sql id="dynamicWhereEx">
+        <where>
+            <include refid="dynamicCondition" />
+            <if test="@Ognl@isNotEmpty(lastLoginTimeBegin)">
+                <![CDATA[AND T1.lastLoginTime >= #{lastLoginTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(lastLoginTimeEnd)">
+                <![CDATA[AND T1.lastLoginTime < date_add(#{lastLoginTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeBegin)">
+                <![CDATA[AND T1.createTime >= #{createTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeEnd)">
+                <![CDATA[AND T1.createTime < date_add(#{createTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+                <![CDATA[AND T1.updateTime >= #{updateTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+                <![CDATA[AND T1.updateTime < date_add(#{updateTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(expiredTimeBegin)">
+                <![CDATA[AND T1.expiredTime >= #{expiredTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(expiredTimeEnd)">
+                <![CDATA[AND T1.expiredTime < date_add(#{expiredTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+        </where>
+    </sql>
+
+    <!-- 排序条件 -->
+    <sql id="dynamicOrderBy">
+        <choose>
+            <when test="@Ognl@isNotEmpty(orderBy)">
+                <trim suffix="" suffixOverrides="order by">
+                <foreach collection="orderBy" item="order" open="order by " separator="," close=" ">
+                <choose>
+                    <when test="order.propertyName == 'id'">
+                        T1.loginName <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'loginName'">
+                        T1.loginName <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'password'">
+                        T1.password <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'customerId'">
+                        T1.customerId <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'companyId'">
+                        T1.companyId <if test="!order.ascending"> desc </if>
+                    </when>
+                     <when test="order.propertyName == 'companyCode'">
+                        T1.companyCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    
+                    <when test="order.propertyName == 'email'">
+                        T1.email <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'mobile'">
+                        T1.mobile <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'lastLoginTime'">
+                        T1.lastLoginTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'lastLoginIp'">
+                        T1.lastLoginIp <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'loginCount'">
+                        T1.loginCount <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'source'">
+                        T1.source <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'deleteYn'">
+                        T1.deleteYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'disabledYn'">
+                        T1.disabledYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createUser'">
+                        T1.createUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createTime'">
+                        T1.createTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateUser'">
+                        T1.updateUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateTime'">
+                        T1.updateTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'validcode'">
+                        T1.validcode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'expiredTime'">
+                        T1.expiredTime <if test="!order.ascending"> desc </if>
+                    </when>
+                </choose>
+                </foreach>
+                </trim>
+            </when>
+            <otherwise>
+            order by T1.loginName desc
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 单条录入  -->
+    <insert id="insert">
+        <![CDATA[
+            INSERT INTO TBL_Login_Info (
+            loginName ,
+            password ,
+            customerId ,
+            companyId ,
+            companyCode,
+            email ,
+            mobile ,
+            lastLoginTime ,
+            lastLoginIp ,
+            loginCount ,
+            source ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime ,
+            validcode ,
+            expiredTime 
+            ) VALUES (
+            #{loginName} ,
+            #{password} ,
+            #{customerId} ,
+            #{companyId} ,
+            #{companyCode},
+            #{email} ,
+            #{mobile} ,
+            #{lastLoginTime} ,
+            #{lastLoginIp} ,
+            #{loginCount} ,
+            #{source} ,
+            #{deleteYn} ,
+            #{disabledYn} ,
+            #{createUser} ,
+            #{createTime} ,
+            #{updateUser} ,
+            #{updateTime} ,
+            #{validcode} ,
+            #{expiredTime} 
+            )
+        ]]>
+    </insert>
+    
+    <!-- 批量录入  -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO TBL_Login_Info (
+            loginName ,
+            password ,
+            customerId ,
+            companyId ,
+            companyCode,
+            email ,
+            mobile ,
+            lastLoginTime ,
+            lastLoginIp ,
+            loginCount ,
+            source ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime ,
+            validcode ,
+            expiredTime 
+            ) 
+            VALUES 
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.loginName} ,
+            #{item.password} ,
+            #{item.customerId} ,
+            #{item.companyId} ,
+            #{item.companyCode},
+            #{item.email} ,
+            #{item.mobile} ,
+            #{item.lastLoginTime} ,
+            #{item.lastLoginIp} ,
+            #{item.loginCount} ,
+            #{item.source} ,
+            #{item.deleteYn} ,
+            #{item.disabledYn} ,
+            #{item.createUser} ,
+            #{item.createTime} ,
+            #{item.updateUser} ,
+            #{item.updateTime} ,
+            #{item.validcode} ,
+            #{item.expiredTime} 
+            )
+        </foreach>
+    </insert>
+    
+    <!-- 单条修改  -->
+    <update id="update">
+        UPDATE TBL_Login_Info
+        <set>
+            <if test="@Ognl@isNotEmpty(password)">
+                password = #{password},
+            </if>
+            <if test="customerId != null">
+                customerId = #{customerId},
+            </if>
+            <if test="companyId != null">
+                companyId = #{companyId},
+            </if>
+            <if test="companyCode != null">
+                companyCode = #{companyCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(email)">
+                email = #{email},
+            </if>
+            <if test="@Ognl@isNotEmpty(mobile)">
+                mobile = #{mobile},
+            </if>
+            <if test="lastLoginTime != null">
+                lastLoginTime = #{lastLoginTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(lastLoginIp)">
+                lastLoginIp = #{lastLoginIp},
+            </if>
+            
+            <if test="loginCount != null">
+                loginCount = #{loginCount},
+            </if>
+             <if test="@Ognl@isNotEmpty(source)">
+                source = #{source},
+            </if>
+            <if test="@Ognl@isNotEmpty(deleteYn)">
+                deleteYn = #{deleteYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(disabledYn)">
+                disabledYn = #{disabledYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(createUser)">
+                createUser = #{createUser},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateUser)">
+                updateUser = #{updateUser},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime}
+            </if>
+            <if test="@Ognl@isNotEmpty(validcode)">
+                validcode = #{validcode},
+            </if>
+            <if test="expiredTime != null">
+                expiredTime = #{expiredTime}
+            </if>
+        </set>
+        WHERE 
+            loginName = #{loginName}
+            and companyCode = #{companyCode}
+    </update>
+    
+    <!-- 单条修改所有属性  -->
+    <update id="updateAll">
+    <![CDATA[
+        UPDATE TBL_Login_Info SET
+            password = #{password} ,
+            customerId = #{customerId} ,
+            companyId = #{companyId} ,
+            companyCode = #{companyCode} ,
+            email = #{email} ,
+            mobile = #{mobile} ,
+            lastLoginTime = #{lastLoginTime} ,
+            lastLoginIp = #{lastLoginIp} ,
+            loginCount = #{loginCount} ,
+            source = #{source} ,
+            deleteYn = #{deleteYn} ,
+            disabledYn = #{disabledYn} ,
+            createUser = #{createUser} ,
+            createTime = #{createTime} ,
+            updateUser = #{updateUser} ,
+            updateTime = #{updateTime} ,
+            validcode = #{validcode} ,
+            expiredTime = #{expiredTime} 
+        WHERE 
+            loginName = #{loginName} 
+            and companyCode = #{companyCode}
+    ]]>
+    </update>
+
+    <!-- 删除主键  -->
+    <delete id="deleteByPK">
+    <![CDATA[
+        DELETE FROM TBL_Login_Info WHERE
+        loginName = #{loginName} 
+    ]]>
+    </delete>
+    
+    <!-- 删除主键数组  -->
+    <delete id="deleteByArrPK" parameterType="java.util.List">
+        <![CDATA[DELETE FROM TBL_Login_Info WHERE]]>
+        <foreach collection="list" item="item" index="index" open="loginName in (" separator="," close=")">
+            <![CDATA[#{item}]]>
+        </foreach>
+    </delete>
+    
+    <!-- 删除条件  -->
+    <delete id="delete">
+        <![CDATA[DELETE T1 FROM TBL_Login_Info T1 ]]>
+        <include refid="dynamicWhere" />
+    </delete>
+    
+    <!-- 主键查询  -->
+    <select id="selectByPK" parameterType="java.lang.String" resultMap="loginInfoResult">
+        <include refid="dynamicSelect" />
+        <![CDATA[
+            WHERE 
+            T1.loginName = #{loginName} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在主键 -->
+    <select id="existsByPK" parameterType="java.lang.String"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <![CDATA[
+        WHERE
+        T1.loginName = #{loginName} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在对象 -->
+    <select id="exists" parameterType="loginInfo"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数 -->
+    <select id="count" resultType="int">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数参数Map -->
+    <select id="countByMap" resultType="int" parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询数量 -->
+    <select id="pageCount" resultType="int"
+        parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询 -->
+    <select id="pageQuery" resultMap="loginInfoResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+
+    <!-- 查询条件Map -->
+    <select id="selectByMap" resultMap="loginInfoResult"
+        parameterType="map">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+    </select>
+
+    <!-- 查询条件对象 -->
+    <select id="select" resultMap="loginInfoResult"
+        parameterType="loginInfo">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhere" />
+        order by T1.loginName desc
+    </select>
+
+    <!-- 查询条件拼接 -->
+    <select id="selectByCriteria" resultMap="loginInfoResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <if test="_parameter != null">
+            <include refid="Common.criteria_Where_Clause" />
+        </if>
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+    
+    
+    <!-- 通过连个主键查询对象 -->
+    <select id="getLoginInfo" resultMap="loginInfoResult"
+        parameterType="map">
+        SELECT * FROM TBL_Login_Info T1 where 
+        T1.loginName = #{loginName}
+        AND  T1.companyCode = #{companyCode}
+        AND  T1.disabledYn = '0'
+        AND  T1.deleteYn = '0'
+    </select>
+    
+</mapper>
+

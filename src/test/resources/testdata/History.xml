@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- DBUnit flatXml DataFile -->
+<dataset>
+
+    <TBL_History
+        id='093'
+        ip='Ip079'
+        customName='CustomName648'
+        productCode='ProductCode114'
+        productCatCode='ProductCatCode694'
+        createTime='2016-03-25 10:51:38.427'
+        string1='String1936'
+        string2='String2220'
+        string3='String3990'
+        string4='String4315'
+        string5='String5482'
+    />
+
+    <TBL_History
+        id='909'
+        ip='Ip062'
+        customName='CustomName451'
+        productCode='ProductCode313'
+        productCatCode='ProductCatCode963'
+        createTime='2016-03-25 10:51:38.427'
+        string1='String1338'
+        string2='String2334'
+        string3='String3952'
+        string4='String4960'
+        string5='String5203'
+    />
+
+</dataset>

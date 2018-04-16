@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="MyFavorite">
+    
+    <resultMap id="myFavoriteResult" type="myFavorite">
+        <result property="id" column="id" />
+        <result property="ip" column="ip" />
+        <result property="customName" column="customName" />
+        <result property="productCode" column="productCode" />
+        <result property="productCatCode" column="productCatCode" />
+        <result property="createTime" column="createTime" />
+        <result property="string1" column="string1" />
+        <result property="string2" column="string2" />
+        <result property="string3" column="string3" />
+        <result property="string4" column="string4" />
+        <result property="string5" column="string5" />
+    </resultMap>
+    
+    <resultMap id="myFavoriteProductResult" type="myFavorite">
+        <result property="id" column="id" />
+        <result property="ip" column="ip" />
+        <result property="customName" column="customName" />
+        <result property="productCode" column="productCode" />
+        <result property="productCatCode" column="productCatCode" />
+        <result property="createTime" column="createTime" />
+        <result property="string1" column="string1" />
+        <result property="string2" column="string2" />
+        <result property="string3" column="string3" />
+        <result property="string4" column="string4" />
+        <result property="string5" column="string5" />
+        <collection property="product"  ofType="product">
+           <result property="id" column="product_id" />
+           <result property="code" column="product_code" />
+           <result property="salesPrice" column="product_salesPrice" />
+           <result property="image0" column="product_image0" />
+           <result property="title" column="product_title" />
+        </collection>
+    </resultMap>
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="myFavoriteColumns">
+        <![CDATA[
+        T1.id,
+        T1.ip,
+        T1.customName,
+        T1.productCode,
+        T1.productCatCode,
+        T1.createTime,
+        T1.string1,
+        T1.string2,
+        T1.string3,
+        T1.string4,
+        T1.string5
+        ]]>
+    </sql>
+    
+    <!-- 查询from -->
+    <sql id="dynamicFrom">
+        FROM TBL_My_Favorite T1
+    </sql>
+    
+    <!-- 查询选择colum -->
+    <sql id="dynamicSelect">
+        SELECT
+        <include refid="myFavoriteColumns" />
+        <include refid="dynamicFrom" />
+    </sql>
+    
+    <!-- 查询条件 -->
+    <sql id="dynamicCondition">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用framework中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <if test="id != null">
+            AND T1.id = #{id}
+        </if>
+        <if test="idEx != null">
+            AND T1.id != #{idEx}
+        </if>
+        <if test="@Ognl@isNotEmpty(ip)">
+            AND T1.ip = #{ip}
+        </if>
+        <if test="@Ognl@isNotEmpty(customName)">
+            AND T1.customName = #{customName}
+        </if>
+        <if test="@Ognl@isNotEmpty(productCode)">
+            AND T1.productCode = #{productCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(productCatCode)">
+            AND T1.productCatCode = #{productCatCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(string1)">
+            AND T1.string1 = #{string1}
+        </if>
+        <if test="@Ognl@isNotEmpty(string2)">
+            AND T1.string2 = #{string2}
+        </if>
+        <if test="@Ognl@isNotEmpty(string3)">
+            AND T1.string3 = #{string3}
+        </if>
+        <if test="@Ognl@isNotEmpty(string4)">
+            AND T1.string4 = #{string4}
+        </if>
+        <if test="@Ognl@isNotEmpty(string5)">
+            AND T1.string5 = #{string5}
+        </if>
+    </sql>
+    
+    <!-- 查询where条件 -->
+    <sql id="dynamicWhere">
+        <where>
+            <include refid="dynamicCondition" />
+        </where>
+    </sql>
+    
+    <!-- 查询where条件(map) -->
+    <sql id="dynamicWhereEx">
+        <where>
+            <include refid="dynamicCondition" />
+            <if test="@Ognl@isNotEmpty(createTimeBegin)">
+                <![CDATA[AND T1.createTime >= #{createTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeEnd)">
+                <![CDATA[AND T1.createTime < date_add(#{createTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+        </where>
+    </sql>
+
+    <!-- 排序条件 -->
+    <sql id="dynamicOrderBy">
+        <choose>
+            <when test="@Ognl@isNotEmpty(orderBy)">
+                <trim suffix="" suffixOverrides="order by">
+                <foreach collection="orderBy" item="order" open="order by " separator="," close=" ">
+                <choose>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'ip'">
+                        T1.ip <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'customName'">
+                        T1.customName <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'productCode'">
+                        T1.productCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'productCatCode'">
+                        T1.productCatCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createTime'">
+                        T1.createTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string1'">
+                        T1.string1 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string2'">
+                        T1.string2 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string3'">
+                        T1.string3 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string4'">
+                        T1.string4 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string5'">
+                        T1.string5 <if test="!order.ascending"> desc </if>
+                    </when>
+                </choose>
+                </foreach>
+                </trim>
+            </when>
+            <otherwise>
+            order by T1.id desc
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 单条录入  -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO TBL_My_Favorite (
+            ip ,
+            customName ,
+            productCode ,
+            productCatCode ,
+            createTime ,
+            string1 ,
+            string2 ,
+            string3 ,
+            string4 ,
+            string5 
+            ) VALUES (
+            #{ip} ,
+            #{customName} ,
+            #{productCode} ,
+            #{productCatCode} ,
+            #{createTime} ,
+            #{string1} ,
+            #{string2} ,
+            #{string3} ,
+            #{string4} ,
+            #{string5} 
+            )
+        ]]>
+        <selectKey resultType="java.lang.Long"
+            order="AFTER"
+            keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    
+    <!-- 批量录入  -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO TBL_My_Favorite (
+            ip ,
+            customName ,
+            productCode ,
+            productCatCode ,
+            createTime ,
+            string1 ,
+            string2 ,
+            string3 ,
+            string4 ,
+            string5 
+            ) 
+            VALUES 
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.ip} ,
+            #{item.customName} ,
+            #{item.productCode} ,
+            #{item.productCatCode} ,
+            #{item.createTime} ,
+            #{item.string1} ,
+            #{item.string2} ,
+            #{item.string3} ,
+            #{item.string4} ,
+            #{item.string5} 
+            )
+        </foreach>
+    </insert>
+    
+    <!-- 单条修改  -->
+    <update id="update">
+        UPDATE TBL_My_Favorite
+        <set>
+            <if test="@Ognl@isNotEmpty(ip)">
+                ip = #{ip},
+            </if>
+            <if test="@Ognl@isNotEmpty(customName)">
+                customName = #{customName},
+            </if>
+            <if test="@Ognl@isNotEmpty(productCode)">
+                productCode = #{productCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(productCatCode)">
+                productCatCode = #{productCatCode},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(string1)">
+                string1 = #{string1},
+            </if>
+            <if test="@Ognl@isNotEmpty(string2)">
+                string2 = #{string2},
+            </if>
+            <if test="@Ognl@isNotEmpty(string3)">
+                string3 = #{string3},
+            </if>
+            <if test="@Ognl@isNotEmpty(string4)">
+                string4 = #{string4},
+            </if>
+            <if test="@Ognl@isNotEmpty(string5)">
+                string5 = #{string5}
+            </if>
+        </set>
+        WHERE 
+            id = #{id}
+    </update>
+    
+    <!-- 单条修改所有属性  -->
+    <update id="updateAll">
+    <![CDATA[
+        UPDATE TBL_My_Favorite SET
+            ip = #{ip} ,
+            customName = #{customName} ,
+            productCode = #{productCode} ,
+            productCatCode = #{productCatCode} ,
+            createTime = #{createTime} ,
+            string1 = #{string1} ,
+            string2 = #{string2} ,
+            string3 = #{string3} ,
+            string4 = #{string4} ,
+            string5 = #{string5} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <!-- 删除主键  -->
+    <delete id="deleteByPK">
+    <![CDATA[
+        DELETE FROM TBL_My_Favorite WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <!-- 删除主键数组  -->
+    <delete id="deleteByArrPK" parameterType="java.util.List">
+        <![CDATA[DELETE FROM TBL_My_Favorite WHERE]]>
+        <foreach collection="list" item="item" index="index" open="id in (" separator="," close=")">
+            <![CDATA[#{item}]]>
+        </foreach>
+    </delete>
+    
+    <!-- 删除条件  -->
+    <delete id="delete">
+        <![CDATA[DELETE T1 FROM TBL_My_Favorite T1 ]]>
+        <include refid="dynamicWhere" />
+    </delete>
+    
+    <!-- 主键查询  -->
+    <select id="selectByPK" parameterType="java.lang.Long" resultMap="myFavoriteResult">
+        <include refid="dynamicSelect" />
+        <![CDATA[
+            WHERE 
+            T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在主键 -->
+    <select id="existsByPK" parameterType="java.lang.Long"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <![CDATA[
+        WHERE
+        T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在对象 -->
+    <select id="exists" parameterType="myFavorite"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数 -->
+    <select id="count" resultType="int">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数参数Map -->
+    <select id="countByMap" resultType="int" parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询数量 -->
+    <select id="pageCount" resultType="int"
+        parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询 -->
+    <select id="pageQuery" resultMap="myFavoriteResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+
+    <!-- 查询条件Map -->
+    <select id="selectByMap" resultMap="myFavoriteResult"
+        parameterType="map">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+    </select>
+
+    <!-- 查询条件对象 -->
+    <select id="select" resultMap="myFavoriteResult"
+        parameterType="myFavorite">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhere" />
+        order by T1.id desc
+    </select>
+
+    <!-- 查询条件拼接 -->
+    <select id="selectByCriteria" resultMap="myFavoriteResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <if test="_parameter != null">
+            <include refid="Common.criteria_Where_Clause" />
+        </if>
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+    
+    <sql id="selectMyfavoriteProsByUser">
+        <![CDATA[SELECT
+					f.*,
+					p.id as product_id,
+					p.code as product_code,
+					p.salesPrice as product_salesPrice,
+					p.image0 as product_image0,
+					p.title as product_title
+				FROM
+					TBL_My_Favorite f
+				LEFT JOIN TBL_Product p ON f.productCode = p. CODE
+				where  ]]>
+		<if test="@Ognl@isNotEmpty(customName)">
+                <![CDATA[f.customName = #{customName}]]>
+        </if>
+        <if test="@Ognl@isNotEmpty(createTimeBegin)">
+                <![CDATA[AND f.createTime >= #{createTimeBegin}]]>
+        </if>
+        <if test="@Ognl@isNotEmpty(createTimeEnd)">
+            <![CDATA[AND f.createTime <= #{createTimeEnd}]]>
+        </if>
+        <if test="@Ognl@isNotEmpty(productCatCode)">
+            <![CDATA[AND f.productCatCode = #{productCatCode}]]>
+        </if>
+		<![CDATA[
+			ORDER BY
+		    f.createTime ASC
+		]]>
+		
+    </sql>
+     <select id="selectMyfavoriteProsByUserPage" resultMap="myFavoriteProductResult"
+        parameterType="map">
+         <include refid="Common.pageStart" />
+         <include refid="selectMyfavoriteProsByUser" />
+         <include refid="Common.pageEnd" />
+     </select>
+     <select id="selectMyfavoriteProsByUserPageCount" resultType="int"
+        parameterType="map">
+         SELECT count(1) from (
+         <include refid="selectMyfavoriteProsByUser" />
+         ) t
+     </select>
+</mapper>
+

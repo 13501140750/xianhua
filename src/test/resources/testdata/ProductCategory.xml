@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- DBUnit flatXml DataFile -->
+<dataset>
+
+    <TBL_ProductCategory
+        id='258'
+        code='00000001'
+        name='Name063'
+        parent='Parent329'
+        parentYn='1'
+        deleteYn='1'
+        disabledYn='1'
+        createUser='CreateUser511'
+        createTime='2015-11-30 16:25:19.358'
+        updateUser='UpdateUser711'
+        updateTime='2015-11-30 16:25:19.358'
+    />
+
+    <TBL_ProductCategory
+        id='145'
+        code='00000002'
+        name='Name317'
+        parent='Parent464'
+        parentYn='1'
+        deleteYn='1'
+        disabledYn='1'
+        createUser='CreateUser363'
+        createTime='2015-11-30 16:25:19.358'
+        updateUser='UpdateUser696'
+        updateTime='2015-11-30 16:25:19.358'
+    />
+
+</dataset>

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- DBUnit flatXml DataFile -->
+<dataset>
+
+    <tbl_item
+        id='195'
+        code='Code045'
+        name='Name972'
+        parent='Parent734'
+        is_parent='728'
+    />
+
+    <tbl_item
+        id='904'
+        code='Code761'
+        name='Name968'
+        parent='Parent772'
+        is_parent='664'
+    />
+
+</dataset>

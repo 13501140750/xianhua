@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="StockLog">
+    
+    <resultMap id="stockLogResult" type="stockLog">
+        <result property="id" column="id" />
+        <result property="stockLevelId" column="stockLevelId" />
+        <result property="type" column="type" />
+        <result property="amount" column="amount" />
+        <result property="reasonCode" column="reasonCode" />
+        <result property="reasonContent" column="reasonContent" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+        <result property="stockLevelDetailId" column="stockLevelDetailId" />
+        <result property="exchangeOrderCode" column="exchangeOrderCode" />
+        <result property="string1" column="string1" />
+        <result property="string2" column="string2" />
+        <result property="string3" column="string3" />
+        <result property="string4" column="string4" />
+        <result property="string5" column="string5" />
+    </resultMap>
+    
+    <resultMap id="productResult" type="product">
+      <result property="code" column="code" />
+      <result property="title" column="title" />
+    </resultMap>
+    
+    <resultMap id="warehouseResult" type="warehouse">
+      <result property="id" column="id" />
+      <result property="name" column="name" />
+    </resultMap>
+    
+    <resultMap id="supplierResult" type="supplier">
+        <result property="id" column="id" />
+        <result property="name" column="name" />
+    </resultMap>
+    
+    <resultMap id="stockLogResultEx" type="stockLog" extends="stockLogResult">
+        <association property="warehouse" column="stockLevelId" select="selectWarehouse"></association>
+        <association property="product" column="stockLevelId" select="selectProduct"></association>
+        <association property="supplier" column="stockLevelDetailId" select="selectSupplier"></association>
+    </resultMap>
+    
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="stockLogColumns">
+        <![CDATA[
+       T1.id,
+        T1.stockLevelId,
+        T1.type,
+        T1.amount,
+        T1.reasonCode,
+        T1.reasonContent,
+        T1.deleteYn,
+        T1.disabledYn,
+        T1.createUser,
+        T1.createTime,
+        T1.updateUser,
+        T1.updateTime,
+        T1.stockLevelDetailId,
+        T1.exchangeOrderCode,
+        T1.string1,
+        T1.string2,
+        T1.string3,
+        T1.string4,
+        T1.string5
+        ]]>
+    </sql>
+    
+    <!-- 查询from -->
+    <sql id="dynamicFrom">
+        FROM TBL_StockLog T1
+    </sql>
+    
+    <!-- 查询选择colum -->
+    <sql id="dynamicSelect">
+        SELECT
+        <include refid="stockLogColumns" />
+        <include refid="dynamicFrom" />
+    </sql>
+    
+    <!-- 查询条件 -->
+    <sql id="dynamicCondition">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用framework中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <if test="id != null and id != ''">
+            AND T1.id = #{id}
+        </if>
+        <if test="idEx != null">
+            AND T1.id != #{idEx}
+        </if>
+        <if test="stockLevelId != null and stockLevelId != ''">
+            AND T1.stockLevelId = #{stockLevelId}
+        </if>
+        <if test="type != null and type != ''">
+            AND T1.type = #{type}
+        </if>
+        <if test="amount != null">
+            AND T1.amount = #{amount}
+        </if>
+        <if test="@Ognl@isNotEmpty(reasonCode)">
+            AND T1.reasonCode = #{reasonCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(reasonContent)">
+            AND T1.reasonContent = #{reasonContent}
+        </if>
+        <if test="@Ognl@isNotEmpty(deleteYn)">
+            AND T1.deleteYn = #{deleteYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(disabledYn)">
+            AND T1.disabledYn = #{disabledYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(createUser)">
+            AND T1.createUser = #{createUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(updateUser)">
+            AND T1.updateUser = #{updateUser}
+        </if>
+        <if test="stockLevelDetailId != null">
+            AND T1.stockLevelDetailId = #{stockLevelDetailId}
+        </if>
+         <if test="@Ognl@isNotEmpty(exchangeOrderCode)">
+            AND T1.exchangeOrderCode = #{exchangeOrderCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(string1)">
+            AND T1.string1 = #{string1}
+        </if>
+        <if test="@Ognl@isNotEmpty(string2)">
+            AND T1.string2 = #{string2}
+        </if>
+        <if test="@Ognl@isNotEmpty(string3)">
+            AND T1.string3 = #{string3}
+        </if>
+        <if test="@Ognl@isNotEmpty(string4)">
+            AND T1.string4 = #{string4}
+        </if>
+        <if test="@Ognl@isNotEmpty(string5)">
+            AND T1.string5 = #{string5}
+        </if>
+    </sql>
+    
+    <!-- 查询where条件 -->
+    <sql id="dynamicWhere">
+        <where>
+            <include refid="dynamicCondition" />
+        </where>
+    </sql>
+    
+    <!-- 查询where条件(map) -->
+    <sql id="dynamicWhereEx">
+        <where>
+            <include refid="dynamicCondition" />
+            <if test="@Ognl@isNotEmpty(createTimeBegin)">
+                <![CDATA[AND T1.createTime >= #{createTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeEnd)">
+                <![CDATA[AND T1.createTime < date_add(#{createTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+                <![CDATA[AND T1.updateTime >= #{updateTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+                <![CDATA[AND T1.updateTime < date_add(#{updateTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+        </where>
+    </sql>
+
+    <!-- 排序条件 -->
+    <sql id="dynamicOrderBy">
+        <choose>
+            <when test="@Ognl@isNotEmpty(orderBy)">
+                <trim suffix="" suffixOverrides="order by">
+                <foreach collection="orderBy" item="order" open="order by " separator="," close=" ">
+                <choose>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'stockLevelId'">
+                        T1.stockLevelId <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'type'">
+                        T1.type <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'amount'">
+                        T1.amount <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'reasonCode'">
+                        T1.reasonCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'reasonContent'">
+                        T1.reasonContent <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'deleteYn'">
+                        T1.deleteYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'disabledYn'">
+                        T1.disabledYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createUser'">
+                        T1.createUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createTime'">
+                        T1.createTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateUser'">
+                        T1.updateUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateTime'">
+                        T1.updateTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'stockLevelDetailId'">
+                        T1.stockLevelDetailId <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'exchangeOrderCode'">
+                        T1.exchangeOrderCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string1'">
+                        T1.string1 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string2'">
+                        T1.string2 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string3'">
+                        T1.string3 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string4'">
+                        T1.string4 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string5'">
+                        T1.string5 <if test="!order.ascending"> desc </if>
+                    </when>
+                </choose>
+                </foreach>
+                </trim>
+            </when>
+            <otherwise>
+            order by T1.id desc
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 单条录入  -->
+     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO TBL_StockLog (
+            stockLevelId ,
+            type ,
+            amount ,
+            reasonCode ,
+            reasonContent ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime ,
+            stockLevelDetailId ,
+            exchangeOrderCode ,
+            string1 ,
+            string2 ,
+            string3 ,
+            string4 ,
+            string5 
+            ) VALUES (
+            #{stockLevelId} ,
+            #{type} ,
+            #{amount} ,
+            #{reasonCode} ,
+            #{reasonContent} ,
+            #{deleteYn} ,
+            #{disabledYn} ,
+            #{createUser} ,
+            #{createTime} ,
+            #{updateUser} ,
+            #{updateTime} ,
+            #{stockLevelDetailId} ,
+            #{exchangeOrderCode} ,
+            #{string1} ,
+            #{string2} ,
+            #{string3} ,
+            #{string4} ,
+            #{string5} 
+            )
+        ]]>
+        <selectKey resultType="java.lang.Integer"
+            order="AFTER"
+            keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    
+    <!-- 批量录入  -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO TBL_StockLog (
+            stockLevelId ,
+            type ,
+            amount ,
+            reasonCode ,
+            reasonContent ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime ,
+            stockLevelDetailId ,
+            exchangeOrderCode ,
+            string1 ,
+            string2 ,
+            string3 ,
+            string4 ,
+            string5 
+            ) 
+            VALUES 
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.stockLevelId} ,
+            #{item.type} ,
+            #{item.amount} ,
+            #{item.reasonCode} ,
+            #{item.reasonContent} ,
+            #{item.deleteYn} ,
+            #{item.disabledYn} ,
+            #{item.createUser} ,
+            #{item.createTime} ,
+            #{item.updateUser} ,
+            #{item.updateTime} ,
+            #{item.stockLevelDetailId} ,
+            #{item.exchangeOrderCode} ,
+            #{item.string1} ,
+            #{item.string2} ,
+            #{item.string3} ,
+            #{item.string4} ,
+            #{item.string5} 
+            )
+        </foreach>
+    </insert>
+    
+    <!-- 单条修改  -->
+    <update id="update">
+        UPDATE TBL_StockLog
+        <set>
+            <if test="stockLevelId != null">
+                stockLevelId = #{stockLevelId},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="amount != null">
+                amount = #{amount},
+            </if>
+            <if test="@Ognl@isNotEmpty(reasonCode)">
+                reasonCode = #{reasonCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(reasonContent)">
+                reasonContent = #{reasonContent},
+            </if>
+            <if test="@Ognl@isNotEmpty(deleteYn)">
+                deleteYn = #{deleteYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(disabledYn)">
+                disabledYn = #{disabledYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(createUser)">
+                createUser = #{createUser},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateUser)">
+                updateUser = #{updateUser},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime},
+            </if>
+            <if test="stockLevelDetailId != null">
+                stockLevelDetailId = #{stockLevelDetailId},
+            </if>
+            <if test="@Ognl@isNotEmpty(exchangeOrderCode)">
+                exchangeOrderCode = #{exchangeOrderCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(string1)">
+                string1 = #{string1},
+            </if>
+            <if test="@Ognl@isNotEmpty(string2)">
+                string2 = #{string2},
+            </if>
+            <if test="@Ognl@isNotEmpty(string3)">
+                string3 = #{string3},
+            </if>
+            <if test="@Ognl@isNotEmpty(string4)">
+                string4 = #{string4},
+            </if>
+            <if test="@Ognl@isNotEmpty(string5)">
+                string5 = #{string5}
+            </if>
+        </set>
+        WHERE 
+            id = #{id}
+    </update>
+    
+    <!-- 单条修改所有属性  -->
+    <update id="updateAll">
+    <![CDATA[
+        UPDATE TBL_StockLog SET
+            stockLevelId = #{stockLevelId} ,
+            type = #{type} ,
+            amount = #{amount} ,
+            reasonCode = #{reasonCode} ,
+            reasonContent = #{reasonContent} ,
+            deleteYn = #{deleteYn} ,
+            disabledYn = #{disabledYn} ,
+            createUser = #{createUser} ,
+            createTime = #{createTime} ,
+            updateUser = #{updateUser} ,
+            updateTime = #{updateTime} ,
+            stockLevelDetailId = #{stockLevelDetailId} ,
+            exchangeOrderCode = #{exchangeOrderCode} ,
+            string1 = #{string1} ,
+            string2 = #{string2} ,
+            string3 = #{string3} ,
+            string4 = #{string4} ,
+            string5 = #{string5} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <!-- 删除主键  -->
+    <delete id="deleteByPK">
+    <![CDATA[
+        DELETE FROM TBL_StockLog WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <!-- 删除主键数组  -->
+    <delete id="deleteByArrPK" parameterType="java.util.List">
+        <![CDATA[DELETE FROM TBL_StockLog WHERE]]>
+        <foreach collection="list" item="item" index="index" open="id in (" separator="," close=")">
+            <![CDATA[#{item}]]>
+        </foreach>
+    </delete>
+    
+    <!-- 删除条件  -->
+    <delete id="delete">
+        <![CDATA[DELETE T1 FROM TBL_StockLog T1 ]]>
+        <include refid="dynamicWhere" />
+    </delete>
+    
+    <!-- 主键查询  -->
+    <select id="selectByPK" parameterType="java.lang.Integer" resultMap="stockLogResult">
+        <include refid="dynamicSelect" />
+        <![CDATA[
+            WHERE 
+            T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在主键 -->
+    <select id="existsByPK" parameterType="java.lang.Integer"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <![CDATA[
+        WHERE
+        T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在对象 -->
+    <select id="exists" parameterType="stockLog"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数 -->
+    <select id="count" resultType="int">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数参数Map -->
+    <select id="countByMap" resultType="int" parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询数量 -->
+    <select id="pageCount" resultType="int"
+        parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询 -->
+    <select id="pageQuery" resultMap="stockLogResultEx"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+
+    <!-- 查询条件Map -->
+    <select id="selectByMap" resultMap="stockLogResultEx"
+        parameterType="map">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+    </select>
+
+    <!-- 查询条件对象 -->
+    <select id="select" resultMap="stockLogResultEx"
+        parameterType="stockLog">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhere" />
+        order by T1.id desc
+    </select>
+
+    <!-- 查询条件拼接 -->
+    <select id="selectByCriteria" resultMap="stockLogResultEx"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <if test="_parameter != null">
+            <include refid="Common.criteria_Where_Clause" />
+        </if>
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+    
+    <!-- 查询仓库 -->
+    <select id="selectWarehouse" resultMap="warehouseResult" parameterType="int">
+        SELECT
+        T1.id,
+        T1.name
+        FROM TBL_Warehouse T1
+        JOIN TBL_StockLevel T2
+        ON T1.id = T2.warehouseId
+        WHERE T2.id = #{stockLevelId} 
+    </select>    
+    
+    <!-- 查询产品 -->
+    <select id="selectProduct" resultMap="productResult" parameterType="int">
+        SELECT
+        T1.code,
+        T1.title
+        FROM TBL_Product T1
+        JOIN TBL_StockLevel T2
+        ON T1.id = T2.productId
+        WHERE T2.id = #{stockLevelId} 
+    </select>    
+    
+    <!-- 查询供应商 -->
+    <select id="selectSupplier" resultMap="supplierResult" parameterType="int">
+        SELECT
+        T1.id,
+        T1.name
+        FROM TBL_Supplier T1
+        JOIN TBL_StockLevelDetail T2
+        ON T1.id = T2.supplierId
+        WHERE T2.id = #{stockLevelDetailId} 
+    </select>    
+    
+</mapper>
+

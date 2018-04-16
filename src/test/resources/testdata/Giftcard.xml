@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- DBUnit flatXml DataFile -->
+<dataset>
+
+    <TBL_Giftcard
+        id='464'
+        code='Code392'
+        title='Title787'
+        subtitle='Subtitle039'
+        cardTypeCode='CardTypeCode168'
+        description='Description091'
+        contactorName='ContactorName609'
+        phone='Phone757'
+        qq='Qq526'
+        email='Email854'
+        cardCoverCode='CardCoverCode877'
+        cardBackCoverCode='CardBackCoverCode924'
+        String1='String1902'
+        String2='String2196'
+        String3='String3357'
+        String4='String4703'
+        String5='String5556'
+        String6='String6102'
+        accessType='27'
+        deleteYn='1'
+        disabledYn='1'
+        createUser='CreateUser649'
+        createTime='2016-01-14 15:37:02.316'
+        updateUser='UpdateUser460'
+        updateTime='2016-01-14 15:37:02.316'
+    />
+
+    <TBL_Giftcard
+        id='105'
+        code='Code402'
+        title='Title138'
+        subtitle='Subtitle712'
+        cardTypeCode='CardTypeCode695'
+        description='Description886'
+        contactorName='ContactorName078'
+        phone='Phone868'
+        qq='Qq409'
+        email='Email465'
+        cardCoverCode='CardCoverCode264'
+        cardBackCoverCode='CardBackCoverCode168'
+        String1='String1601'
+        String2='String2374'
+        String3='String3916'
+        String4='String4944'
+        String5='String5111'
+        String6='String6820'
+        accessType='93'
+        deleteYn='1'
+        disabledYn='1'
+        createUser='CreateUser896'
+        createTime='2016-01-14 15:37:02.316'
+        updateUser='UpdateUser864'
+        updateTime='2016-01-14 15:37:02.316'
+    />
+
+</dataset>

@@ -1,0 +1,1844 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="Product">
+     <resultMap id="productResultForSearch" type="product">
+        <result property="id" column="id" />
+        <result property="code" column="code" />
+        <result property="showCode" column="showCode" />
+        <result property="prdCatCode" column="prdCatCode" />
+        <result property="brandCode" column="brandCode" />
+        <result property="title" column="title" />
+        <result property="brandName" column="brandName" />
+        <result property="prdCatName" column="prdCatName" />
+        <result property="features" column="features" />
+        
+        
+    </resultMap>
+
+   <resultMap id="productResultBase" type="product">
+        <result property="id" column="id" />
+        <result property="type" column="type" />
+        <result property="code" column="code" />
+        <result property="showCode" column="showCode" />
+        <result property="prdCatCode" column="prdCatCode" />
+        <result property="topPrdCatCode" column="topPrdCatCode" />
+        <result property="brandCode" column="brandCode" />
+        <result property="companyCode" column="companyCode" />
+        <result property="supplyCompany" column="supplyCompany" />
+        <result property="searchKey" column="searchKey" />
+        <result property="title" column="title" />
+        <result property="features" column="features" />
+        <result property="barcode" column="barcode" />
+        <result property="standard" column="standard" />
+        <result property="weight" column="weight" />
+        <result property="logisticsWeight" column="logisticsWeight" />
+        <result property="defalutWarehouse" column="defalutWarehouse" />
+        
+        <result property="count" column="count" />
+        <result property="prdPlace" column="prdPlace" />
+        <result property="priceRange" column="priceRange" />
+        <result property="marketPrice" column="marketPrice" />
+        <result property="salesPrice" column="salesPrice" />
+        <result property="withShipmentFee" column="withShipmentFee" />
+        <result property="shipmentFee" column="shipmentFee" />
+        <result property="withTax" column="withTax" />
+        <result property="soldUnit" column="soldUnit" />
+        <result property="sampling" column="sampling" />
+        <result property="image0" column="image0" />
+        <result property="image1" column="image1" />
+        <result property="image2" column="image2" />
+        <result property="image3" column="image3" />
+        <result property="image4" column="image4" />
+        <result property="image5" column="image5" />
+        <result property="highQualityYn" column="highQualityYn" />
+        <result property="approvalStatus" column="approvalStatus" />
+        <result property="approvalOpinion" column="approvalOpinion" />
+        <result property="customizeYn" column="customizeYn" />
+        <result property="customizeCount" column="customizeCount" />
+        <result property="customizePrice" column="customizePrice" />
+        <result property="deliveryType" column="deliveryType" />
+        <result property="description" column="description" />
+        <result property="showYn" column="showYn" />
+        <result property="hasoption" column="hasoption" />
+        <result property="lowestSalePrice" column="lowestSalePrice" />
+        <result property="highestSalePrice" column="highestSalePrice" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+        <result property="salesStatus" column="salesStatus" />
+        <result property="hotYn" column="hotYn" />
+        <result property="defalutLogistics" column="defalutLogistics" />
+        <result property="dateOfDelivery" column="dateOfDelivery" />
+        <result property="navCategory" column="navCategory" />
+        <result property="volume" column="volume" />
+        <result property="deliveryCity" column="deliveryCity" />
+        <result property="priPrdCode" column="priPrdCode" />
+        <result property="outPrdCode" column="outPrdCode" />
+        <result property="supplierId" column="supplierId" />
+        <result property="supplyPrice" column="supplyPrice" />
+        <result property="giftCardCode" column="giftCardCode" />
+        <result property="withShipmentFeeSingle" column="withShipmentFeeSingle" />
+        <result property="prdType" column="prdType" />
+        <result property="string3" column="string3" />
+        <result property="string4" column="string4" />
+        <result property="string5" column="string5" />
+        <result property="string6" column="string6" />
+        <result property="string7" column="string7" />
+        <result property="string8" column="string8" />
+        <result property="string9" column="string9" />
+        <result property="string10" column="string10" />
+        <result property="brandName" column="brandName" />
+        <result property="prdCatName" column="prdCatName" />
+        <result property="showType" column="showType" />
+        <result property="jifenPrice" column="jifenPrice" />
+        <result property="commentCount" column="commentCount" />
+        
+    </resultMap>
+    
+    <resultMap id="productResult" type="product">
+        <result property="id" column="id" />
+        <result property="type" column="type" />
+        <result property="code" column="code" />
+        <result property="showCode" column="showCode" />
+        <result property="prdCatCode" column="prdCatCode" />
+        <result property="topPrdCatCode" column="topPrdCatCode" />
+        <result property="brandCode" column="brandCode" />
+        <result property="companyCode" column="companyCode" />
+        <result property="supplyCompany" column="supplyCompany" />
+        <result property="searchKey" column="searchKey" />
+        <result property="title" column="title" />
+        <result property="features" column="features" />
+        <result property="barcode" column="barcode" />
+        <result property="standard" column="standard" />
+        <result property="weight" column="weight" />
+        <result property="logisticsWeight" column="logisticsWeight" />
+        <result property="count" column="count" />
+        <result property="prdPlace" column="prdPlace" />
+        <result property="priceRange" column="priceRange" />
+        <result property="marketPrice" column="marketPrice" />
+        <result property="salesPrice" column="salesPrice" />
+        <result property="withShipmentFee" column="withShipmentFee" />
+        <result property="shipmentFee" column="shipmentFee" />
+        <result property="withTax" column="withTax" />
+        <result property="soldUnit" column="soldUnit" />
+        <result property="sampling" column="sampling" />
+        <result property="image0" column="image0" />
+        <result property="image1" column="image1" />
+        <result property="image2" column="image2" />
+        <result property="image3" column="image3" />
+        <result property="image4" column="image4" />
+        <result property="image5" column="image5" />
+        <result property="highQualityYn" column="highQualityYn" />
+        <result property="approvalStatus" column="approvalStatus" />
+        <result property="approvalOpinion" column="approvalOpinion" />
+        <result property="customizeYn" column="customizeYn" />
+        <result property="customizeCount" column="customizeCount" />
+        <result property="customizePrice" column="customizePrice" />
+        <result property="deliveryType" column="deliveryType" />
+        <result property="description" column="description" />
+        <result property="showYn" column="showYn" />
+        <result property="hasoption" column="hasoption" />
+        <result property="lowestSalePrice" column="lowestSalePrice" />
+        <result property="highestSalePrice" column="highestSalePrice" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+        <result property="salesStatus" column="salesStatus" />
+        <result property="hotYn" column="hotYn" />
+        <result property="defalutLogistics" column="defalutLogistics" />
+        <result property="defalutWarehouse" column="defalutWarehouse" />
+        <result property="dateOfDelivery" column="dateOfDelivery" />
+        <result property="navCategory" column="navCategory" />
+        <result property="volume" column="volume" />
+        <result property="deliveryCity" column="deliveryCity" />
+        <result property="priPrdCode" column="priPrdCode" />
+        <result property="outPrdCode" column="outPrdCode" />
+        <result property="supplierId" column="supplierId" />
+        <result property="supplyPrice" column="supplyPrice" />
+        <result property="giftCardCode" column="giftCardCode" />
+        <result property="withShipmentFeeSingle" column="withShipmentFeeSingle" />
+        <result property="prdType" column="prdType" />
+        <result property="string3" column="string3" />
+        <result property="string4" column="string4" />
+        <result property="string5" column="string5" />
+        <result property="string6" column="string6" />
+        <result property="string7" column="string7" />
+        <result property="string8" column="string8" />
+        <result property="string9" column="string9" />
+        <result property="string10" column="string10" />
+        <result property="prdType" column="prdType" />
+        <result property="brandName" column="brandName" />
+        <result property="prdCatName" column="prdCatName" />
+        <result property="showType" column="showType" />
+        <result property="jifenPrice" column="jifenPrice" />
+        <result property="stockLevelCount" column="stockLevelCount"/>
+        <result property="inventory" column="inventory"/>
+        <result property="commentCount" column="commentCount"/>
+        
+      <!--   <collection property="customizine"  ofType="companyCustomizine">
+           <result property="id" column="customizne_id" />
+           <result property="madePriceRate" column="madePriceRate" />
+           <result property="madePriceType" column="madePriceType" />
+           <result property="priceAdjust" column="priceAdjust" />
+           <result property="priceExchangeRate" column="priceExchangeRate" />
+           <result property="modifyPrdPriceYn" column="modifyPrdPriceYn" />
+           
+        </collection> -->
+        
+        <collection property="navigationCatString" ofType="String"
+           column="navCategory" select="NavigationCategory.getShowCatForPrd">
+        </collection>
+        
+         <collection property="prdouctList" ofType="product"
+           column="code" select="ProductGroup.selectPrdListByGroupCode">
+        </collection>
+        
+        <collection property="suppCompany" ofType="company"
+           column="supplyCompany" select="Company.getByCode">
+        </collection>
+    
+    </resultMap>
+    
+    <resultMap type="product" id="productResultSpec" extends="productResultBase">
+        <collection property="productSpecList" column="id" ofType="productSpec" select="ProductSpec.selectByProductId"/>
+        <collection property="productOptionList" column="id" ofType="productOption" select="ProductOption.selectByProductId"/>
+    </resultMap>
+    
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="productColumns">
+        <![CDATA[
+        T1.id,
+        T1.type,
+        T1.code,
+        T1.showCode,
+        T1.prdCatCode,
+        T1.topPrdCatCode,
+        T1.brandCode,
+        T1.companyCode,
+        T1.supplyCompany,
+        T1.searchKey,
+        T1.title,
+        T1.features,
+        T1.barcode,
+        T1.standard,
+        T1.weight,
+        T1.logisticsWeight,
+        T1.defalutWarehouse,
+        T1.count,
+        T1.prdPlace,
+        T1.priceRange,
+        T1.marketPrice,
+        T1.salesPrice,
+        T1.withShipmentFee,
+        T1.shipmentFee,
+        T1.withTax,
+        T1.soldUnit,
+        T1.sampling,
+        T1.image0,
+        T1.image1,
+        T1.image2,
+        T1.image3,
+        T1.image4,
+        T1.image5,
+        T1.highQualityYn,
+        T1.approvalStatus,
+        T1.approvalOpinion,
+        T1.customizeYn,
+        T1.customizeCount,
+        T1.customizePrice,
+        T1.deliveryType,
+        T1.description,
+        T1.showYn,
+        T1.hasoption,
+        T1.lowestSalePrice,
+        T1.highestSalePrice,
+        T1.deleteYn,
+        T1.disabledYn,
+        T1.createUser,
+        T1.createTime,
+        T1.updateUser,
+        T1.updateTime,
+        T1.salesStatus,
+        T1.hotYn,
+        T1.defalutLogistics,
+        T1.dateOfDelivery,
+        T1.navCategory,
+        T1.volume,
+        T1.deliveryCity,
+        T1.priPrdCode,
+        T1.outPrdCode,
+        T1.supplierId,
+        T1.supplyPrice,
+        T1.giftCardCode,
+        T1.withShipmentFeeSingle,
+        T1.prdType,
+        T1.string3,
+        T1.string4,
+        T1.string5,
+        T1.string6,
+        T1.string7,
+        T1.string8,
+        T1.string9,
+        T1.string10
+        ]]>
+    </sql>
+    
+    <!-- 查询from -->
+    <sql id="dynamicFrom">
+        FROM TBL_Product T1
+    </sql>
+    
+    <sql id="dynamicSelectBase">
+        SELECT
+        <include refid="productColumns" />
+        <include refid="dynamicFrom" />
+    </sql>
+
+    <sql id="dynamicFromForCount">
+        FROM TBL_Product T1
+        
+         left join (SELECT T8.productCode,COUNT(*)as stockLevelCount  from TBL_StockLevel T8 where  T8.disabledYn = 0 and T8.deleteYn = 0 GROUP BY T8.productCode)T7
+         on T1.code = T7.productCode
+         
+    </sql>
+
+	<!-- EX -->
+    <sql id="dynamicSelect">
+         SELECT
+        
+          T2.name as brandName , T3.name as prdCatName ,
+        
+        <if test="@Ognl@isNotEmpty(commentCompanyCode)">
+           T5.title as comment_title,
+           T5.marketPrice as comment_marketPrice,
+           T5.salesPrice as comment_salesPrice,
+           T5.showCode as comment_showCode,
+           T5.id as comment_id,
+           T5.companyCode as comment_companyCode,
+           T6.id as customizne_id, 
+           T6.productShowType as showType,
+           T6.priceExchangeRate,
+           T6.madePriceType,
+           T6.priceAdjust,
+           T6.madePriceRate,
+           T6.modifyPrdPriceYn,
+        </if>
+        <if test="commentCompanyCode==null">
+          (select case when (T2.system_value='' or T2.system_value is null) then 1  else   T2.system_value END 
+          from TBL_SystemSetting T2 where T2.system_key='EXCHANGE_RATE' )*T1.salesPrice as jifenPrice
+          ,
+          
+        </if>
+        
+       
+        <include refid="productColumns" />
+        ,
+        IFNULL(T7.stockLevelCount,0) stockLevelCount,
+        IFNULL(T7.inventory,0) inventory,
+        IFNULL(T20.commentCount,0) commentCount
+        FROM TBL_Product T1 
+        left join TBL_Brand T2 on T2.code=T1.brandCode and T2.disabledYn = 0 and T2.deleteYn = 0
+        left join TBL_ProductCategory T3 on T3.code = T1.topPrdCatCode and T3.disabledYn = 0 and T3.deleteYn = 0
+        left join (SELECT productId, COUNT(1) as commentCount FROM TBL_Product_Evaluate  GROUP BY productId) T20
+        on T20.productId = T1.id
+        left join 
+        (SELECT T8.productCode,COUNT(*)as stockLevelCount ,SUM(amount) as inventory   from TBL_StockLevel T8 where  T8.disabledYn = 0 and T8.deleteYn = 0 
+        
+        
+         <if test="@Ognl@isNotEmpty(houseid)">
+            and T8.warehouseId=#{houseid}
+        </if>
+       
+        GROUP BY T8.productCode)T7
+                  on T1.code = T7.productCode
+       
+        
+        <if test="@Ognl@isNotEmpty(commentCompanyCode)">
+           left join TBL_ProductComment T5 on T5.productCode = T1.code and T5.disabledYn = 0 and   T5.deleteYn = 0
+             AND T5.companyCode = #{commentCompanyCode}
+           left join TBL_Company_Customizine T6 on 1=1 and T6.companyCode = #{commentCompanyCode}
+            and T6.disabledYn = 0 and   T6.deleteYn = 0
+        </if>
+     </sql>
+    
+    <!-- 查询条件 -->
+    <!-- 查询条件 -->
+    <sql id="dynamicCondition">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用framework中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <if test="id != null">
+            AND T1.id = #{id}
+        </if>
+        <if test="idEx != null">
+            AND T1.id != #{idEx}
+        </if>
+        <if test="@Ognl@isNotEmpty(type)">
+            AND T1.type = #{type}
+        </if>
+        <if test="@Ognl@isNotEmpty(code)">
+            AND T1.code = #{code}
+        </if>
+        <if test="@Ognl@isNotEmpty(showCode)">
+            AND T1.showCode = #{showCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(prdCatCode)">
+            AND T1.prdCatCode = #{prdCatCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(topPrdCatCode)">
+            AND T1.topPrdCatCode = #{topPrdCatCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(brandCode)">
+            AND T1.brandCode = #{brandCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(companyCode)">
+            AND T1.companyCode = #{companyCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(supplyCompany)">
+            AND T1.supplyCompany = #{supplyCompany}
+        </if>
+        <if test="@Ognl@isNotEmpty(searchKey)">
+            AND T1.searchKey = #{searchKey}
+        </if>
+        <if test="@Ognl@isNotEmpty(title)">
+            AND T1.title = #{title}
+        </if>
+        <if test="@Ognl@isNotEmpty(features)">
+            AND T1.features = #{features}
+        </if>
+        <if test="@Ognl@isNotEmpty(barcode)">
+            AND T1.barcode = #{barcode}
+        </if>
+        <if test="@Ognl@isNotEmpty(standard)">
+            AND T1.standard = #{standard}
+        </if>
+        <if test="weight != null">
+            AND T1.weight = #{weight}
+        </if>
+        <if test="logisticsWeight != null">
+            AND T1.logisticsWeight = #{logisticsWeight}
+        </if>
+        <if test="count != null">
+            AND T1.count = #{count}
+        </if>
+        <if test="@Ognl@isNotEmpty(prdPlace)">
+            AND T1.prdPlace = #{prdPlace}
+        </if>
+      
+        <if test="marketPrice != null">
+            AND T1.marketPrice = #{marketPrice}
+        </if>
+        <if test="salesPrice != null">
+            AND T1.salesPrice = #{salesPrice}
+        </if>
+        <if test="@Ognl@isNotEmpty(withShipmentFee)">
+            AND T1.withShipmentFee = #{withShipmentFee}
+        </if>
+        <if test="shipmentFee != null">
+            AND T1.shipmentFee = #{shipmentFee}
+        </if>
+        <if test="@Ognl@isNotEmpty(withTax)">
+            AND T1.withTax = #{withTax}
+        </if>
+        <if test="@Ognl@isNotEmpty(soldUnit)">
+            AND T1.soldUnit = #{soldUnit}
+        </if>
+        <if test="@Ognl@isNotEmpty(sampling)">
+            AND T1.sampling = #{sampling}
+        </if>
+        <if test="@Ognl@isNotEmpty(image0)">
+            AND T1.image0 = #{image0}
+        </if>
+        <if test="@Ognl@isNotEmpty(image1)">
+            AND T1.image1 = #{image1}
+        </if>
+        <if test="@Ognl@isNotEmpty(image2)">
+            AND T1.image2 = #{image2}
+        </if>
+        <if test="@Ognl@isNotEmpty(image3)">
+            AND T1.image3 = #{image3}
+        </if>
+        <if test="@Ognl@isNotEmpty(image4)">
+            AND T1.image4 = #{image4}
+        </if>
+        <if test="@Ognl@isNotEmpty(image5)">
+            AND T1.image5 = #{image5}
+        </if>
+        <if test="@Ognl@isNotEmpty(highQualityYn)">
+            AND T1.highQualityYn = #{highQualityYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(approvalStatus)">
+            AND T1.approvalStatus = #{approvalStatus}
+        </if>
+        <if test="@Ognl@isNotEmpty(approvalOpinion)">
+            AND T1.approvalOpinion = #{approvalOpinion}
+        </if>
+        <if test="@Ognl@isNotEmpty(customizeYn)">
+            AND T1.customizeYn = #{customizeYn}
+        </if>
+        <if test="customizeCount != null">
+            AND T1.customizeCount = #{customizeCount}
+        </if>
+        <if test="customizePrice != null">
+            AND T1.customizePrice = #{customizePrice}
+        </if>
+        <if test="@Ognl@isNotEmpty(deliveryType)">
+            AND T1.deliveryType = #{deliveryType}
+        </if>
+        <if test="@Ognl@isNotEmpty(description)">
+            AND T1.description = #{description}
+        </if>
+        <if test="@Ognl@isNotEmpty(showYn)">
+            AND T1.showYn = #{showYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(hasoption)">
+            AND T1.hasoption = #{hasoption}
+        </if>
+        <if test="@Ognl@isNotEmpty(lowestSalePrice)">
+            AND T1.lowestSalePrice = #{lowestSalePrice}
+        </if>
+        <if test="@Ognl@isNotEmpty(highestSalePrice)">
+            AND T1.highestSalePrice = #{highestSalePrice}
+        </if>
+        <if test="@Ognl@isNotEmpty(deleteYn)">
+            AND T1.deleteYn = #{deleteYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(disabledYn)">
+            AND T1.disabledYn = #{disabledYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(createUser)">
+            AND T1.createUser = #{createUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(updateUser)">
+            AND T1.updateUser = #{updateUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(salesStatus)">
+            AND T1.salesStatus = #{salesStatus}
+        </if>
+        <if test="@Ognl@isNotEmpty(hotYn)">
+            AND T1.hotYn = #{hotYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(defalutLogistics)">
+            AND T1.defalutLogistics = #{defalutLogistics}
+        </if>
+        <if test="@Ognl@isNotEmpty(defalutWarehouse)">
+            AND T1.defalutWarehouse = #{defalutWarehouse}
+        </if>
+        
+        
+        <if test="@Ognl@isNotEmpty(dateOfDelivery)">
+            AND T1.dateOfDelivery = #{dateOfDelivery}
+        </if>
+        <if test="@Ognl@isNotEmpty(navCategory)">
+            AND T1.navCategory = #{navCategory}
+        </if>
+        <if test="@Ognl@isNotEmpty(volume)">
+            AND T1.volume = #{volume}
+        </if>
+        <if test="@Ognl@isNotEmpty(deliveryCity)">
+            AND T1.deliveryCity = #{deliveryCity}
+        </if>
+        <if test="@Ognl@isNotEmpty(priPrdCode)">
+            AND T1.priPrdCode = #{priPrdCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(outPrdCode)">
+            AND T1.outPrdCode = #{outPrdCode}
+        </if>
+        <if test="supplyPrice != null">
+            AND T1.supplyPrice = #{supplyPrice}
+        </if>
+        <if test="supplierId != null">
+            AND T1.supplierId = #{supplierId}
+        </if>
+        
+        <if test="@Ognl@isNotEmpty(giftCardCode)">
+            AND T1.giftCardCode = #{giftCardCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(withShipmentFeeSingle)">
+            AND T1.withShipmentFeeSingle = #{withShipmentFeeSingle}
+        </if>
+        <if test="@Ognl@isNotEmpty(prdType)">
+            AND T1.prdType = #{prdType}
+        </if>
+        <if test="@Ognl@isNotEmpty(string3)">
+            AND T1.string3 = #{string3}
+        </if>
+        <if test="@Ognl@isNotEmpty(string4)">
+            AND T1.string4 = #{string4}
+        </if>
+        <if test="@Ognl@isNotEmpty(string5)">
+            AND T1.string5 = #{string5}
+        </if>
+        <if test="@Ognl@isNotEmpty(string6)">
+            AND T1.string6 = #{string6}
+        </if>
+        <if test="@Ognl@isNotEmpty(string7)">
+            AND T1.string7 = #{string7}
+        </if>
+        <if test="@Ognl@isNotEmpty(string8)">
+            AND T1.string8 = #{string8}
+        </if>
+        <if test="@Ognl@isNotEmpty(string9)">
+            AND T1.string9 = #{string9}
+        </if>
+        <if test="@Ognl@isNotEmpty(string10)">
+            AND T1.string10 = #{string10}
+        </if>
+    </sql>
+    
+    <!-- 查询where条件 -->
+    <sql id="dynamicWhere">
+        <where>
+            <include refid="dynamicCondition" />
+        </where>
+    </sql>
+    
+    <!-- 查询where条件(map) -->
+    <sql id="dynamicWhereEx">
+        <where>
+            <include refid="dynamicCondition" />
+            <if test="@Ognl@isNotEmpty(createTimeBegin)">
+                <![CDATA[AND T1.createTime >= #{createTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeEnd)">
+                <![CDATA[AND T1.createTime < date_add(#{createTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+                <![CDATA[AND T1.updateTime >= #{updateTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+                <![CDATA[AND T1.updateTime < date_add(#{updateTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+           
+            <if test="@Ognl@isNotEmpty(seachText)">
+                AND (
+                 T1.title  like     CONCAT(CONCAT('%', #{seachText}), '%')
+                  or 
+                 T1.showCode  like  CONCAT(CONCAT('%', #{seachText}), '%')
+                 or
+                 T1.outPrdCode  like  CONCAT(CONCAT('%', #{seachText}), '%')
+                 or 
+                 T1.features  like  CONCAT(CONCAT('%', #{seachText}), '%') 
+                 or 
+                 T1.barcode  like   CONCAT(CONCAT('%', #{seachText}), '%') 
+                  or 
+                 T1.standard  like  CONCAT(CONCAT('%', #{seachText}), '%') 
+                  or 
+                 T1.prdPlace  like  CONCAT(CONCAT('%', #{seachText}), '%') 
+                  or 
+                 T1.code  like  CONCAT(CONCAT('%', #{seachText}), '%')
+               )
+            </if>
+            
+             <if test="@Ognl@isNotEmpty(deliveryCityLike)">
+                AND (
+                 T1.deliveryCity  like     CONCAT(CONCAT('%', #{deliveryCityLike}), '%')
+                 OR deliveryCity like CONCAT(CONCAT('%', '全国'), '%')
+               )
+            </if>
+            
+            
+            <if test="@Ognl@isNotEmpty(highestSalePrice)">
+                <![CDATA[ AND ( T1.highestSalePrice    <= #{highestSalePrice}   )]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(lowestSalePrice)">
+                 <![CDATA[ AND ( T1.lowestSalePrice    >= #{lowestSalePrice}   )]]>
+            </if>
+            
+            <if test="@Ognl@isNotEmpty(isPriPrdCode)">
+                AND T1.priPrdCode is not null AND T1.priPrdCode !='0'
+            </if>
+            
+            <if test="@Ognl@isNotEmpty(navcatCode)">
+                AND T1.navCategory  like  CONCAT(CONCAT('%', #{navcatCode}), '%') 
+            </if>
+            
+            <if test="@Ognl@isNotEmpty(prdCodeList)">
+                 AND T1.prdCatCode  in  
+                 <foreach item="item" index="index" collection="prdCodeList" open="(" separator="," close=")">  
+                     #{item}  
+                 </foreach> 
+            </if>
+            <if test="stockLevelCount!=null">
+                <if test="stockLevelCount==0">
+                    <![CDATA[ AND (T7.stockLevelCount is null or T7.stockLevelCount='' or T7.stockLevelCount=0) ]]>
+                </if>
+                <if test="stockLevelCount==1">
+                  <![CDATA[AND  T7.stockLevelCount >0 ]]>
+                </if>
+            </if>
+            
+        </where>
+    </sql>
+
+    <sql id="dynamicGroupBy">
+    GROUP BY T1.id
+    </sql>
+    
+     <!-- 排序条件 -->
+     <sql id="dynamicOrderBy">
+        <choose>
+            <when test="@Ognl@isNotEmpty(orderBy)">
+                <trim suffix="" suffixOverrides="order by">
+                <foreach collection="orderBy" item="order" open="order by " separator="," close=" ">
+                <choose>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'type'">
+                        T1.type <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'code'">
+                        T1.code <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'showCode'">
+                        T1.showCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'prdCatCode'">
+                        T1.prdCatCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'topPrdCatCode'">
+                        T1.topPrdCatCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'brandCode'">
+                        T1.brandCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'companyCode'">
+                        T1.companyCode <if test="!order.ascending"> desc </if>
+                    </when>
+                     <when test="order.propertyName == 'supplyCompany'">
+                        T1.supplyCompany <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'searchKey'">
+                        T1.searchKey <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'title'">
+                        T1.title <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'features'">
+                        T1.features <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'barcode'">
+                        T1.barcode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'standard'">
+                        T1.standard <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'weight'">
+                        T1.weight <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'logisticsWeight'">
+                        T1.logisticsWeight <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'count'">
+                        T1.count <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'prdPlace'">
+                        T1.prdPlace <if test="!order.ascending"> desc </if>
+                    </when>
+                    
+                    <when test="order.propertyName == 'marketPrice'">
+                        T1.marketPrice <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'salesPrice'">
+                        T1.salesPrice <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'withShipmentFee'">
+                        T1.withShipmentFee <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'shipmentFee'">
+                        T1.shipmentFee <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'withTax'">
+                        T1.withTax <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'soldUnit'">
+                        T1.soldUnit <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'sampling'">
+                        T1.sampling <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'image0'">
+                        T1.image0 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'image1'">
+                        T1.image1 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'image2'">
+                        T1.image2 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'image3'">
+                        T1.image3 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'image4'">
+                        T1.image4 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'image5'">
+                        T1.image5 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'highQualityYn'">
+                        T1.highQualityYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'approvalStatus'">
+                        T1.approvalStatus <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'approvalOpinion'">
+                        T1.approvalOpinion <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'customizeYn'">
+                        T1.customizeYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'customizeCount'">
+                        T1.customizeCount <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'customizePrice'">
+                        T1.customizePrice <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'deliveryType'">
+                        T1.deliveryType <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'description'">
+                        T1.description <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'showYn'">
+                        T1.showYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'hasoption'">
+                        T1.hasoption <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'lowestSalePrice'">
+                        T1.lowestSalePrice <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'highestSalePrice'">
+                        T1.highestSalePrice <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'deleteYn'">
+                        T1.deleteYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'disabledYn'">
+                        T1.disabledYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createUser'">
+                        T1.createUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createTime'">
+                        T1.createTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateUser'">
+                        T1.updateUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateTime'">
+                        T1.updateTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'salesStatus'">
+                        T1.salesStatus <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'hotYn'">
+                        T1.hotYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'defalutLogistics'">
+                        T1.defalutLogistics <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'dateOfDelivery'">
+                        T1.dateOfDelivery <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'navCategory'">
+                        T1.navCategory <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'volume'">
+                        T1.volume <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'deliveryCity'">
+                        T1.deliveryCity <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'priPrdCode'">
+                        T1.priPrdCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'outPrdCode'">
+                        T1.outPrdCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'supplyPrice'">
+                        T1.supplyPrice <if test="!order.ascending"> desc </if>
+                    </when>
+                     <when test="order.propertyName == 'supplierId'">
+                        T1.supplierId <if test="!order.ascending"> desc </if>
+                    </when>
+                    
+                    <when test="order.propertyName == 'giftCardCode'">
+                        T1.giftCardCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'withShipmentFeeSingle'">
+                        T1.withShipmentFeeSingle <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'prdType'">
+                        T1.prdType <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string3'">
+                        T1.string3 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string4'">
+                        T1.string4 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string5'">
+                        T1.string5 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string6'">
+                        T1.string6 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string7'">
+                        T1.string7 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string8'">
+                        T1.string8 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string9'">
+                        T1.string9 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string10'">
+                        T1.string10 <if test="!order.ascending"> desc </if>
+                    </when>
+                </choose>
+                </foreach>
+                </trim>
+            </when>
+            <otherwise>
+            order by T1.id desc
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 单条录入  -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO TBL_Product (
+            type ,
+            code ,
+            showCode ,
+            prdCatCode ,
+            topPrdCatCode ,
+            brandCode ,
+            companyCode ,
+            supplyCompany,
+            searchKey ,
+            title ,
+            features ,
+            barcode ,
+            standard ,
+            weight ,
+            logisticsWeight ,
+            count ,
+            prdPlace ,
+            priceRange ,
+            marketPrice ,
+            salesPrice ,
+            withShipmentFee ,
+            shipmentFee ,
+            withTax ,
+            soldUnit ,
+            sampling ,
+            image0 ,
+            image1 ,
+            image2 ,
+            image3 ,
+            image4 ,
+            image5 ,
+            highQualityYn ,
+            approvalStatus ,
+            approvalOpinion ,
+            customizeYn ,
+            customizeCount ,
+            customizePrice ,
+            deliveryType ,
+            description ,
+            showYn ,
+            hasoption ,
+            lowestSalePrice ,
+            highestSalePrice ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime ,
+            salesStatus ,
+            hotYn ,
+            defalutLogistics ,
+            defalutWarehouse,
+            dateOfDelivery ,
+            navCategory ,
+            volume ,
+            deliveryCity ,
+            priPrdCode ,
+            outPrdCode ,
+            supplyPrice ,
+            supplierId,
+            giftCardCode ,
+            withShipmentFeeSingle ,
+            prdType,
+            string3 ,
+            string4 ,
+            string5 ,
+            string6 ,
+            string7 ,
+            string8 ,
+            string9 ,
+            string10 
+            ) VALUES (
+            #{type} ,
+            #{code} ,
+            #{showCode} ,
+            #{prdCatCode} ,
+            #{topPrdCatCode} ,
+            #{brandCode} ,
+            #{companyCode} ,
+            #{supplyCompany} ,
+            #{searchKey} ,
+            #{title} ,
+            #{features} ,
+            #{barcode} ,
+            #{standard} ,
+            #{weight} ,
+            #{logisticsWeight} ,
+            #{count} ,
+            #{prdPlace} ,
+            #{priceRange} ,
+            #{marketPrice} ,
+            #{salesPrice} ,
+            #{withShipmentFee} ,
+            #{shipmentFee} ,
+            #{withTax} ,
+            #{soldUnit} ,
+            #{sampling} ,
+            #{image0} ,
+            #{image1} ,
+            #{image2} ,
+            #{image3} ,
+            #{image4} ,
+            #{image5} ,
+            #{highQualityYn} ,
+            #{approvalStatus} ,
+            #{approvalOpinion} ,
+            #{customizeYn} ,
+            #{customizeCount} ,
+            #{customizePrice} ,
+            #{deliveryType} ,
+            #{description} ,
+            #{showYn} ,
+            #{hasoption} ,
+            #{lowestSalePrice} ,
+            #{highestSalePrice} ,
+            #{deleteYn} ,
+            #{disabledYn} ,
+            #{createUser} ,
+            #{createTime} ,
+            #{updateUser} ,
+            #{updateTime} ,
+            #{salesStatus} ,
+            #{hotYn} ,
+            #{defalutLogistics} ,
+            #{defalutWarehouse},
+            #{dateOfDelivery} ,
+            #{navCategory} ,
+            #{volume} ,
+            #{deliveryCity} ,
+            #{priPrdCode} ,
+            #{outPrdCode} ,
+            #{supplyPrice} ,
+            #{supplierId},
+            #{giftCardCode} ,
+            #{withShipmentFeeSingle} ,
+            #{prdType},
+            #{string3} ,
+            #{string4} ,
+            #{string5} ,
+            #{string6} ,
+            #{string7} ,
+            #{string8} ,
+            #{string9} ,
+            #{string10} 
+            )
+        ]]>
+        <selectKey resultType="java.lang.Long"
+            order="AFTER"
+            keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    
+    <!-- 批量录入  -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO TBL_Product (
+            type ,
+            code ,
+            showCode ,
+            prdCatCode ,
+            topPrdCatCode ,
+            brandCode ,
+            companyCode ,
+            supplyCompany,
+            searchKey ,
+            title ,
+            features ,
+            barcode ,
+            standard ,
+            weight ,
+            logisticsWeight ,
+            count ,
+            prdPlace ,
+            priceRange ,
+            marketPrice ,
+            salesPrice ,
+            withShipmentFee ,
+            shipmentFee ,
+            withTax ,
+            soldUnit ,
+            sampling ,
+            image0 ,
+            image1 ,
+            image2 ,
+            image3 ,
+            image4 ,
+            image5 ,
+            highQualityYn ,
+            approvalStatus ,
+            approvalOpinion ,
+            customizeYn ,
+            customizeCount ,
+            customizePrice ,
+            deliveryType ,
+            description ,
+            showYn ,
+            hasoption ,
+            lowestSalePrice ,
+            highestSalePrice ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime ,
+            salesStatus ,
+            hotYn ,
+            defalutLogistics ,
+            defalutWarehouse,
+            dateOfDelivery ,
+            navCategory ,
+            volume ,
+            deliveryCity ,
+            priPrdCode ,
+            outPrdCode ,
+            supplyPrice ,
+            supplierId,
+            giftCardCode ,
+            withShipmentFeeSingle ,
+            prdType ,
+            string3 ,
+            string4 ,
+            string5 ,
+            string6 ,
+            string7 ,
+            string8 ,
+            string9 ,
+            string10 
+            ) 
+            VALUES 
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.type} ,
+            #{item.code} ,
+            #{item.showCode} ,
+            #{item.prdCatCode} ,
+            #{item.topPrdCatCode} ,
+            #{item.brandCode} ,
+            #{item.companyCode} ,
+            #{item.supplyCompany} ,
+            #{item.searchKey} ,
+            #{item.title} ,
+            #{item.features} ,
+            #{item.barcode} ,
+            #{item.standard} ,
+            #{item.weight} ,
+            #{item.logisticsWeight} ,
+            #{item.count} ,
+            #{item.prdPlace} ,
+            #{item.priceRange} ,
+            #{item.marketPrice} ,
+            #{item.salesPrice} ,
+            #{item.withShipmentFee} ,
+            #{item.shipmentFee} ,
+            #{item.withTax} ,
+            #{item.soldUnit} ,
+            #{item.sampling} ,
+            #{item.image0} ,
+            #{item.image1} ,
+            #{item.image2} ,
+            #{item.image3} ,
+            #{item.image4} ,
+            #{item.image5} ,
+            #{item.highQualityYn} ,
+            #{item.approvalStatus} ,
+            #{item.approvalOpinion} ,
+            #{item.customizeYn} ,
+            #{item.customizeCount} ,
+            #{item.customizePrice} ,
+            #{item.deliveryType} ,
+            #{item.description} ,
+            #{item.showYn} ,
+            #{item.hasoption} ,
+            #{item.lowestSalePrice} ,
+            #{item.highestSalePrice} ,
+            #{item.deleteYn} ,
+            #{item.disabledYn} ,
+            #{item.createUser} ,
+            #{item.createTime} ,
+            #{item.updateUser} ,
+            #{item.updateTime} ,
+            #{item.salesStatus} ,
+            #{item.hotYn} ,
+            #{item.defalutLogistics} ,
+            #{item.defalutWarehouse},
+            #{item.dateOfDelivery} ,
+            #{item.navCategory} ,
+            #{item.volume} ,
+            #{item.deliveryCity} ,
+            #{item.priPrdCode} ,
+            #{item.outPrdCode} ,
+            #{item.supplyPrice} ,
+            #{item.supplierId},
+            #{item.giftCardCode} ,
+            #{item.withShipmentFeeSingle} ,
+            #{item.prdType} ,
+            #{item.string3} ,
+            #{item.string4} ,
+            #{item.string5} ,
+            #{item.string6} ,
+            #{item.string7} ,
+            #{item.string8} ,
+            #{item.string9} ,
+            #{item.string10} 
+            )
+        </foreach>
+    </insert>
+    
+    <!-- 单条修改  -->
+    <update id="update">
+        UPDATE TBL_Product
+        <set>
+            <if test="@Ognl@isNotEmpty(type)">
+                type = #{type},
+            </if>
+            <if test="@Ognl@isNotEmpty(code)">
+                code = #{code},
+            </if>
+            <if test="@Ognl@isNotEmpty(showCode)">
+                showCode = #{showCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(prdCatCode)">
+                prdCatCode = #{prdCatCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(topPrdCatCode)">
+                topPrdCatCode = #{topPrdCatCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(brandCode)">
+                brandCode = #{brandCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(companyCode)">
+                companyCode = #{companyCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(searchKey)">
+                searchKey = #{searchKey},
+            </if>
+            <if test="@Ognl@isNotEmpty(title)">
+                title = #{title},
+            </if>
+            <if test="@Ognl@isNotEmpty(features)">
+                features = #{features},
+            </if>
+            <if test="@Ognl@isNotEmpty(barcode)">
+                barcode = #{barcode},
+            </if>
+            <if test="@Ognl@isNotEmpty(standard)">
+                standard = #{standard},
+            </if>
+            <if test="weight != null">
+                weight = #{weight},
+            </if>
+            <if test="logisticsWeight != null">
+                logisticsWeight = #{logisticsWeight},
+            </if>
+            <if test="count != null">
+                count = #{count},
+            </if>
+            <if test="@Ognl@isNotEmpty(prdPlace)">
+                prdPlace = #{prdPlace},
+            </if>
+            <if test="@Ognl@isNotEmpty(priceRange)">
+                priceRange = #{priceRange},
+            </if>
+            <if test="marketPrice != null">
+                marketPrice = #{marketPrice},
+            </if>
+            <if test="salesPrice != null">
+                salesPrice = #{salesPrice},
+            </if>
+            <if test="@Ognl@isNotEmpty(withShipmentFee)">
+                withShipmentFee = #{withShipmentFee},
+            </if>
+            <if test="shipmentFee != null">
+                shipmentFee = #{shipmentFee},
+            </if>
+            <if test="@Ognl@isNotEmpty(withTax)">
+                withTax = #{withTax},
+            </if>
+            <if test="@Ognl@isNotEmpty(soldUnit)">
+                soldUnit = #{soldUnit},
+            </if>
+            <if test="@Ognl@isNotEmpty(sampling)">
+                sampling = #{sampling},
+            </if>
+            <if test="@Ognl@isNotEmpty(image0)">
+                image0 = #{image0},
+            </if>
+            <if test="@Ognl@isNotEmpty(image1)">
+                image1 = #{image1},
+            </if>
+            <if test="@Ognl@isNotEmpty(image2)">
+                image2 = #{image2},
+            </if>
+            <if test="@Ognl@isNotEmpty(image3)">
+                image3 = #{image3},
+            </if>
+            <if test="@Ognl@isNotEmpty(image4)">
+                image4 = #{image4},
+            </if>
+            <if test="@Ognl@isNotEmpty(image5)">
+                image5 = #{image5},
+            </if>
+            <if test="@Ognl@isNotEmpty(highQualityYn)">
+                highQualityYn = #{highQualityYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(approvalStatus)">
+                approvalStatus = #{approvalStatus},
+            </if>
+            <if test="@Ognl@isNotEmpty(approvalOpinion)">
+                approvalOpinion = #{approvalOpinion},
+            </if>
+            <if test="@Ognl@isNotEmpty(customizeYn)">
+                customizeYn = #{customizeYn},
+            </if>
+            <if test="customizeCount != null">
+                customizeCount = #{customizeCount},
+            </if>
+            <if test="customizePrice != null">
+                customizePrice = #{customizePrice},
+            </if>
+            <if test="@Ognl@isNotEmpty(deliveryType)">
+                deliveryType = #{deliveryType},
+            </if>
+            <if test="@Ognl@isNotEmpty(description)">
+                description = #{description},
+            </if>
+            <if test="@Ognl@isNotEmpty(showYn)">
+                showYn = #{showYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(hasoption)">
+                hasoption = #{hasoption},
+            </if>
+            <if test="@Ognl@isNotEmpty(lowestSalePrice)">
+                lowestSalePrice = #{lowestSalePrice},
+            </if>
+            <if test="@Ognl@isNotEmpty(highestSalePrice)">
+                highestSalePrice = #{highestSalePrice},
+            </if>
+            <if test="@Ognl@isNotEmpty(deleteYn)">
+                deleteYn = #{deleteYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(disabledYn)">
+                disabledYn = #{disabledYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(createUser)">
+                createUser = #{createUser},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateUser)">
+                updateUser = #{updateUser},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(salesStatus)">
+                salesStatus = #{salesStatus},
+            </if>
+            <if test="@Ognl@isNotEmpty(hotYn)">
+                hotYn = #{hotYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(defalutLogistics)">
+                defalutLogistics = #{defalutLogistics},
+            </if>
+             <if test="@Ognl@isNotEmpty(defalutWarehouse)">
+                defalutWarehouse = #{defalutWarehouse},
+            </if>
+            <if test="@Ognl@isNotEmpty(dateOfDelivery)">
+                dateOfDelivery = #{dateOfDelivery},
+            </if>
+            <if test="@Ognl@isNotEmpty(navCategory)">
+                navCategory = #{navCategory},
+            </if>
+            <if test="@Ognl@isNotEmpty(volume)">
+                volume = #{volume},
+            </if>
+            <if test="@Ognl@isNotEmpty(deliveryCity)">
+                deliveryCity = #{deliveryCity},
+            </if>
+            <if test="@Ognl@isNotEmpty(priPrdCode)">
+                priPrdCode = #{priPrdCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(outPrdCode)">
+                outPrdCode = #{outPrdCode},
+            </if>
+            <if test="supplyPrice != null">
+                supplyPrice = #{supplyPrice},
+            </if>
+             <if test="@Ognl@isNotEmpty(supplyCompany)">
+                supplyCompany = #{supplyCompany},
+            </if>
+            <if test="supplierId != null">
+                supplierId = #{supplierId},
+            </if>
+            <if test="@Ognl@isNotEmpty(giftCardCode)">
+                giftCardCode = #{giftCardCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(withShipmentFeeSingle)">
+                withShipmentFeeSingle = #{withShipmentFeeSingle},
+            </if>
+            <if test="@Ognl@isNotEmpty(prdType)">
+                prdType = #{prdType},
+            </if>
+            <if test="@Ognl@isNotEmpty(string3)">
+                string3 = #{string3},
+            </if>
+            <if test="@Ognl@isNotEmpty(string4)">
+                string4 = #{string4},
+            </if>
+            <if test="@Ognl@isNotEmpty(string5)">
+                string5 = #{string5},
+            </if>
+            <if test="@Ognl@isNotEmpty(string6)">
+                string6 = #{string6},
+            </if>
+            <if test="@Ognl@isNotEmpty(string7)">
+                string7 = #{string7},
+            </if>
+            <if test="@Ognl@isNotEmpty(string8)">
+                string8 = #{string8},
+            </if>
+            <if test="@Ognl@isNotEmpty(string9)">
+                string9 = #{string9},
+            </if>
+            <if test="@Ognl@isNotEmpty(string10)">
+                string10 = #{string10}
+            </if>
+            
+            
+        </set>
+        WHERE 
+            id = #{id}
+    </update>
+    
+    <!-- 单条修改所有属性  -->
+    <update id="updateAll">
+    <![CDATA[
+        UPDATE TBL_Product SET
+            type = #{type} ,
+            code = #{code} ,
+            showCode = #{showCode} ,
+            prdCatCode = #{prdCatCode} ,
+            topPrdCatCode = #{topPrdCatCode} ,
+            brandCode = #{brandCode} ,
+            companyCode = #{companyCode} ,
+            searchKey = #{searchKey} ,
+            title = #{title} ,
+            features = #{features} ,
+            barcode = #{barcode} ,
+            standard = #{standard} ,
+            weight = #{weight} ,
+            logisticsWeight = #{logisticsWeight} ,
+            count = #{count} ,
+            prdPlace = #{prdPlace} ,
+            priceRange = #{priceRange} ,
+            marketPrice = #{marketPrice} ,
+            salesPrice = #{salesPrice} ,
+            withShipmentFee = #{withShipmentFee} ,
+            shipmentFee = #{shipmentFee} ,
+            withTax = #{withTax} ,
+            soldUnit = #{soldUnit} ,
+            sampling = #{sampling} ,
+            image0 = #{image0} ,
+            image1 = #{image1} ,
+            image2 = #{image2} ,
+            image3 = #{image3} ,
+            image4 = #{image4} ,
+            image5 = #{image5} ,
+            highQualityYn = #{highQualityYn} ,
+            approvalStatus = #{approvalStatus} ,
+            approvalOpinion = #{approvalOpinion} ,
+            customizeYn = #{customizeYn} ,
+            customizeCount = #{customizeCount} ,
+            customizePrice = #{customizePrice} ,
+            deliveryType = #{deliveryType} ,
+            description = #{description} ,
+            showYn = #{showYn} ,
+            hasoption = #{hasoption} ,
+            lowestSalePrice = #{lowestSalePrice} ,
+            highestSalePrice = #{highestSalePrice} ,
+            deleteYn = #{deleteYn} ,
+            disabledYn = #{disabledYn} ,
+            createUser = #{createUser} ,
+            createTime = #{createTime} ,
+            updateUser = #{updateUser} ,
+            updateTime = #{updateTime} ,
+            salesStatus = #{salesStatus} ,
+            hotYn = #{hotYn} ,
+            defalutLogistics = #{defalutLogistics} ,
+            defalutWarehouse  = #{defalutWarehouse},
+            dateOfDelivery = #{dateOfDelivery} ,
+            navCategory = #{navCategory} ,
+            volume = #{volume} ,
+            deliveryCity = #{deliveryCity} ,
+            priPrdCode = #{priPrdCode} ,
+            outPrdCode = #{outPrdCode} ,
+            supplyPrice = #{supplyPrice} ,
+            supplierId = #{supplierId} ,
+            supplyCompany = #{supplyCompany} ,
+            giftCardCode = #{giftCardCode} ,
+            withShipmentFeeSingle = #{withShipmentFeeSingle} ,
+            prdType = #{prdType}
+            string3 = #{string3} ,
+            string4 = #{string4} ,
+            string5 = #{string5} ,
+            string6 = #{string6} ,
+            string7 = #{string7} ,
+            string8 = #{string8} ,
+            string9 = #{string9} ,
+            string10 = #{string10}
+            
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <!-- 删除主键  -->
+    <delete id="deleteByPK">
+    <![CDATA[
+        DELETE FROM TBL_Product WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <!-- 删除主键数组  -->
+    <delete id="deleteByArrPK" parameterType="java.util.List">
+        <![CDATA[DELETE FROM TBL_Product WHERE]]>
+        <foreach collection="list" item="item" index="index" open="id in (" separator="," close=")">
+            <![CDATA[#{item}]]>
+        </foreach>
+    </delete>
+    
+    <!-- 删除条件  -->
+    <delete id="delete">
+        <![CDATA[DELETE T1 FROM TBL_Product T1 ]]>
+        <include refid="dynamicWhere" />
+    </delete>
+    
+    <!-- 主键查询  -->
+    <select id="selectByPK" parameterType="java.lang.Long" resultMap="productResultBase">
+        <include refid="dynamicSelectBase" />
+        <![CDATA[
+            WHERE 
+            T1.id = #{id} 
+        ]]>
+    </select>
+    
+    
+    
+    <!-- 查询是否存在主键 -->
+    <select id="existsByPK" parameterType="java.lang.Long"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <![CDATA[
+        WHERE
+        T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在对象 -->
+    <select id="exists" parameterType="product"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数 -->
+    <select id="count" resultType="int">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数参数Map -->
+    <select id="countByMap" resultType="int" parameterType="map">
+        SELECT count(1)
+       <!--  <include refid="dynamicFrom" /> -->
+        <include refid="dynamicFromForCount" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询数量 -->
+    <select id="pageCount" resultType="int"
+        parameterType="map">
+        SELECT count(1)
+       <!--  <include refid="dynamicFrom" /> -->
+        <include refid="dynamicFromForCount" />
+        <include refid="dynamicWhereEx" />
+        <if test="notId!=null">
+            <![CDATA[T1.id != #{id} ]]>
+        </if>
+    </select>
+    
+    <!-- 分页查询 -->
+    <select id="pageQuery" resultMap="productResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <!-- <include refid="dynamicGroupBy" /> -->
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+    
+    
+
+    <!-- 查询条件Map -->
+    <select id="selectByMap" resultMap="productResult"
+        parameterType="map">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+    </select>
+    
+    
+
+    <!-- 查询条件对象 -->
+    <select id="select" resultMap="productResult"
+        parameterType="product">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhere" />
+        order by T1.id desc
+    </select>
+
+    <!-- 查询条件拼接 -->
+    <select id="selectByCriteria" resultMap="productResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <if test="_parameter != null">
+            <include refid="Common.criteria_Where_Clause" />
+        </if>
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+    
+    <!-- 唯一值查询 -->
+    <select id="getByCode" resultMap="productResult">
+        <include refid="dynamicSelect" />
+        <![CDATA[
+        WHERE T1.code = #{code}
+        ]]>
+    </select>
+    
+    <!-- 属性值是否存在 -->
+    <select id="existsByCode" parameterType="product"
+        resultType="boolean">
+        <![CDATA[
+        SELECT min(1)
+        ]]>
+        <include refid="dynamicFrom" />
+        <where>
+            <if test="@Ognl@isNotEmpty(code)">
+                <![CDATA[and T1.code = #{code} ]]>
+            </if>
+           
+            <if test="notid != null">
+              <![CDATA[ and T1.id != #{notid} ]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(showCode)">
+              <![CDATA[ and T1.showCode = #{showCode} ]]>
+           </if>
+           <if test="@Ognl@isNotEmpty(hasoption)">
+              <![CDATA[and T1.hasoption = #{hasoption} ]]>
+           </if>
+           <if test="@Ognl@isNotEmpty(lowestSalePrice)">
+              <![CDATA[and T1.lowestSalePrice = #{lowestSalePrice} ]]>
+           </if>
+           <if test="@Ognl@isNotEmpty(highestSalePrice)">
+              <![CDATA[and T1.highestSalePrice = #{highestSalePrice} ]]>
+           </if>
+           <if test="@Ognl@isNotEmpty(disabledYn)">
+              <![CDATA[and T1.disabledYn = #{disabledYn} ]]>
+           </if>
+           <if test="@Ognl@isNotEmpty(deleteYn)">
+              <![CDATA[and T1.deleteYn = #{deleteYn} ]]>
+           </if>
+        </where>
+    </select>
+    
+    <!-- EX   -->
+    <select id="selectPrdByCardCode" resultMap="productResult"
+        parameterType="String">
+       select T1.*  from TBL_Product T1, TBL_Giftcard_Product T2 where T1.code = T2.productCode and T2.cardCode= #{prdCode}
+    </select>
+    
+    
+     <select id="selectPrdByProductCode" resultMap="productResult"
+        parameterType="String">
+       select T1.*  from TBL_Product T1  where T1.code = #{productCode} 
+     </select>
+    
+    
+     <select id="selectPrdForProductRs" resultMap="productResult"
+        parameterType="map">
+        
+          <include refid="dynamicSelect" />
+         where T1.code = #{productCode} 
+          and
+         T1.disabledYn = 0 and T1.deleteYn = 0
+    </select>
+    
+    
+    
+    <!-- 分页查询数量 -->
+    <select id="pageCountForHot" resultType="int"
+        parameterType="map">
+        SELECT count(1)
+        from TBL_Product T1,TBL_Product_rs T2  where  T1.code=T2.productCode
+        AND T1.approvalStatus='0'
+        AND T1.salesStatus='Y'
+        
+        <if test="@Ognl@isNotEmpty(type)">
+            AND T2.type = #{type}
+        </if>
+        <if test="@Ognl@isNotEmpty(hotYn)">
+            AND T1.hotYn = #{hotYn}
+        </if>
+        
+    </select>
+    
+    <!-- 分页查询 -->
+    <select id="pageQueryForHot" resultMap="productResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        
+         SELECT
+        <include refid="productColumns" />
+        , T2.name as brandName ,T3.name as prdCatName ,
+        T5.title as comment_title,
+        T5.marketPrice as comment_marketPrice,
+        T5.salesPrice as comment_salesPrice,
+        T5.showCode as comment_showCode,
+        T5.id as comment_id,
+        T5.companyCode as comment_companyCode
+        FROM TBL_Product_rs T8, TBL_Product T1 
+        left join TBL_Brand T2 on T2.code=T1.brandCode and T2.disabledYn = 0 and T2.deleteYn = 0
+        left join TBL_ProductCategory T3 on T3.code = T1.topPrdCatCode and T3.disabledYn = 0 and T3.deleteYn = 0
+        left join TBL_ProductComment T5 on T5.productCode = T1.code and T5.disabledYn = 0 and   T5.deleteYn = 0
+        <if test="@Ognl@isNotEmpty(commentCompanyCode)">
+            AND T5.companyCode != #{commentCompanyCode}
+        </if>
+        where  T1.code=T8.productCode
+        AND T1.approvalStatus='0'
+        AND T1.salesStatus='Y'
+        <if test="@Ognl@isNotEmpty(type)">
+            AND T8.type = #{type}
+        </if>
+        <if test="@Ognl@isNotEmpty(hotYn)">
+            AND T1.hotYn = #{hotYn}
+        </if>
+         order by T8.sort asc ,T1.id desc
+        <include refid="Common.pageEnd" />
+    </select>
+    
+    
+    <!-- 组合查询产品时使用 -->
+    <select id="pageQueryForSearch" resultMap="productResultForSearch"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+    
+    
+    
+     <select id="selectProductByCodeAndCompany" resultMap="productResult"
+        parameterType="map">
+      <include refid="dynamicSelect" />
+         where 1=1
+         
+           <if test="@Ognl@isNotEmpty(productCode)">
+               and  T1.code = #{productCode}
+           </if>
+           <if test="@Ognl@isNotEmpty(id)">
+               and  T1.id = #{id}
+           </if>
+         
+         and
+         T1.disabledYn = 0 and T1.deleteYn = 0
+          
+    </select>
+    
+    <select id="selectByPrdCatCode" resultMap="productResultBase" parameterType="String">
+    	<include refid="dynamicSelectBase" />
+    	WHERE T1.prdCatCode = #{_parameter}
+    	AND T1.deleteYn = 0
+    	AND T1.disabledYn = 0
+    	AND T1.approvalStatus='0'
+        AND T1.salesStatus='Y'
+    </select>
+    
+    <select id="selectByNavCode" parameterType="string" resultMap="productResultBase">
+    	SELECT * FROM TBL_Product T1 WHERE T1.navCategory like concat(concat('%', #{_parameter}), '%') ORDER BY T1.id DESC LIMIT 0, 10
+    </select>
+    
+    <select id="selectById" parameterType="java.lang.Long" resultMap="productResultSpec">
+        <include refid="dynamicSelectBase" />
+        <![CDATA[
+            WHERE 
+            T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <select id="selectByCode" parameterType="java.lang.String" resultMap="productResultSpec">
+        <include refid="dynamicSelectBase" />
+        <![CDATA[
+            WHERE 
+            T1.code = #{code} 
+        ]]>
+    </select>
+    
+</mapper>
+

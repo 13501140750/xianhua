@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- DBUnit flatXml DataFile -->
+<dataset>
+
+    <TBL_Image
+        id='012'
+        imagePath='ImagePath022'
+        source='Source880'
+        deleteYn='1'
+        disabledYn='1'
+        createUser='CreateUser145'
+        createTime='2015-12-14 14:59:34.79'
+        updateUser='UpdateUser861'
+        updateTime='2015-12-14 14:59:34.79'
+    />
+
+    <TBL_Image
+        id='324'
+        imagePath='ImagePath841'
+        source='Source148'
+        deleteYn='1'
+        disabledYn='1'
+        createUser='CreateUser969'
+        createTime='2015-12-14 14:59:34.791'
+        updateUser='UpdateUser860'
+        updateTime='2015-12-14 14:59:34.791'
+    />
+
+</dataset>

@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="OrderExpress">
+    
+    <resultMap id="orderExpressResult" type="orderExpress">
+        <result property="id" column="id" />
+        <result property="orderCode" column="orderCode" />
+        <result property="orderType" column="orderType" />
+        <result property="freightCode" column="freightCode" />
+        <result property="expressNumber" column="expressNumber" />
+        <result property="expressPrice" column="expressPrice" />
+        <result property="printNum" column="printNum" />
+        <result property="printReason" column="printReason" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+        <result property="string1" column="string1" />
+        <result property="string2" column="string2" />
+        <result property="string3" column="string3" />
+        <result property="string4" column="string4" />
+        <result property="string5" column="string5" />
+        <result property="string6" column="string6" />
+        <result property="string7" column="string7" />
+        <result property="string8" column="string8" />
+        <result property="string9" column="string9" />
+        <result property="string10" column="string10" />
+    </resultMap>
+    
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="orderExpressColumns">
+        <![CDATA[
+        T1.id,
+        T1.orderCode,
+        T1.orderType,
+        T1.freightCode,
+        T1.expressNumber,
+        T1.expressPrice,
+        T1.printNum,
+        T1.printReason,
+        T1.deleteYn,
+        T1.disabledYn,
+        T1.createUser,
+        T1.createTime,
+        T1.updateUser,
+        T1.updateTime,
+        T1.string1,
+        T1.string2,
+        T1.string3,
+        T1.string4,
+        T1.string5,
+        T1.string6,
+        T1.string7,
+        T1.string8,
+        T1.string9,
+        T1.string10
+        ]]>
+    </sql>
+    
+    <!-- 查询from -->
+    <sql id="dynamicFrom">
+        FROM TBL_Order_Express T1
+    </sql>
+    
+    <!-- 查询选择colum -->
+    <sql id="dynamicSelect">
+        SELECT
+        <include refid="orderExpressColumns" />
+        <include refid="dynamicFrom" />
+    </sql>
+    
+    <!-- 查询条件 -->
+    <sql id="dynamicCondition">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用framework中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <if test="id != null">
+            AND T1.id = #{id}
+        </if>
+        <if test="idEx != null">
+            AND T1.id != #{idEx}
+        </if>
+        <if test="@Ognl@isNotEmpty(orderCode)">
+            AND T1.orderCode = #{orderCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(orderType)">
+            AND T1.orderType = #{orderType}
+        </if>
+        <if test="@Ognl@isNotEmpty(freightCode)">
+            AND T1.freightCode = #{freightCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(expressNumber)">
+            AND T1.expressNumber = #{expressNumber}
+        </if>
+        <if test="expressPrice != null">
+            AND T1.expressPrice = #{expressPrice}
+        </if>
+        <if test="printNum != null">
+            AND T1.printNum = #{printNum}
+        </if>
+        <if test="@Ognl@isNotEmpty(printReason)">
+            AND T1.printReason = #{printReason}
+        </if>
+        <if test="@Ognl@isNotEmpty(deleteYn)">
+            AND T1.deleteYn = #{deleteYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(disabledYn)">
+            AND T1.disabledYn = #{disabledYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(createUser)">
+            AND T1.createUser = #{createUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(updateUser)">
+            AND T1.updateUser = #{updateUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(string1)">
+            AND T1.string1 = #{string1}
+        </if>
+        <if test="@Ognl@isNotEmpty(string2)">
+            AND T1.string2 = #{string2}
+        </if>
+        <if test="@Ognl@isNotEmpty(string3)">
+            AND T1.string3 = #{string3}
+        </if>
+        <if test="@Ognl@isNotEmpty(string4)">
+            AND T1.string4 = #{string4}
+        </if>
+        <if test="@Ognl@isNotEmpty(string5)">
+            AND T1.string5 = #{string5}
+        </if>
+        <if test="@Ognl@isNotEmpty(string6)">
+            AND T1.string6 = #{string6}
+        </if>
+        <if test="@Ognl@isNotEmpty(string7)">
+            AND T1.string7 = #{string7}
+        </if>
+        <if test="@Ognl@isNotEmpty(string8)">
+            AND T1.string8 = #{string8}
+        </if>
+        <if test="@Ognl@isNotEmpty(string9)">
+            AND T1.string9 = #{string9}
+        </if>
+        <if test="@Ognl@isNotEmpty(string10)">
+            AND T1.string10 = #{string10}
+        </if>
+    </sql>
+    
+    <!-- 查询where条件 -->
+    <sql id="dynamicWhere">
+        <where>
+            <include refid="dynamicCondition" />
+        </where>
+    </sql>
+    
+    <!-- 查询where条件(map) -->
+    <sql id="dynamicWhereEx">
+        <where>
+            <include refid="dynamicCondition" />
+            <if test="@Ognl@isNotEmpty(createTimeBegin)">
+                <![CDATA[AND T1.createTime >= #{createTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeEnd)">
+                <![CDATA[AND T1.createTime < date_add(#{createTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+                <![CDATA[AND T1.updateTime >= #{updateTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+                <![CDATA[AND T1.updateTime < date_add(#{updateTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+        </where>
+    </sql>
+
+    <!-- 排序条件 -->
+    <sql id="dynamicOrderBy">
+        <choose>
+            <when test="@Ognl@isNotEmpty(orderBy)">
+                <trim suffix="" suffixOverrides="order by">
+                <foreach collection="orderBy" item="order" open="order by " separator="," close=" ">
+                <choose>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'orderCode'">
+                        T1.orderCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'orderType'">
+                        T1.orderType <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'freightCode'">
+                        T1.freightCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'expressNumber'">
+                        T1.expressNumber <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'expressPrice'">
+                        T1.expressPrice <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'printNum'">
+                        T1.printNum <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'printReason'">
+                        T1.printReason <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'deleteYn'">
+                        T1.deleteYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'disabledYn'">
+                        T1.disabledYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createUser'">
+                        T1.createUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createTime'">
+                        T1.createTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateUser'">
+                        T1.updateUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateTime'">
+                        T1.updateTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string1'">
+                        T1.string1 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string2'">
+                        T1.string2 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string3'">
+                        T1.string3 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string4'">
+                        T1.string4 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string5'">
+                        T1.string5 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string6'">
+                        T1.string6 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string7'">
+                        T1.string7 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string8'">
+                        T1.string8 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string9'">
+                        T1.string9 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'string10'">
+                        T1.string10 <if test="!order.ascending"> desc </if>
+                    </when>
+                </choose>
+                </foreach>
+                </trim>
+            </when>
+            <otherwise>
+            order by T1.id desc
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 单条录入  -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO TBL_Order_Express (
+            orderCode ,
+            orderType ,
+            freightCode ,
+            expressNumber ,
+            expressPrice ,
+            printNum ,
+            printReason ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime ,
+            string1 ,
+            string2 ,
+            string3 ,
+            string4 ,
+            string5 ,
+            string6 ,
+            string7 ,
+            string8 ,
+            string9 ,
+            string10 
+            ) VALUES (
+            #{orderCode} ,
+            #{orderType} ,
+            #{freightCode} ,
+            #{expressNumber} ,
+            #{expressPrice} ,
+            #{printNum} ,
+            #{printReason} ,
+            #{deleteYn} ,
+            #{disabledYn} ,
+            #{createUser} ,
+            #{createTime} ,
+            #{updateUser} ,
+            #{updateTime} ,
+            #{string1} ,
+            #{string2} ,
+            #{string3} ,
+            #{string4} ,
+            #{string5} ,
+            #{string6} ,
+            #{string7} ,
+            #{string8} ,
+            #{string9} ,
+            #{string10} 
+            )
+        ]]>
+        <selectKey resultType="java.lang.Long"
+            order="AFTER"
+            keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    
+    <!-- 批量录入  -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO TBL_Order_Express (
+            orderCode ,
+            orderType ,
+            freightCode ,
+            expressNumber ,
+            expressPrice ,
+            printNum ,
+            printReason ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime ,
+            string1 ,
+            string2 ,
+            string3 ,
+            string4 ,
+            string5 ,
+            string6 ,
+            string7 ,
+            string8 ,
+            string9 ,
+            string10 
+            ) 
+            VALUES 
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.orderCode} ,
+            #{item.orderType} ,
+            #{item.freightCode} ,
+            #{item.expressNumber} ,
+            #{item.expressPrice} ,
+            #{item.printNum} ,
+            #{item.printReason} ,
+            #{item.deleteYn} ,
+            #{item.disabledYn} ,
+            #{item.createUser} ,
+            #{item.createTime} ,
+            #{item.updateUser} ,
+            #{item.updateTime} ,
+            #{item.string1} ,
+            #{item.string2} ,
+            #{item.string3} ,
+            #{item.string4} ,
+            #{item.string5} ,
+            #{item.string6} ,
+            #{item.string7} ,
+            #{item.string8} ,
+            #{item.string9} ,
+            #{item.string10} 
+            )
+        </foreach>
+    </insert>
+    
+    <!-- 单条修改  -->
+    <update id="update">
+        UPDATE TBL_Order_Express
+        <set>
+            <if test="@Ognl@isNotEmpty(orderCode)">
+                orderCode = #{orderCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(orderType)">
+                orderType = #{orderType},
+            </if>
+            <if test="@Ognl@isNotEmpty(freightCode)">
+                freightCode = #{freightCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(expressNumber)">
+                expressNumber = #{expressNumber},
+            </if>
+            <if test="expressPrice != null">
+                expressPrice = #{expressPrice},
+            </if>
+            <if test="printNum != null">
+                printNum = #{printNum},
+            </if>
+            <if test="@Ognl@isNotEmpty(printReason)">
+                printReason = #{printReason},
+            </if>
+            <if test="@Ognl@isNotEmpty(deleteYn)">
+                deleteYn = #{deleteYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(disabledYn)">
+                disabledYn = #{disabledYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(createUser)">
+                createUser = #{createUser},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateUser)">
+                updateUser = #{updateUser},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(string1)">
+                string1 = #{string1},
+            </if>
+            <if test="@Ognl@isNotEmpty(string2)">
+                string2 = #{string2},
+            </if>
+            <if test="@Ognl@isNotEmpty(string3)">
+                string3 = #{string3},
+            </if>
+            <if test="@Ognl@isNotEmpty(string4)">
+                string4 = #{string4},
+            </if>
+            <if test="@Ognl@isNotEmpty(string5)">
+                string5 = #{string5},
+            </if>
+            <if test="@Ognl@isNotEmpty(string6)">
+                string6 = #{string6},
+            </if>
+            <if test="@Ognl@isNotEmpty(string7)">
+                string7 = #{string7},
+            </if>
+            <if test="@Ognl@isNotEmpty(string8)">
+                string8 = #{string8},
+            </if>
+            <if test="@Ognl@isNotEmpty(string9)">
+                string9 = #{string9},
+            </if>
+            <if test="@Ognl@isNotEmpty(string10)">
+                string10 = #{string10}
+            </if>
+        </set>
+        WHERE 
+            id = #{id}
+    </update>
+    
+    <!-- 单条修改所有属性  -->
+    <update id="updateAll">
+    <![CDATA[
+        UPDATE TBL_Order_Express SET
+            orderCode = #{orderCode} ,
+            orderType = #{orderType} ,
+            freightCode = #{freightCode} ,
+            expressNumber = #{expressNumber} ,
+            expressPrice = #{expressPrice} ,
+            printNum = #{printNum} ,
+            printReason = #{printReason} ,
+            deleteYn = #{deleteYn} ,
+            disabledYn = #{disabledYn} ,
+            createUser = #{createUser} ,
+            createTime = #{createTime} ,
+            updateUser = #{updateUser} ,
+            updateTime = #{updateTime} ,
+            string1 = #{string1} ,
+            string2 = #{string2} ,
+            string3 = #{string3} ,
+            string4 = #{string4} ,
+            string5 = #{string5} ,
+            string6 = #{string6} ,
+            string7 = #{string7} ,
+            string8 = #{string8} ,
+            string9 = #{string9} ,
+            string10 = #{string10} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <!-- 删除主键  -->
+    <delete id="deleteByPK">
+    <![CDATA[
+        DELETE FROM TBL_Order_Express WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <!-- 删除主键数组  -->
+    <delete id="deleteByArrPK" parameterType="java.util.List">
+        <![CDATA[DELETE FROM TBL_Order_Express WHERE]]>
+        <foreach collection="list" item="item" index="index" open="id in (" separator="," close=")">
+            <![CDATA[#{item}]]>
+        </foreach>
+    </delete>
+    
+    <!-- 删除条件  -->
+    <delete id="delete">
+        <![CDATA[DELETE T1 FROM TBL_Order_Express T1 ]]>
+        <include refid="dynamicWhere" />
+    </delete>
+    
+    <!-- 主键查询  -->
+    <select id="selectByPK" parameterType="java.lang.Long" resultMap="orderExpressResult">
+        <include refid="dynamicSelect" />
+        <![CDATA[
+            WHERE 
+            T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在主键 -->
+    <select id="existsByPK" parameterType="java.lang.Long"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <![CDATA[
+        WHERE
+        T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在对象 -->
+    <select id="exists" parameterType="orderExpress"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数 -->
+    <select id="count" resultType="int">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数参数Map -->
+    <select id="countByMap" resultType="int" parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询数量 -->
+    <select id="pageCount" resultType="int"
+        parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询 -->
+    <select id="pageQuery" resultMap="orderExpressResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+
+    <!-- 查询条件Map -->
+    <select id="selectByMap" resultMap="orderExpressResult"
+        parameterType="map">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+    </select>
+
+    <!-- 查询条件对象 -->
+    <select id="select" resultMap="orderExpressResult"
+        parameterType="orderExpress">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhere" />
+        order by T1.id desc
+    </select>
+
+    <!-- 查询条件拼接 -->
+    <select id="selectByCriteria" resultMap="orderExpressResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <if test="_parameter != null">
+            <include refid="Common.criteria_Where_Clause" />
+        </if>
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+    
+    
+    
+</mapper>
+

@@ -1,0 +1,624 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="StockLevel">
+    <resultMap id="warehouseResult" type="warehouse">
+        <result property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="contact" column="contact" />
+        <result property="phone" column="phone" />
+        <result property="province" column="province" />
+        <result property="city" column="city" />
+        <result property="county" column="county" />
+        <result property="address" column="address" />
+        <result property="type" column="type" />
+        <result property="level" column="level" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+        
+    </resultMap>  
+    
+    <resultMap id="productResult" type="product">
+        <result property="id" column="id" />
+        <result property="code" column="code" />
+        <result property="title" column="title" />
+        <result property="showCode" column="showCode" />
+        <result property="outPrdCode" column="outPrdCode" />
+    </resultMap>
+    
+    <resultMap id="stockLevelResult" type="stockLevel">
+        <result property="id" column="id" />
+        <result property="warehouseId" column="warehouseId" />
+        <result property="productId" column="productId" />
+        <result property="productCode" column="productCode" />
+        <result property="type" column="type" />
+        <result property="amount" column="amount" />
+        <result property="alertAmount" column="alertAmount" />
+        <result property="defectiveAmount" column="defectiveAmount" />
+         <result property="factoryCode" column="factoryCode" />
+        <result property="level" column="level" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+       
+    </resultMap>
+    
+    <resultMap id="stockLevelResultEx" type="stockLevel" extends="stockLevelResult">
+        <association property="warehouse" column="warehouseId" javaType="com.jifenbao.model.Warehouse" select="selectWarehouse"></association>
+        <association property="product" column="productCode" javaType="com.jifenbao.model.Product" select="selectProduct"></association>
+        <association property="totalIn" column="id" javaType="java.lang.Long" select="selectTotalIn"></association>
+        <association property="totalOut" column="id" javaType="java.lang.Long" select="selectTotalOut"></association>
+    </resultMap>
+    
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="stockLevelColumns">
+        <![CDATA[
+        T1.id,
+        T1.warehouseId,
+        T1.productId,
+        T1.productCode,
+        T1.type,
+        T1.level,
+        T1.amount,
+        T1.alertAmount,
+        T1.defectiveAmount,
+        T1.deleteYn,
+        T1.disabledYn,
+        T1.createUser,
+        T1.createTime,
+        T1.updateUser,
+        T1.updateTime,
+        T1.factoryCode
+        ]]>
+    </sql>
+    
+    
+   
+    
+    <!-- 查询from -->
+    <sql id="dynamicFrom">
+        FROM TBL_StockLevel T1
+    </sql>
+    
+    <!-- 查询from -->
+    <sql id="dynamicFromEx">
+        FROM TBL_StockLevel T1
+        <if test="@Ognl@isNotEmpty(warehouseType)">
+        JOIN TBL_Warehouse T2
+        ON T1.warehouseId = T2.id
+        </if>
+    </sql>
+    
+    <!-- 查询选择colum -->
+    <sql id="dynamicSelect">
+        SELECT
+        <include refid="stockLevelColumns" />
+        <include refid="dynamicFrom" />
+    </sql>
+    
+    <!-- 查询选择colum -->
+    <sql id="dynamicSelectEx">
+        SELECT
+        <include refid="stockLevelColumns" />
+        <include refid="dynamicFromEx" />
+    </sql>
+    
+    <!-- 查询条件 -->
+    <sql id="dynamicCondition">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用framework中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <if test="id != null">
+            AND T1.id = #{id}
+        </if>
+        <if test="idEx != null">
+            AND T1.id != #{idEx}
+        </if>
+        <if test="@Ognl@isNotEmpty(warehouseId)">
+            AND T1.warehouseId = #{warehouseId}
+        </if>
+        <if test="productId != null">
+            AND T1.productId = #{productId}
+        </if>
+        <if test="@Ognl@isNotEmpty(productCode)">
+            AND T1.productCode = #{productCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(type)">
+            AND T1.type = #{type}
+        </if>
+        <if test="level != null">
+            AND T1.level = #{level}
+        </if>
+        <if test="amount != null">
+            AND T1.amount = #{amount}
+        </if>
+        <if test="alertAmount != null">
+            AND T1.alertAmount = #{alertAmount}
+        </if>
+        <if test="defectiveAmount != null">
+            AND T1.defectiveAmount = #{defectiveAmount}
+        </if>
+        <if test="@Ognl@isNotEmpty(deleteYn)">
+            AND T1.deleteYn = #{deleteYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(disabledYn)">
+            AND T1.disabledYn = #{disabledYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(createUser)">
+            AND T1.createUser = #{createUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(updateUser)">
+            AND T1.updateUser = #{updateUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(factoryCode)">
+            AND T1.factoryCode = #{factoryCode}
+        </if>
+    </sql>
+    
+    <!-- 查询where条件 -->
+    <sql id="dynamicWhere">
+        <where>
+            <include refid="dynamicCondition" />
+        </where>
+    </sql>
+    
+    <!-- 查询where条件(map) -->
+    <sql id="dynamicWhereEx">
+        <where>
+            <include refid="dynamicCondition" />
+            <if test="@Ognl@isNotEmpty(createTimeBegin)">
+                <![CDATA[AND T1.createTime >= #{createTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeEnd)">
+                <![CDATA[AND T1.createTime < date_add(#{createTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+                <![CDATA[AND T1.updateTime >= #{updateTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+                <![CDATA[AND T1.updateTime < date_add(#{updateTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(warehouseType)">
+                <![CDATA[AND T2.type = #{warehouseType}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(searchPrdText)">
+                <![CDATA[
+                AND
+                  T1.productCode in (
+                    select T3.code from TBL_Product T3 WHERE 
+                    
+                     T3.title  like     CONCAT(CONCAT('%', #{searchPrdText}), '%')
+                  or 
+                 T3.showCode  like  CONCAT(CONCAT('%', #{searchPrdText}), '%')
+                 or
+                 T3.outPrdCode  like  CONCAT(CONCAT('%', #{searchPrdText}), '%')
+                 or 
+                 T3.features  like  CONCAT(CONCAT('%', #{searchPrdText}), '%') 
+                 or 
+                 T3.barcode  like   CONCAT(CONCAT('%', #{searchPrdText}), '%') 
+                  or 
+                 T3.standard  like  CONCAT(CONCAT('%', #{searchPrdText}), '%') 
+                  or 
+                 T3.prdPlace  like  CONCAT(CONCAT('%', #{searchPrdText}), '%') 
+                  or 
+                 T3.code  like  CONCAT(CONCAT('%', #{searchPrdText}), '%')
+                  )
+            ]]>
+            </if>
+        </where>
+    </sql>
+
+    <!-- 排序条件 -->
+    <sql id="dynamicOrderBy">
+        <choose>
+            <when test="@Ognl@isNotEmpty(orderBy)">
+                <trim suffix="" suffixOverrides="order by">
+                <foreach collection="orderBy" item="order" open="order by " separator="," close=" ">
+                <choose>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'warehouseId'">
+                        T1.warehouseId <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'productId'">
+                        T1.productId <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'productCode'">
+                        T1.productCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'type'">
+                        T1.type <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'amount'">
+                        T1.amount <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'alertAmount'">
+                        T1.alertAmount <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'defectiveAmount'">
+                        T1.defectiveAmount <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'deleteYn'">
+                        T1.deleteYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'disabledYn'">
+                        T1.disabledYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createUser'">
+                        T1.createUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createTime'">
+                        T1.createTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateUser'">
+                        T1.updateUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateTime'">
+                        T1.updateTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'factoryCode'">
+                        T1.factoryCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    
+                    <when test="order.propertyName == 'level'">
+                        T1.level <if test="!order.ascending"> desc </if>
+                    </when>
+                    
+                </choose>
+                </foreach>
+                </trim>
+            </when>
+            <otherwise>
+            order by T1.id desc
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 单条录入  -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO TBL_StockLevel (
+            warehouseId ,
+            productId ,
+            productCode ,
+            type ,
+            level,
+            amount ,
+            alertAmount ,
+            defectiveAmount ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime ,
+            factoryCode 
+            ) VALUES (
+            #{warehouseId} ,
+            #{productId} ,
+            #{productCode} ,
+            #{type} ,
+            #{level},
+            #{amount} ,
+            #{alertAmount} ,
+            #{defectiveAmount} ,
+            #{deleteYn} ,
+            #{disabledYn} ,
+            #{createUser} ,
+            #{createTime} ,
+            #{updateUser} ,
+            #{updateTime} ,
+            #{factoryCode} 
+            )
+        ]]>
+        <selectKey resultType="java.lang.Integer"
+            order="AFTER"
+            keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    
+    <!-- 批量录入  -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO TBL_StockLevel (
+            warehouseId ,
+            productId ,
+            productCode ,
+            type ,
+            level,
+            amount ,
+            alertAmount ,
+            defectiveAmount ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime ,
+            factoryCode 
+            ) 
+            VALUES 
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.warehouseId} ,
+            #{item.productId} ,
+            #{item.productCode} ,
+            #{item.type} ,
+            #{item.level},
+            #{item.amount} ,
+            #{item.alertAmount} ,
+            #{item.defectiveAmount} ,
+            #{item.deleteYn} ,
+            #{item.disabledYn} ,
+            #{item.createUser} ,
+            #{item.createTime} ,
+            #{item.updateUser} ,
+            #{item.updateTime} ,
+            #{item.factoryCode} 
+            )
+        </foreach>
+    </insert>
+    
+    <!-- 单条修改  -->
+    <update id="update">
+        UPDATE TBL_StockLevel
+        <set>
+            <if test="warehouseId != null">
+                warehouseId = #{warehouseId},
+            </if>
+            <if test="productId != null">
+                productId = #{productId},
+            </if>
+            <if test="@Ognl@isNotEmpty(productCode)">
+                productCode = #{productCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(type)">
+                type = #{type},
+            </if>
+            <if test="amount != null">
+                amount = #{amount},
+            </if>
+            <if test="alertAmount != null">
+                alertAmount = #{alertAmount},
+            </if>
+            <if test="defectiveAmount != null">
+                defectiveAmount = #{defectiveAmount},
+            </if>
+            <if test="@Ognl@isNotEmpty(deleteYn)">
+                deleteYn = #{deleteYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(disabledYn)">
+                disabledYn = #{disabledYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(createUser)">
+                createUser = #{createUser},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateUser)">
+                updateUser = #{updateUser},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(factoryCode)">
+                factoryCode = #{factoryCode},
+            </if>
+            <if test="level != null">
+                level = #{level}
+            </if>
+            
+        </set>
+        WHERE 
+            id = #{id}
+    </update>
+    
+    <!-- 单条修改所有属性  -->
+    <update id="updateAll">
+    <![CDATA[
+        UPDATE TBL_StockLevel SET
+            warehouseId = #{warehouseId} ,
+            productId = #{productId} ,
+            productCode = #{productCode} ,
+            type = #{type} ,
+            level = #{level} ,
+            amount = #{amount} ,
+            alertAmount = #{alertAmount} ,
+            defectiveAmount = #{defectiveAmount} ,
+            deleteYn = #{deleteYn} ,
+            disabledYn = #{disabledYn} ,
+            createUser = #{createUser} ,
+            createTime = #{createTime} ,
+            updateUser = #{updateUser} ,
+            updateTime = #{updateTime} ,
+            factoryCode = #{factoryCode} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <!-- 删除主键  -->
+    <delete id="deleteByPK">
+    <![CDATA[
+        DELETE FROM TBL_StockLevel WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <!-- 删除主键数组  -->
+    <delete id="deleteByArrPK" parameterType="java.util.List">
+        <![CDATA[DELETE FROM TBL_StockLevel WHERE]]>
+        <foreach collection="list" item="item" index="index" open="id in (" separator="," close=")">
+            <![CDATA[#{item}]]>
+        </foreach>
+    </delete>
+    
+    <!-- 删除条件  -->
+    <delete id="delete">
+        <![CDATA[DELETE T1 FROM TBL_StockLevel T1 ]]>
+        <include refid="dynamicWhere" />
+    </delete>
+    
+    <!-- 主键查询  -->
+    <select id="selectByPK" parameterType="java.lang.Integer" resultMap="stockLevelResult">
+        <include refid="baseDynamicSelect" />
+        <![CDATA[
+            WHERE 
+            T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在主键 -->
+    <select id="existsByPK" parameterType="java.lang.Integer"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <![CDATA[
+        WHERE
+        T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在对象 -->
+    <select id="exists" parameterType="stockLevel"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数 -->
+    <select id="count" resultType="int">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数参数Map -->
+    <select id="countByMap" resultType="int" parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFromEx" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询数量 -->
+    <select id="pageCount" resultType="int"
+        parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFromEx" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询 -->
+    <select id="pageQuery" resultMap="stockLevelResultEx"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelectEx" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+
+    <!-- 查询条件Map -->
+    <select id="selectByMap" resultMap="stockLevelResultEx"
+        parameterType="map">
+        <include refid="dynamicSelectEx" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+    </select>
+
+    <!-- 查询条件对象 -->
+    <select id="select" resultMap="stockLevelResultEx"
+        parameterType="stockLevel">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhere" />
+        order by T1.id desc
+    </select>
+
+    <!-- 查询条件拼接 -->
+    <select id="selectByCriteria" resultMap="stockLevelResultEx"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <if test="_parameter != null">
+            <include refid="Common.criteria_Where_Clause" />
+        </if>
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+    
+    <!-- 查询仓库 -->
+    <select id="selectWarehouse" resultMap="warehouseResult" parameterType="int">
+        SELECT
+        T1.id,
+        T1.name,
+        T1.contact,
+        T1.phone,
+        T1.province,
+        T1.city,
+        T1.county,
+        T1.address,
+        T1.deleteYn,
+        T1.disabledYn,
+        T1.createUser,
+        T1.createTime,
+        T1.updateUser,
+        T1.updateTime,
+        T1.type
+        FROM TBL_Warehouse T1
+        WHERE T1.id = #{warehouseId}
+    </select>
+    
+    <!-- 查询产品 -->
+    <select id="selectProduct" resultMap="productResult" parameterType="long">
+        SELECT
+        T1.id,
+        T1.code,
+        T1.showCode,
+        T1.title
+        FROM TBL_Product T1
+        WHERE T1.code = #{productCode}
+    </select>
+    
+    <select id="selectStockLevelByProductCode" resultMap="stockLevelResult" parameterType="String">
+       SELECT *  from TBL_StockLevel T1 where T1.productCode=#{productCode}
+       order by T1.level,T1.id  limit 1
+    </select>
+    
+    <!-- 入库总数 -->
+    <select id="selectTotalIn" resultType="long" parameterType="int">
+      SELECT SUM(T1.amount) FROM TBL_StockLog T1 WHERE T1.stockLevelId = #{id} AND T1.type = 0;
+    </select>
+    
+    <!-- 出库总数 -->
+    <select id="selectTotalOut" resultType="long" parameterType="int">
+      SELECT SUM(T1.amount) FROM TBL_StockLog T1 WHERE T1.stockLevelId = #{id} AND T1.type = 1;
+    </select>
+    
+    <!-- select by  pk -->
+    
+     <!-- 查询from -->
+    <sql id="baseDynamicFrom">
+        FROM TBL_StockLevel T1
+    </sql>
+    
+     <sql id="baseDynamicSelect">
+        SELECT
+        <include refid="stockLevelColumns" />
+        <include refid="baseDynamicFrom" />
+    </sql>
+</mapper>
+

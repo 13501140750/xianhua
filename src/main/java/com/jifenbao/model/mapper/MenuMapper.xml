@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="Menu">
+
+    <resultMap id="functionalityResult" type="functionality">
+        <result property="id" column="id" />
+        <result property="code" column="code" />
+        <result property="name" column="name" />
+        <result property="operation" column="operation" />
+        <result property="menuId" column="menu_id" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+    </resultMap>
+    
+    <resultMap id="menuResult" type="menu">
+        <result property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="type" column="type" />
+        <result property="model" column="model" />
+        <result property="action" column="action" />
+        <result property="sort" column="sort" />
+        <result property="parent" column="parent" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+        <result property="functions" column="functions" />
+        <result property="visibility" column="visibility" />
+        <collection property="functionalities" column="id" select="getFunctionalities"></collection>
+    </resultMap>
+    
+    <resultMap id="menuTreeResult" type="menu" extends="menuResult">
+        <collection property="children" ofType="menu" column="id" select="getTree" />
+    </resultMap>
+
+    <resultMap id="menuTree4UserResult" type="menu" >
+        <result property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="type" column="type" />
+        <result property="model" column="model" />
+        <result property="action" column="action" />
+        <result property="sort" column="sort" />
+        <result property="parent" column="parent" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+        <result property="functions" column="functions" />
+        <result column="roleCode" />
+        <result column="username" />
+        <collection property="functionalities" column="{id = id, roleCode = roleCode}" select="getFunctionalities4User"></collection>
+        <collection property="children" ofType="menu" column="{id = id, username = username}" select="getTree4User" />
+    </resultMap>
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="menuColumns">
+        <![CDATA[
+        T1.id,
+        T1.name,
+        T1.type,
+        T1.model,
+        T1.action,
+        T1.sort,
+        T1.parent,
+        T1.deleteYn,
+        T1.disabledYn,
+        T1.createUser,
+        T1.createTime,
+        T1.updateUser,
+        T1.updateTime,
+        T1.functions,
+        T1.visibility
+        ]]>
+    </sql>
+
+    <!-- 查询from -->
+    <sql id="dynamicFrom">
+        FROM TBL_Menu T1
+    </sql>
+
+    <!-- 查询选择colum -->
+    <sql id="dynamicSelect">
+        SELECT
+        <include refid="menuColumns" />
+        <include refid="dynamicFrom" />
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="dynamicCondition">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用framework中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <if test="id != null">
+            AND T1.id = #{id}
+        </if>
+        <if test="idEx != null">
+            AND T1.id != #{idEx}
+        </if>
+        <if test="@Ognl@isNotEmpty(name)">
+            AND T1.name = #{name}
+        </if>
+        <if test="@Ognl@isNotEmpty(type)">
+            AND T1.type = #{type}
+        </if>
+        <if test="@Ognl@isNotEmpty(model)">
+            AND T1.model = #{model}
+        </if>
+        <if test="@Ognl@isNotEmpty(action)">
+            AND T1.action = #{action}
+        </if>
+        <if test="sort != null">
+            AND T1.sort = #{sort}
+        </if>
+        <if test="parent != null">
+            AND T1.parent = #{parent}
+        </if>
+        <if test="@Ognl@isNotEmpty(deleteYn)">
+            AND T1.deleteYn = #{deleteYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(disabledYn)">
+            AND T1.disabledYn = #{disabledYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(createUser)">
+            AND T1.createUser = #{createUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(updateUser)">
+            AND T1.updateUser = #{updateUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(functions)">
+            AND T1.functions = #{functions}
+        </if>
+        <if test="visibility != null">
+            AND T1.visibility = #{visibility}
+        </if>
+    </sql>
+
+    <!-- 查询where条件 -->
+    <sql id="dynamicWhere">
+        <where>
+            <include refid="dynamicCondition" />
+        </where>
+    </sql>
+
+    <!-- 查询where条件(map) -->
+    <sql id="dynamicWhereEx">
+        <where>
+            <include refid="dynamicCondition" />
+            <if test="@Ognl@isNotEmpty(createTimeBegin)">
+                <![CDATA[AND T1.createTime >= #{createTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeEnd)">
+                <![CDATA[AND T1.createTime < date_add(#{createTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+                <![CDATA[AND T1.updateTime >= #{updateTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+                <![CDATA[AND T1.updateTime < date_add(#{updateTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+        </where>
+    </sql>
+
+    <!-- 排序条件 -->
+    <sql id="dynamicOrderBy">
+        <choose>
+            <when test="@Ognl@isNotEmpty(orderBy)">
+                <trim suffix="" suffixOverrides="order by">
+                    <foreach collection="orderBy" item="order" open="order by " separator="," close=" ">
+                        <choose>
+                            <when test="order.propertyName == 'id'">
+                                T1.id
+                                <if test="!order.ascending"> desc </if>
+                            </when>
+                            <when test="order.propertyName == 'id'">
+                                T1.id
+                                <if test="!order.ascending"> desc </if>
+                            </when>
+                            <when test="order.propertyName == 'name'">
+                                T1.name
+                                <if test="!order.ascending"> desc </if>
+                            </when>
+                            <when test="order.propertyName == 'type'">
+                                T1.type
+                                <if test="!order.ascending"> desc </if>
+                            </when>
+                            <when test="order.propertyName == 'model'">
+                                T1.model
+                                <if test="!order.ascending"> desc </if>
+                            </when>
+                            <when test="order.propertyName == 'action'">
+                                T1.action
+                                <if test="!order.ascending"> desc </if>
+                            </when>
+                            <when test="order.propertyName == 'sort'">
+                                T1.sort
+                                <if test="!order.ascending"> desc </if>
+                            </when>
+                            <when test="order.propertyName == 'parent'">
+                                T1.parent
+                                <if test="!order.ascending"> desc </if>
+                            </when>
+                            <when test="order.propertyName == 'deleteYn'">
+                                T1.deleteYn
+                                <if test="!order.ascending"> desc </if>
+                            </when>
+                            <when test="order.propertyName == 'disabledYn'">
+                                T1.disabledYn
+                                <if test="!order.ascending"> desc </if>
+                            </when>
+                            <when test="order.propertyName == 'createUser'">
+                                T1.createUser
+                                <if test="!order.ascending"> desc </if>
+                            </when>
+                            <when test="order.propertyName == 'createTime'">
+                                T1.createTime
+                                <if test="!order.ascending"> desc </if>
+                            </when>
+                            <when test="order.propertyName == 'updateUser'">
+                                T1.updateUser
+                                <if test="!order.ascending"> desc </if>
+                            </when>
+                            <when test="order.propertyName == 'updateTime'">
+                                T1.updateTime
+                                <if test="!order.ascending"> desc </if>
+                            </when>
+							<when test="order.propertyName == 'functions'">
+								T1.functions <if test="!order.ascending"> desc </if>
+							</when>
+                    <when test="order.propertyName == 'visibility'">
+                        T1.visibility <if test="!order.ascending"> desc </if>
+                    </when>
+                        </choose>
+                    </foreach>
+                </trim>
+            </when>
+            <otherwise>
+                order by T1.id desc
+            </otherwise>
+        </choose>
+    </sql>
+
+    <!-- 单条录入 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO TBL_Menu (
+            name ,
+            type ,
+            model ,
+            action ,
+            sort ,
+            parent ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime ,
+            functions,
+            visibility 
+            ) VALUES (
+            #{name} ,
+            #{type} ,
+            #{model} ,
+            #{action} ,
+            #{sort} ,
+            #{parent} ,
+            #{deleteYn} ,
+            #{disabledYn} ,
+            #{createUser} ,
+            #{createTime} ,
+            #{updateUser} ,
+            #{updateTime} ,
+            #{functions} ,
+            #{visibility} 
+            )
+        ]]>
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <!-- 批量录入 -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO TBL_Menu (
+        name ,
+        type ,
+        model ,
+        action ,
+        sort ,
+        parent ,
+        deleteYn ,
+        disabledYn ,
+        createUser ,
+        createTime ,
+        updateUser ,
+        updateTime ,
+        functions ,
+        visibility
+		)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.name} ,
+            #{item.type} ,
+            #{item.model} ,
+            #{item.action} ,
+            #{item.sort} ,
+            #{item.parent} ,
+            #{item.deleteYn} ,
+            #{item.disabledYn} ,
+            #{item.createUser} ,
+            #{item.createTime} ,
+            #{item.updateUser} ,
+            #{item.updateTime} ,
+            #{item.functions} ,
+            #{item.visibility} 
+            )
+        </foreach>
+    </insert>
+
+    <!-- 单条修改 -->
+    <update id="update">
+        UPDATE TBL_Menu
+        <set>
+            <if test="@Ognl@isNotEmpty(name)">
+                name = #{name},
+            </if>
+            <if test="@Ognl@isNotEmpty(type)">
+                type = #{type},
+            </if>
+            <if test="@Ognl@isNotEmpty(model)">
+                model = #{model},
+            </if>
+            <if test="@Ognl@isNotEmpty(action)">
+                action = #{action},
+            </if>
+            <if test="sort != null">
+                sort = #{sort},
+            </if>
+            <if test="parent != null">
+                parent = #{parent},
+            </if>
+            <if test="@Ognl@isNotEmpty(deleteYn)">
+                deleteYn = #{deleteYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(disabledYn)">
+                disabledYn = #{disabledYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(createUser)">
+                createUser = #{createUser},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateUser)">
+                updateUser = #{updateUser},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(functions)">
+                functions = #{functions}
+            </if>
+            <if test="visibility != null">
+                visibility = #{visibility}
+            </if>
+        </set>
+        WHERE
+        id = #{id}
+    </update>
+
+    <!-- 单条修改所有属性 -->
+    <update id="updateAll">
+    <![CDATA[
+        UPDATE TBL_Menu SET
+            name = #{name} ,
+            type = #{type} ,
+            model = #{model} ,
+            action = #{action} ,
+            sort = #{sort} ,
+            parent = #{parent} ,
+            deleteYn = #{deleteYn} ,
+            disabledYn = #{disabledYn} ,
+            createUser = #{createUser} ,
+            createTime = #{createTime} ,
+            updateUser = #{updateUser} ,
+            updateTime = #{updateTime} ,
+            functions = #{functions} ,
+            visibility = #{visibility} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <!-- 删除主键 -->
+    <delete id="deleteByPK">
+    <![CDATA[
+        DELETE FROM TBL_Menu WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+
+    <!-- 删除主键数组 -->
+    <delete id="deleteByArrPK" parameterType="java.util.List">
+        <![CDATA[DELETE FROM TBL_Menu WHERE]]>
+        <foreach collection="list" item="item" index="index" open="id in (" separator="," close=")">
+            <![CDATA[#{item}]]>
+        </foreach>
+    </delete>
+
+    <!-- 删除条件 -->
+    <delete id="delete">
+        <![CDATA[DELETE T1 FROM TBL_Menu T1 ]]>
+        <include refid="dynamicWhere" />
+    </delete>
+
+    <!-- 主键查询 -->
+    <select id="selectByPK" parameterType="java.lang.Integer" resultMap="menuResult">
+        <include refid="dynamicSelect" />
+        <![CDATA[
+            WHERE 
+            T1.id = #{id} 
+        ]]>
+    </select>
+
+    <!-- 查询是否存在主键 -->
+    <select id="existsByPK" parameterType="java.lang.Integer" resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <![CDATA[
+        WHERE
+        T1.id = #{id} 
+        ]]>
+    </select>
+
+    <!-- 查询是否存在对象 -->
+    <select id="exists" parameterType="menu" resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+
+    <!-- 查询总数 -->
+    <select id="count" resultType="int">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+
+    <!-- 查询总数参数Map -->
+    <select id="countByMap" resultType="int" parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+
+    <!-- 分页查询数量 -->
+    <select id="pageCount" resultType="int" parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+
+    <!-- 分页查询 -->
+    <select id="pageQuery" resultMap="menuResult" parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+
+    <!-- 查询条件Map -->
+    <select id="selectByMap" resultMap="menuResult" parameterType="map">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+    </select>
+
+    <!-- 查询条件对象 -->
+    <select id="select" resultMap="menuResult" parameterType="menu">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhere" />
+        order by T1.id desc
+    </select>
+
+    <!-- 查询条件拼接 -->
+    <select id="selectByCriteria" resultMap="menuResult" parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <if test="_parameter != null">
+            <include refid="Common.criteria_Where_Clause" />
+        </if>
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+
+    <!-- 取树形结构目录 -->
+    <select id="getTree" resultMap="menuTreeResult" parameterType="int">
+        SELECT
+        <include refid="menuColumns" />
+        <![CDATA[
+         FROM TBL_Menu T1 WHERE T1.parent = #{code} ORDER BY T1.sort DESC
+         ]]>
+    </select>
+
+    <!-- 取用户关联的树形结构目录 -->
+    <select id="getTree4User" resultMap="menuTree4UserResult" parameterType="map">
+        SELECT
+        T1.id,
+        T1.name,
+        T1.type,
+        T1.model,
+        T1.action,
+        T1.sort,
+        T1.visibility,
+        T1.parent,
+        T1.deleteYn,
+        T1.disabledYn,
+        T1.createUser,
+        T1.createTime,
+        T1.updateUser,
+        T1.updateTime,
+        T2.role_code roleCode,
+        T3.user_name username
+        FROM TBL_Menu T1 
+        LEFT JOIN TBL_Role_Menu T2
+        ON T1.id = T2.menu_id
+        LEFT JOIN TBL_User_Role T3
+        ON T2.role_code = T3.role_code
+        WHERE T1.parent = #{id} AND T1.deleteYn = 0 AND T1.disabledYn = 0 
+        AND T3.user_name = #{username}
+        ORDER BY T1.sort DESC, T1.id ASC
+    </select>
+
+    <!-- 取权限 -->
+    <select id="getFunctionalities" resultMap="functionalityResult" parameterType="int">
+        SELECT
+        T1.id,
+        T1.code,
+        T1.name,
+        T1.operation,
+        T1.menu_id,
+        T1.deleteYn,
+        T1.disabledYn,
+        T1.createUser,
+        T1.createTime,
+        T1.updateUser,
+        T1.updateTime
+        FROM TBL_Functionality T1 
+        WHERE T1.menu_id = #{id} AND T1.deleteYn = 0 AND T1.disabledYn = 0 
+    </select>
+
+    <!-- 取用户关联的权限 -->
+    <select id="getFunctionalities4User" resultMap="functionalityResult" parameterType="map">
+        SELECT
+        T1.id,
+        T1.code,
+        T1.name,
+        T1.operation,
+        T1.menu_id,
+        T1.deleteYn,
+        T1.disabledYn,
+        T1.createUser,
+        T1.createTime,
+        T1.updateUser,
+        T1.updateTime
+        FROM TBL_Functionality T1 
+        LEFT JOIN TBL_Role_Functionality T2
+        ON T1.id = T2.functionality_id
+        WHERE T1.menu_id = #{id} AND T1.deleteYn = 0 AND T1.disabledYn = 0 
+        AND T2.role_code = #{roleCode}
+    </select>
+
+</mapper>
+

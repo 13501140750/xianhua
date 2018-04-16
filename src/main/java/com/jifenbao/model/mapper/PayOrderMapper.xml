@@ -1,0 +1,648 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="PayOrder">
+    
+    <resultMap id="payOrderResult" type="payOrder">
+        <result property="id" column="id" />
+        <result property="appuserid" column="appuserid" />
+        <result property="buyerId" column="buyerId" />
+        <result property="companyCode" column="companyCode" />
+        <result property="userIp" column="userIp" />
+        <result property="waresid" column="waresid" />
+        <result property="waresname" column="waresname" />
+        <result property="cporderid" column="cporderid" />
+        <result property="currency" column="currency" />
+        <result property="price" column="price" />
+        <result property="charset" column="charset" />
+        <result property="paytype" column="paytype" />
+        <result property="sendtime" column="sendtime" />
+        <result property="result" column="result" />
+        <result property="transid" column="transid" />
+        <result property="transtime" column="transtime" />
+        <result property="platFormTransid" column="platFormTransid" />
+        <result property="returnCode" column="returnCode" />
+        <result property="errmsg" column="errmsg" />
+        <result property="refundStatus" column="refundStatus" />
+        <result property="refundPrice" column="refundPrice" />
+        <result property="refundReason" column="refundReason" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+    </resultMap>
+    
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="payOrderColumns">
+        <![CDATA[
+        T1.id,
+        T1.appuserid,
+        T1.buyerId,
+        T1.companyCode,
+        T1.userIp,
+        T1.waresid,
+        T1.waresname,
+        T1.cporderid,
+        T1.currency,
+        T1.price,
+        T1.charset,
+        T1.paytype,
+        T1.sendtime,
+        T1.result,
+        T1.transid,
+        T1.transtime,
+        T1.platFormTransid,
+        T1.returnCode,
+        T1.errmsg,
+        T1.refundStatus,
+        T1.refundPrice,
+        T1.refundReason,
+        T1.createUser,
+        T1.createTime,
+        T1.updateUser,
+        T1.updateTime
+        ]]>
+    </sql>
+    
+    <!-- 查询from -->
+    <sql id="dynamicFrom">
+        FROM TBL_PayOrder T1
+    </sql>
+    
+    <!-- 查询选择colum -->
+    <sql id="dynamicSelect">
+        SELECT
+        <include refid="payOrderColumns" />
+        <include refid="dynamicFrom" />
+    </sql>
+    
+    <!-- 查询条件 -->
+    <sql id="dynamicCondition">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用framework中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <if test="id != null">
+            AND T1.id = #{id}
+        </if>
+        <if test="idEx != null">
+            AND T1.id != #{idEx}
+        </if>
+        <if test="@Ognl@isNotEmpty(appuserid)">
+            AND T1.appuserid = #{appuserid}
+        </if>
+        <if test="@Ognl@isNotEmpty(buyerId)">
+            AND T1.buyerId = #{buyerId}
+        </if>
+        <if test="@Ognl@isNotEmpty(companyCode)">
+            AND T1.companyCode = #{companyCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(userIp)">
+            AND T1.userIp = #{userIp}
+        </if>
+        <if test="@Ognl@isNotEmpty(waresid)">
+            AND T1.waresid = #{waresid}
+        </if>
+        <if test="@Ognl@isNotEmpty(waresname)">
+            AND T1.waresname = #{waresname}
+        </if>
+        <if test="@Ognl@isNotEmpty(cporderid)">
+            AND T1.cporderid = #{cporderid}
+        </if>
+        <if test="@Ognl@isNotEmpty(currency)">
+            AND T1.currency = #{currency}
+        </if>
+        <if test="price != null">
+            AND T1.price = #{price}
+        </if>
+        <if test="charset != null">
+            AND T1.charset = #{charset}
+        </if>
+        <if test="@Ognl@isNotEmpty(paytype)">
+            AND T1.paytype = #{paytype}
+        </if>
+        <if test="@Ognl@isNotEmpty(sendtime)">
+            AND T1.sendtime = #{sendtime}
+        </if>
+        <if test="@Ognl@isNotEmpty(result)">
+            AND T1.result = #{result}
+        </if>
+        <if test="@Ognl@isNotEmpty(transid)">
+            AND T1.transid = #{transid}
+        </if>
+        <if test="@Ognl@isNotEmpty(transtime)">
+            AND T1.transtime = #{transtime}
+        </if>
+        <if test="@Ognl@isNotEmpty(platFormTransid)">
+            AND T1.platFormTransid = #{platFormTransid}
+        </if>
+        <if test="@Ognl@isNotEmpty(returnCode)">
+            AND T1.returnCode = #{returnCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(errmsg)">
+            AND T1.errmsg = #{errmsg}
+        </if>
+        <if test="@Ognl@isNotEmpty(refundStatus)">
+            AND T1.refundStatus = #{refundStatus}
+        </if>
+        <if test="refundPrice != null">
+            AND T1.refundPrice = #{refundPrice}
+        </if>
+        <if test="@Ognl@isNotEmpty(refundReason)">
+            AND T1.refundReason = #{refundReason}
+        </if>
+        <if test="@Ognl@isNotEmpty(createUser)">
+            AND T1.createUser = #{createUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(updateUser)">
+            AND T1.updateUser = #{updateUser}
+        </if>
+    </sql>
+    
+    <!-- 查询where条件 -->
+    <sql id="dynamicWhere">
+        <where>
+            <include refid="dynamicCondition" />
+        </where>
+    </sql>
+    
+    <!-- 查询where条件(map) -->
+    <sql id="dynamicWhereEx">
+        <where>
+            <include refid="dynamicCondition" />
+            <if test="@Ognl@isNotEmpty(createTimeBegin)">
+                <![CDATA[AND T1.createTime >= #{createTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeEnd)">
+                <![CDATA[AND T1.createTime < date_add(#{createTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+                <![CDATA[AND T1.updateTime >= #{updateTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+                <![CDATA[AND T1.updateTime < date_add(#{updateTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+             <if test="@Ognl@isNotEmpty(resultisnull)">
+              AND (T1.result is null or  T1.result='1')
+            </if>
+            <if test="@Ognl@isNotEmpty(resultisnotcussess)">
+              AND (T1.result !='0')
+            </if>
+        </where>
+    </sql>
+
+    <!-- 排序条件 -->
+    <sql id="dynamicOrderBy">
+        <choose>
+            <when test="@Ognl@isNotEmpty(orderBy)">
+                <trim suffix="" suffixOverrides="order by">
+                <foreach collection="orderBy" item="order" open="order by " separator="," close=" ">
+                <choose>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'appuserid'">
+                        T1.appuserid <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'buyerId'">
+                        T1.buyerId <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'companyCode'">
+                        T1.companyCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'userIp'">
+                        T1.userIp <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'waresid'">
+                        T1.waresid <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'waresname'">
+                        T1.waresname <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'cporderid'">
+                        T1.cporderid <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'currency'">
+                        T1.currency <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'price'">
+                        T1.price <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'charset'">
+                        T1.charset <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'paytype'">
+                        T1.paytype <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'sendtime'">
+                        T1.sendtime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'result'">
+                        T1.result <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'transid'">
+                        T1.transid <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'transtime'">
+                        T1.transtime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'platFormTransid'">
+                        T1.platFormTransid <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'returnCode'">
+                        T1.returnCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'errmsg'">
+                        T1.errmsg <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'refundStatus'">
+                        T1.refundStatus <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'refundPrice'">
+                        T1.refundPrice <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'refundReason'">
+                        T1.refundReason <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createUser'">
+                        T1.createUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createTime'">
+                        T1.createTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateUser'">
+                        T1.updateUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateTime'">
+                        T1.updateTime <if test="!order.ascending"> desc </if>
+                    </when>
+                </choose>
+                </foreach>
+                </trim>
+            </when>
+            <otherwise>
+            order by T1.id desc
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 单条录入  -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO TBL_PayOrder (
+            appuserid ,
+            buyerId ,
+            companyCode ,
+            userIp ,
+            waresid ,
+            waresname ,
+            cporderid ,
+            currency ,
+            price ,
+            charset ,
+            paytype ,
+            sendtime ,
+            result ,
+            transid ,
+            transtime ,
+            platFormTransid ,
+            returnCode ,
+            errmsg ,
+            refundStatus ,
+            refundPrice ,
+            refundReason ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime 
+            ) VALUES (
+            #{appuserid} ,
+            #{buyerId} ,
+            #{companyCode} ,
+            #{userIp} ,
+            #{waresid} ,
+            #{waresname} ,
+            #{cporderid} ,
+            #{currency} ,
+            #{price} ,
+            #{charset} ,
+            #{paytype} ,
+            #{sendtime} ,
+            #{result} ,
+            #{transid} ,
+            #{transtime} ,
+            #{platFormTransid} ,
+            #{returnCode} ,
+            #{errmsg} ,
+            #{refundStatus} ,
+            #{refundPrice} ,
+            #{refundReason} ,
+            #{createUser} ,
+            #{createTime} ,
+            #{updateUser} ,
+            #{updateTime} 
+            )
+        ]]>
+        <selectKey resultType="java.lang.Long"
+            order="AFTER"
+            keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    
+    <!-- 批量录入  -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO TBL_PayOrder (
+            appuserid ,
+            buyerId ,
+            companyCode ,
+            userIp ,
+            waresid ,
+            waresname ,
+            cporderid ,
+            currency ,
+            price ,
+            charset ,
+            paytype ,
+            sendtime ,
+            result ,
+            transid ,
+            transtime ,
+            platFormTransid ,
+            returnCode ,
+            errmsg ,
+            refundStatus ,
+            refundPrice ,
+            refundReason ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime 
+            ) 
+            VALUES 
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.appuserid} ,
+            #{item.buyerId} ,
+            #{item.companyCode} ,
+            #{item.userIp} ,
+            #{item.waresid} ,
+            #{item.waresname} ,
+            #{item.cporderid} ,
+            #{item.currency} ,
+            #{item.price} ,
+            #{item.charset} ,
+            #{item.paytype} ,
+            #{item.sendtime} ,
+            #{item.result} ,
+            #{item.transid} ,
+            #{item.transtime} ,
+            #{item.platFormTransid} ,
+            #{item.returnCode} ,
+            #{item.errmsg} ,
+            #{item.refundStatus} ,
+            #{item.refundPrice} ,
+            #{item.refundReason} ,
+            #{item.createUser} ,
+            #{item.createTime} ,
+            #{item.updateUser} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+    
+    <!-- 单条修改  -->
+    <update id="update">
+        UPDATE TBL_PayOrder
+        <set>
+            <if test="@Ognl@isNotEmpty(appuserid)">
+                appuserid = #{appuserid},
+            </if>
+            <if test="@Ognl@isNotEmpty(buyerId)">
+                buyerId = #{buyerId},
+            </if>
+            <if test="@Ognl@isNotEmpty(companyCode)">
+                companyCode = #{companyCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(userIp)">
+                userIp = #{userIp},
+            </if>
+            <if test="@Ognl@isNotEmpty(waresid)">
+                waresid = #{waresid},
+            </if>
+            <if test="@Ognl@isNotEmpty(waresname)">
+                waresname = #{waresname},
+            </if>
+            <if test="@Ognl@isNotEmpty(cporderid)">
+                cporderid = #{cporderid},
+            </if>
+            <if test="@Ognl@isNotEmpty(currency)">
+                currency = #{currency},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="charset != null">
+                charset = #{charset},
+            </if>
+            <if test="@Ognl@isNotEmpty(paytype)">
+                paytype = #{paytype},
+            </if>
+            <if test="@Ognl@isNotEmpty(sendtime)">
+                sendtime = #{sendtime},
+            </if>
+            <if test="@Ognl@isNotEmpty(result)">
+                result = #{result},
+            </if>
+            <if test="@Ognl@isNotEmpty(transid)">
+                transid = #{transid},
+            </if>
+            <if test="@Ognl@isNotEmpty(transtime)">
+                transtime = #{transtime},
+            </if>
+            <if test="@Ognl@isNotEmpty(platFormTransid)">
+                platFormTransid = #{platFormTransid},
+            </if>
+            <if test="@Ognl@isNotEmpty(returnCode)">
+                returnCode = #{returnCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(errmsg)">
+                errmsg = #{errmsg},
+            </if>
+            <if test="@Ognl@isNotEmpty(refundStatus)">
+                refundStatus = #{refundStatus},
+            </if>
+            <if test="refundPrice != null">
+                refundPrice = #{refundPrice},
+            </if>
+            <if test="@Ognl@isNotEmpty(refundReason)">
+                refundReason = #{refundReason},
+            </if>
+            <if test="@Ognl@isNotEmpty(createUser)">
+                createUser = #{createUser},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateUser)">
+                updateUser = #{updateUser},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime}
+            </if>
+        </set>
+        WHERE 
+            id = #{id}
+    </update>
+    
+    <!-- 单条修改所有属性  -->
+    <update id="updateAll">
+    <![CDATA[
+        UPDATE TBL_PayOrder SET
+            appuserid = #{appuserid} ,
+            buyerId = #{buyerId} ,
+            companyCode = #{companyCode} ,
+            userIp = #{userIp} ,
+            waresid = #{waresid} ,
+            waresname = #{waresname} ,
+            cporderid = #{cporderid} ,
+            currency = #{currency} ,
+            price = #{price} ,
+            charset = #{charset} ,
+            paytype = #{paytype} ,
+            sendtime = #{sendtime} ,
+            result = #{result} ,
+            transid = #{transid} ,
+            transtime = #{transtime} ,
+            platFormTransid = #{platFormTransid} ,
+            returnCode = #{returnCode} ,
+            errmsg = #{errmsg} ,
+            refundStatus = #{refundStatus} ,
+            refundPrice = #{refundPrice} ,
+            refundReason = #{refundReason} ,
+            createUser = #{createUser} ,
+            createTime = #{createTime} ,
+            updateUser = #{updateUser} ,
+            updateTime = #{updateTime} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <!-- 删除主键  -->
+    <delete id="deleteByPK">
+    <![CDATA[
+        DELETE FROM TBL_PayOrder WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <!-- 删除主键数组  -->
+    <delete id="deleteByArrPK" parameterType="java.util.List">
+        <![CDATA[DELETE FROM TBL_PayOrder WHERE]]>
+        <foreach collection="list" item="item" index="index" open="id in (" separator="," close=")">
+            <![CDATA[#{item}]]>
+        </foreach>
+    </delete>
+    
+    <!-- 删除条件  -->
+    <delete id="delete">
+        <![CDATA[DELETE T1 FROM TBL_PayOrder T1 ]]>
+        <include refid="dynamicWhere" />
+    </delete>
+    
+    <!-- 主键查询  -->
+    <select id="selectByPK" parameterType="java.lang.Long" resultMap="payOrderResult">
+        <include refid="dynamicSelect" />
+        <![CDATA[
+            WHERE 
+            T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在主键 -->
+    <select id="existsByPK" parameterType="java.lang.Long"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <![CDATA[
+        WHERE
+        T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在对象 -->
+    <select id="exists" parameterType="payOrder"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数 -->
+    <select id="count" resultType="int">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数参数Map -->
+    <select id="countByMap" resultType="int" parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询数量 -->
+    <select id="pageCount" resultType="int"
+        parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询 -->
+    <select id="pageQuery" resultMap="payOrderResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+
+    <!-- 查询条件Map -->
+    <select id="selectByMap" resultMap="payOrderResult"
+        parameterType="map">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+    </select>
+
+    <!-- 查询条件对象 -->
+    <select id="select" resultMap="payOrderResult"
+        parameterType="payOrder">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhere" />
+        order by T1.id desc
+    </select>
+
+    <!-- 查询条件拼接 -->
+    <select id="selectByCriteria" resultMap="payOrderResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <if test="_parameter != null">
+            <include refid="Common.criteria_Where_Clause" />
+        </if>
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+    
+    
+    
+</mapper>
+

@@ -1,0 +1,599 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="DeliveryAddress">
+    
+    <resultMap id="deliveryAddressResult" type="deliveryAddress">
+        <result property="id" column="id" />
+        <result property="customerId" column="customerId" />
+        <result property="type" column="type" />
+        <result property="defaulted" column="defaulted" />
+        <result property="name" column="name" />
+        <result property="provinceCode" column="provinceCode" />
+        <result property="provinceName" column="provinceName" />
+        <result property="cityCode" column="cityCode" />
+        <result property="cityName" column="cityName" />
+        <result property="countyCode" column="countyCode" />
+        <result property="countyName" column="countyName" />
+        <result property="streetCode" column="streetCode" />
+        <result property="streetName" column="streetName" />
+        <result property="address" column="address" />
+        <result property="tel" column="tel" />
+        <result property="phone" column="phone" />
+        <result property="deliveryDate" column="deliveryDate" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+    </resultMap>
+    
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="deliveryAddressColumns">
+        <![CDATA[
+        T1.id,
+        T1.customerId,
+        T1.type,
+        T1.defaulted,
+        T1.name,
+        T1.provinceCode,
+        T1.provinceName,
+        T1.cityCode,
+        T1.cityName,
+        T1.countyCode,
+        T1.countyName,
+        T1.streetCode,
+        T1.streetName,
+        T1.address,
+        T1.tel,
+        T1.phone,
+        T1.deliveryDate,
+        T1.deleteYn,
+        T1.disabledYn,
+        T1.createUser,
+        T1.createTime,
+        T1.updateUser,
+        T1.updateTime
+        ]]>
+    </sql>
+    
+    <!-- 查询from -->
+    <sql id="dynamicFrom">
+        FROM TBL_Delivery_Address T1
+    </sql>
+    
+    <!-- 查询选择colum -->
+    <sql id="dynamicSelect">
+        SELECT
+        <include refid="deliveryAddressColumns" />
+        <include refid="dynamicFrom" />
+    </sql>
+    
+    <!-- 查询条件 -->
+    <sql id="dynamicCondition">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用framework中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <if test="id != null">
+            AND T1.id = #{id}
+        </if>
+        <if test="idEx != null">
+            AND T1.id != #{idEx}
+        </if>
+        <if test="customerId != null">
+            AND T1.customerId = #{customerId}
+        </if>
+        
+        <if test="type == null">
+            AND T1.type = 0 
+        </if>
+        <if test="type != null">
+            AND T1.type = #{type}
+        </if>
+        <if test="@Ognl@isNotEmpty(defaulted)">
+            AND T1.defaulted = #{defaulted}
+        </if>
+        <if test="@Ognl@isNotEmpty(name)">
+            AND T1.name = #{name}
+        </if>
+        <if test="provinceCode != null">
+            AND T1.provinceCode = #{provinceCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(provinceName)">
+            AND T1.provinceName = #{provinceName}
+        </if>
+        <if test="cityCode != null">
+            AND T1.cityCode = #{cityCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(cityName)">
+            AND T1.cityName = #{cityName}
+        </if>
+        <if test="countyCode != null">
+            AND T1.countyCode = #{countyCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(countyName)">
+            AND T1.countyName = #{countyName}
+        </if>
+        <if test="streetCode != null">
+            AND T1.streetCode = #{streetCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(streetName)">
+            AND T1.streetName = #{streetName}
+        </if>
+        <if test="@Ognl@isNotEmpty(address)">
+            AND T1.address = #{address}
+        </if>
+        <if test="@Ognl@isNotEmpty(tel)">
+            AND T1.tel = #{tel}
+        </if>
+        <if test="@Ognl@isNotEmpty(phone)">
+            AND T1.phone = #{phone}
+        </if>
+        <if test="@Ognl@isNotEmpty(deliveryDate)">
+            AND T1.deliveryDate = #{deliveryDate}
+        </if>
+        
+        <if test="@Ognl@isNotEmpty(deleteYn)">
+            AND T1.deleteYn = #{deleteYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(disabledYn)">
+            AND T1.disabledYn = #{disabledYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(createUser)">
+            AND T1.createUser = #{createUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(updateUser)">
+            AND T1.updateUser = #{updateUser}
+        </if>
+    </sql>
+    
+    <!-- 查询where条件 -->
+    <sql id="dynamicWhere">
+        <where>
+            <include refid="dynamicCondition" />
+        </where>
+    </sql>
+    
+    <!-- 查询where条件(map) -->
+    <sql id="dynamicWhereEx">
+        <where>
+            <include refid="dynamicCondition" />
+            <if test="@Ognl@isNotEmpty(createTimeBegin)">
+                <![CDATA[AND T1.createTime >= #{createTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeEnd)">
+                <![CDATA[AND T1.createTime < date_add(#{createTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+                <![CDATA[AND T1.updateTime >= #{updateTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+                <![CDATA[AND T1.updateTime < date_add(#{updateTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+        </where>
+    </sql>
+
+    <!-- 排序条件 -->
+    <sql id="dynamicOrderBy">
+        <choose>
+            <when test="@Ognl@isNotEmpty(orderBy)">
+                <trim suffix="" suffixOverrides="order by">
+                <foreach collection="orderBy" item="order" open="order by " separator="," close=" ">
+                <choose>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'customerId'">
+                        T1.customerId <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'type'">
+                        T1.type <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'defaulted'">
+                        T1.defaulted <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'name'">
+                        T1.name <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'provinceCode'">
+                        T1.provinceCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'provinceName'">
+                        T1.provinceName <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'cityCode'">
+                        T1.cityCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'cityName'">
+                        T1.cityName <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'countyCode'">
+                        T1.countyCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'countyName'">
+                        T1.countyName <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'streetCode'">
+                        T1.streetCode <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'streetName'">
+                        T1.streetName <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'address'">
+                        T1.address <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'tel'">
+                        T1.tel <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'phone'">
+                        T1.phone <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'deliveryDate'">
+                        T1.deliveryDate <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'deleteYn'">
+                        T1.deleteYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'disabledYn'">
+                        T1.disabledYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createUser'">
+                        T1.createUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createTime'">
+                        T1.createTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateUser'">
+                        T1.updateUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateTime'">
+                        T1.updateTime <if test="!order.ascending"> desc </if>
+                    </when>
+                </choose>
+                </foreach>
+                </trim>
+            </when>
+            <otherwise>
+            order by T1.defaulted desc, T1.id desc
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 单条录入  -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO TBL_Delivery_Address (
+            customerId ,
+            type ,
+            defaulted ,
+            name ,
+            provinceCode ,
+            provinceName ,
+            cityCode ,
+            cityName ,
+            countyCode ,
+            countyName ,
+            streetCode ,
+            streetName ,
+            address ,
+            tel ,
+            phone ,
+            deliveryDate,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime 
+            ) VALUES (
+            #{customerId} ,
+            #{type},
+            #{defaulted} ,
+            #{name} ,
+            #{provinceCode} ,
+            #{provinceName} ,
+            #{cityCode} ,
+            #{cityName} ,
+            #{countyCode} ,
+            #{countyName} ,
+            #{streetCode} ,
+            #{streetName} ,
+            #{address} ,
+            #{tel} ,
+            #{phone} ,
+            #{deliveryDate} ,
+            #{deleteYn} ,
+            #{disabledYn} ,
+            #{createUser} ,
+            #{createTime} ,
+            #{updateUser} ,
+            #{updateTime} 
+            )
+        ]]>
+        <selectKey resultType="java.lang.Long"
+            order="AFTER"
+            keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    
+    <!-- 批量录入  -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO TBL_Delivery_Address (
+            customerId ,
+            type,
+            defaulted ,
+            name ,
+            provinceCode ,
+            provinceName ,
+            cityCode ,
+            cityName ,
+            countyCode ,
+            countyName ,
+            streetCode ,
+            streetName ,
+            address ,
+            tel ,
+            phone ,
+            deliveryDate,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime 
+            ) 
+            VALUES 
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.customerId} ,
+            #{item.type} ,
+            #{item.defaulted} ,
+            #{item.name} ,
+            #{item.provinceCode} ,
+            #{item.provinceName} ,
+            #{item.cityCode} ,
+            #{item.cityName} ,
+            #{item.countyCode} ,
+            #{item.countyName} ,
+            #{item.streetCode} ,
+            #{item.streetName} ,
+            #{item.address} ,
+            #{item.tel} ,
+            #{item.phone} ,
+            #{item.deliveryDate} ,
+            #{item.deleteYn} ,
+            #{item.disabledYn} ,
+            #{item.createUser} ,
+            #{item.createTime} ,
+            #{item.updateUser} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+    
+    <!-- 单条修改  -->
+    <update id="update">
+        UPDATE TBL_Delivery_Address
+        <set>
+            <if test="customerId != null">
+                customerId = #{customerId},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="@Ognl@isNotEmpty(defaulted)">
+                defaulted = #{defaulted},
+            </if>
+            <if test="@Ognl@isNotEmpty(name)">
+                name = #{name},
+            </if>
+            <if test="provinceCode != null">
+                provinceCode = #{provinceCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(provinceName)">
+                provinceName = #{provinceName},
+            </if>
+            <if test="cityCode != null">
+                cityCode = #{cityCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(cityName)">
+                cityName = #{cityName},
+            </if>
+            <if test="countyCode != null">
+                countyCode = #{countyCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(countyName)">
+                countyName = #{countyName},
+            </if>
+            <if test="streetCode !=null">
+                streetCode = #{streetCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(streetName)">
+                streetName = #{streetName},
+            </if>
+            <if test="@Ognl@isNotEmpty(address)">
+                address = #{address},
+            </if>
+            <if test="@Ognl@isNotEmpty(tel)">
+                tel = #{tel},
+            </if>
+            <if test="@Ognl@isNotEmpty(phone)">
+                phone = #{phone},
+            </if>
+            <if test="@Ognl@isNotEmpty(deliveryDate)">
+                deliveryDate = #{deliveryDate},
+            </if>
+            <if test="@Ognl@isNotEmpty(deleteYn)">
+                deleteYn = #{deleteYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(disabledYn)">
+                disabledYn = #{disabledYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(createUser)">
+                createUser = #{createUser},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateUser)">
+                updateUser = #{updateUser},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime}
+            </if>
+        </set>
+        WHERE 
+            id = #{id}
+    </update>
+    
+    <!-- 单条修改所有属性  -->
+    <update id="updateAll">
+    <![CDATA[
+        UPDATE TBL_Delivery_Address SET
+            customerId = #{customerId} ,
+            type  = #{type} ,
+            defaulted = #{defaulted} ,
+            name = #{name} ,
+            provinceCode = #{provinceCode} ,
+            provinceName = #{provinceName} ,
+            cityCode = #{cityCode} ,
+            cityName = #{cityName} ,
+            countyCode = #{countyCode} ,
+            countyName = #{countyName} ,
+            streetCode = #{streetCode} ,
+            streetName = #{streetName} ,
+            address = #{address} ,
+            tel = #{tel} ,
+            phone = #{phone} ,
+            deliveryDate = #{deliveryDate} ,
+            deleteYn = #{deleteYn} ,
+            disabledYn = #{disabledYn} ,
+            createUser = #{createUser} ,
+            createTime = #{createTime} ,
+            updateUser = #{updateUser} ,
+            updateTime = #{updateTime} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <!-- 删除主键  -->
+    <delete id="deleteByPK">
+    <![CDATA[
+        DELETE FROM TBL_Delivery_Address WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <!-- 删除主键数组  -->
+    <delete id="deleteByArrPK" parameterType="java.util.List">
+        <![CDATA[DELETE FROM TBL_Delivery_Address WHERE]]>
+        <foreach collection="list" item="item" index="index" open="id in (" separator="," close=")">
+            <![CDATA[#{item}]]>
+        </foreach>
+    </delete>
+    
+    <!-- 删除条件  -->
+    <delete id="delete">
+        <![CDATA[DELETE T1 FROM TBL_Delivery_Address T1 ]]>
+        <include refid="dynamicWhere" />
+    </delete>
+    
+    <!-- 主键查询  -->
+    <select id="selectByPK" parameterType="java.lang.Long" resultMap="deliveryAddressResult">
+        <include refid="dynamicSelect" />
+        <![CDATA[
+            WHERE 
+            T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在主键 -->
+    <select id="existsByPK" parameterType="java.lang.Long"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <![CDATA[
+        WHERE
+        T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在对象 -->
+    <select id="exists" parameterType="deliveryAddress"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数 -->
+    <select id="count" resultType="int">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数参数Map -->
+    <select id="countByMap" resultType="int" parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询数量 -->
+    <select id="pageCount" resultType="int"
+        parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询 -->
+    <select id="pageQuery" resultMap="deliveryAddressResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+
+    <!-- 查询条件Map -->
+    <select id="selectByMap" resultMap="deliveryAddressResult"
+        parameterType="map">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+    </select>
+
+    <!-- 查询条件对象 -->
+    <select id="select" resultMap="deliveryAddressResult"
+        parameterType="deliveryAddress">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhere" />
+        order by T1.defaulted desc,T1.id desc
+    </select>
+
+    <!-- 查询条件拼接 -->
+    <select id="selectByCriteria" resultMap="deliveryAddressResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <if test="_parameter != null">
+            <include refid="Common.criteria_Where_Clause" />
+        </if>
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+    
+    
+    
+</mapper>
+

@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="FreightCompany">
+    
+    <resultMap id="freightCompanyResult" type="freightCompany">
+        <result property="id" column="id" />
+        <result property="freightCode" column="freight_code" />
+        <result property="freightName" column="freight_name" />
+        <result property="linktype" column="linktype" />
+        <result property="url" column="url" />
+        <result property="sort" column="sort" />
+        <result property="deleteYn" column="deleteYn" />
+    </resultMap>
+    
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="freightCompanyColumns">
+        <![CDATA[
+        T1.id,
+        T1.freight_code,
+        T1.freight_name,
+        T1.linktype,
+        T1.url,
+        T1.sort,
+        T1.deleteYn
+        ]]>
+    </sql>
+    
+    <!-- 查询from -->
+    <sql id="dynamicFrom">
+        FROM TBL_Freight_company T1
+    </sql>
+    
+    <!-- 查询选择colum -->
+    <sql id="dynamicSelect">
+        SELECT
+        <include refid="freightCompanyColumns" />
+        <include refid="dynamicFrom" />
+    </sql>
+    
+    <!-- 查询条件 -->
+    <sql id="dynamicCondition">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用framework中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <if test="id != null">
+            AND T1.id = #{id}
+        </if>
+        <if test="idEx != null">
+            AND T1.id != #{idEx}
+        </if>
+        <if test="@Ognl@isNotEmpty(freightCode)">
+            AND T1.freight_code = #{freightCode}
+        </if>
+        <if test="@Ognl@isNotEmpty(freightName)">
+            AND T1.freight_name = #{freightName}
+        </if>
+        <if test="@Ognl@isNotEmpty(linktype)">
+            AND T1.linktype = #{linktype}
+        </if>
+        <if test="@Ognl@isNotEmpty(url)">
+            AND T1.url = #{url}
+        </if>
+        <if test="sort != null">
+            AND T1.sort = #{sort}
+        </if>
+        <if test="@Ognl@isNotEmpty(deleteYn)">
+            AND T1.deleteYn = #{deleteYn}
+        </if>
+    </sql>
+    
+    <!-- 查询where条件 -->
+    <sql id="dynamicWhere">
+        <where>
+            <include refid="dynamicCondition" />
+        </where>
+    </sql>
+    
+    <!-- 查询where条件(map) -->
+    <sql id="dynamicWhereEx">
+        <where>
+            <include refid="dynamicCondition" />
+        </where>
+    </sql>
+
+    <!-- 排序条件 -->
+    <sql id="dynamicOrderBy">
+        <choose>
+            <when test="@Ognl@isNotEmpty(orderBy)">
+                <trim suffix="" suffixOverrides="order by">
+                <foreach collection="orderBy" item="order" open="order by " separator="," close=" ">
+                <choose>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'freightCode'">
+                        T1.freight_code <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'freightName'">
+                        T1.freight_name <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'linktype'">
+                        T1.linktype <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'url'">
+                        T1.url <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'sort'">
+                        T1.sort <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'deleteYn'">
+                        T1.deleteYn <if test="!order.ascending"> desc </if>
+                    </when>
+                </choose>
+                </foreach>
+                </trim>
+            </when>
+            <otherwise>
+            order by T1.id desc
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 单条录入  -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO TBL_Freight_company (
+            freight_code ,
+            freight_name ,
+            linktype ,
+            url ,
+            sort ,
+            deleteYn 
+            ) VALUES (
+            #{freightCode} ,
+            #{freightName} ,
+            #{linktype} ,
+            #{url} ,
+            #{sort} ,
+            #{deleteYn} 
+            )
+        ]]>
+        <selectKey resultType="java.lang.Integer"
+            order="AFTER"
+            keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    
+    <!-- 批量录入  -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO TBL_Freight_company (
+            freight_code ,
+            freight_name ,
+            linktype ,
+            url ,
+            sort ,
+            deleteYn 
+            ) 
+            VALUES 
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.freightCode} ,
+            #{item.freightName} ,
+            #{item.linktype} ,
+            #{item.url} ,
+            #{item.sort} ,
+            #{item.deleteYn} 
+            )
+        </foreach>
+    </insert>
+    
+    <!-- 单条修改  -->
+    <update id="update">
+        UPDATE TBL_Freight_company
+        <set>
+            <if test="@Ognl@isNotEmpty(freightCode)">
+                freight_code = #{freightCode},
+            </if>
+            <if test="@Ognl@isNotEmpty(freightName)">
+                freight_name = #{freightName},
+            </if>
+            <if test="@Ognl@isNotEmpty(linktype)">
+                linktype = #{linktype},
+            </if>
+            <if test="@Ognl@isNotEmpty(url)">
+                url = #{url},
+            </if>
+            <if test="sort != null">
+                sort = #{sort},
+            </if>
+            <if test="@Ognl@isNotEmpty(deleteYn)">
+                deleteYn = #{deleteYn}
+            </if>
+        </set>
+        WHERE 
+            id = #{id}
+    </update>
+    
+    <!-- 单条修改所有属性  -->
+    <update id="updateAll">
+    <![CDATA[
+        UPDATE TBL_Freight_company SET
+            freight_code = #{freightCode} ,
+            freight_name = #{freightName} ,
+            linktype = #{linktype} ,
+            url = #{url} ,
+            sort = #{sort} ,
+            deleteYn = #{deleteYn} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <!-- 删除主键  -->
+    <delete id="deleteByPK">
+    <![CDATA[
+        DELETE FROM TBL_Freight_company WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <!-- 删除主键数组  -->
+    <delete id="deleteByArrPK" parameterType="java.util.List">
+        <![CDATA[DELETE FROM TBL_Freight_company WHERE]]>
+        <foreach collection="list" item="item" index="index" open="id in (" separator="," close=")">
+            <![CDATA[#{item}]]>
+        </foreach>
+    </delete>
+    
+    <!-- 删除条件  -->
+    <delete id="delete">
+        <![CDATA[DELETE T1 FROM TBL_Freight_company T1 ]]>
+        <include refid="dynamicWhere" />
+    </delete>
+    
+    <!-- 主键查询  -->
+    <select id="selectByPK" parameterType="java.lang.Integer" resultMap="freightCompanyResult">
+        <include refid="dynamicSelect" />
+        <![CDATA[
+            WHERE 
+            T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在主键 -->
+    <select id="existsByPK" parameterType="java.lang.Integer"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <![CDATA[
+        WHERE
+        T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在对象 -->
+    <select id="exists" parameterType="freightCompany"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数 -->
+    <select id="count" resultType="int">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数参数Map -->
+    <select id="countByMap" resultType="int" parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询数量 -->
+    <select id="pageCount" resultType="int"
+        parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询 -->
+    <select id="pageQuery" resultMap="freightCompanyResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+
+    <!-- 查询条件Map -->
+    <select id="selectByMap" resultMap="freightCompanyResult"
+        parameterType="map">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+    </select>
+
+    <!-- 查询条件对象 -->
+    <select id="select" resultMap="freightCompanyResult"
+        parameterType="freightCompany">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhere" />
+        order by T1.id desc
+    </select>
+
+    <!-- 查询条件拼接 -->
+    <select id="selectByCriteria" resultMap="freightCompanyResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <if test="_parameter != null">
+            <include refid="Common.criteria_Where_Clause" />
+        </if>
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+    
+    <!-- EX -->
+     <select id="getFreightNameByName" resultType="java.lang.String"
+        parameterType="java.lang.String">
+        select T1.freight_name  from  TBL_Freight_company T1 where T1.freight_code=#{freightCode}
+    
+    </select>
+    
+     <select id="getFreightByName" resultMap="freightCompanyResult"
+        parameterType="java.lang.String">
+        select T1.*  from  TBL_Freight_company T1 where T1.freight_code=#{freightCode} and T1.deleteYn='0'
+    
+    </select>
+    
+    
+</mapper>
+

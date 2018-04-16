@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- DBUnit flatXml DataFile -->
+<dataset>
+
+    <TBL_Customer_Receive
+        id='627'
+        customerId='972'
+        receiver='Receiver298'
+        phone='Phone673'
+        province='Province683'
+        city='City752'
+        street='Street833'
+        address='Address241'
+        defaultYn='1'
+        String1='String1105'
+        String2='String2087'
+        String3='String3602'
+        String4='String4117'
+        String5='String5006'
+        deleteYn='1'
+        disabledYn='1'
+        createUser='CreateUser970'
+        createTime='2016-02-03 10:04:00.343'
+        updateUser='UpdateUser640'
+        updateTime='2016-02-03 10:04:00.343'
+    />
+
+    <TBL_Customer_Receive
+        id='741'
+        customerId='048'
+        receiver='Receiver269'
+        phone='Phone665'
+        province='Province136'
+        city='City481'
+        street='Street764'
+        address='Address808'
+        defaultYn='1'
+        String1='String1208'
+        String2='String2180'
+        String3='String3367'
+        String4='String4504'
+        String5='String5338'
+        deleteYn='1'
+        disabledYn='1'
+        createUser='CreateUser291'
+        createTime='2016-02-03 10:04:00.343'
+        updateUser='UpdateUser804'
+        updateTime='2016-02-03 10:04:00.343'
+    />
+
+</dataset>

@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- DBUnit flatXml DataFile -->
+<dataset>
+
+    <TBL_SystemSetting
+        id='035'
+        system_key='SystemKey275'
+        system_value='SystemValue303'
+        info='Info966'
+        deleteYn='1'
+        disabledYn='1'
+        createUser='CreateUser254'
+        createTime='2015-12-07 13:35:30.598'
+        updateUser='UpdateUser523'
+        updateTime='2015-12-07 13:35:30.598'
+    />
+
+    <TBL_SystemSetting
+        id='071'
+        system_key='SystemKey791'
+        system_value='SystemValue479'
+        info='Info205'
+        deleteYn='1'
+        disabledYn='1'
+        createUser='CreateUser484'
+        createTime='2015-12-07 13:35:30.598'
+        updateUser='UpdateUser446'
+        updateTime='2015-12-07 13:35:30.598'
+    />
+
+</dataset>

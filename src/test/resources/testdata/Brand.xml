@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- DBUnit flatXml DataFile -->
+<dataset>
+
+    <TBL_Brand
+        id='847'
+        code='Code525'
+        name='Name990'
+        alias='Alias287'
+        engName='EngName748'
+        description='Description233'
+        logo='Logo193'
+        deleteYn='1'
+        disabledYn='1'
+        createUser='CreateUser085'
+        createTime='2015-12-09 10:51:43.076'
+        updateUser='UpdateUser597'
+        updateTime='2015-12-09 10:51:43.076'
+    />
+
+    <TBL_Brand
+        id='181'
+        code='Code870'
+        name='Name171'
+        alias='Alias825'
+        engName='EngName208'
+        description='Description099'
+        logo='Logo170'
+        deleteYn='1'
+        disabledYn='1'
+        createUser='CreateUser112'
+        createTime='2015-12-09 10:51:43.077'
+        updateUser='UpdateUser008'
+        updateTime='2015-12-09 10:51:43.077'
+    />
+
+</dataset>

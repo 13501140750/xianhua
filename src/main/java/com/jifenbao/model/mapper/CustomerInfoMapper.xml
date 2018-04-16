@@ -1,0 +1,712 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="CustomerInfo">
+    
+    <resultMap id="customerInfoResult" type="customerInfo">
+        <result property="id" column="id" />
+        <result property="openid" column="openid" />
+        <result property="name" column="name" />
+        <result property="status" column="status" />
+        <result property="agentLevel" column="agentLevel" />
+        <result property="agentId" column="agentId" />
+        <result property="agentYn" column="agentYn" />
+        <result property="payPassword" column="payPassword" />
+        <result property="sex" column="sex" />
+        <result property="birthday" column="birthday" />
+        <result property="realName" column="realName" />
+        <result property="picture" column="picture" />
+        <result property="email" column="email" />
+        <result property="mobile" column="mobile" />
+        <result property="phone" column="phone" />
+        <result property="qq" column="qq" />
+        <result property="wechat" column="wechat" />
+        <result property="title" column="title" />
+        <result property="lastLoginTime" column="lastLoginTime" />
+        <result property="lastLoginIp" column="lastLoginIp" />
+        <result property="loginCount" column="loginCount" />
+        <result property="credit1" column="credit1" />
+        <result property="credit2" column="credit2" />
+        <result property="source" column="source" />
+        <result property="deleteYn" column="deleteYn" />
+        <result property="disabledYn" column="disabledYn" />
+        <result property="createUser" column="createUser" />
+        <result property="createTime" column="createTime" />
+        <result property="updateUser" column="updateUser" />
+        <result property="updateTime" column="updateTime" />
+    </resultMap>
+    
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="customerInfoColumns">
+        <![CDATA[
+        T1.id,
+        T1.openid,
+        T1.name,
+        T1.status,
+        T1.agentLevel,
+        T1.agentId,
+        T1.agentYn,
+        T1.payPassword,
+        T1.sex,
+        T1.birthday,
+        T1.realName,
+        T1.picture,
+        T1.email,
+        T1.mobile,
+        T1.phone,
+        T1.qq,
+        T1.wechat,
+        T1.title,
+        T1.lastLoginTime,
+        T1.lastLoginIp,
+        T1.loginCount,
+        T1.credit1,
+        T1.credit2,
+        T1.source,
+        T1.deleteYn,
+        T1.disabledYn,
+        T1.createUser,
+        T1.createTime,
+        T1.updateUser,
+        T1.updateTime
+        ]]>
+    </sql>
+    
+    <!-- 查询from -->
+    <sql id="dynamicFrom">
+        FROM TBL_Customer_Info T1
+    </sql>
+    
+    <!-- 查询选择colum -->
+    <sql id="dynamicSelect">
+        SELECT
+        <include refid="customerInfoColumns" />
+        <include refid="dynamicFrom" />
+    </sql>
+    
+    <!-- 查询条件 -->
+    <sql id="dynamicCondition">
+        <!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用framework中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+        <if test="id != null">
+            AND T1.id = #{id}
+        </if>
+        <if test="idEx != null">
+            AND T1.id != #{idEx}
+        </if>
+        <if test="@Ognl@isNotEmpty(openid)">
+            AND T1.openid = #{openid}
+        </if>
+        <if test="@Ognl@isNotEmpty(name)">
+            AND T1.name = #{name}
+        </if>
+        <if test="@Ognl@isNotEmpty(status)">
+            AND T1.status = #{status}
+        </if>
+        <if test="agentLevel != null">
+            AND T1.agentLevel = #{agentLevel}
+        </if>
+        <if test="agentId != null">
+            AND T1.agentId = #{agentId}
+        </if>
+        <if test="@Ognl@isNotEmpty(agentYn)">
+            AND T1.agentYn = #{agentYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(payPassword)">
+            AND T1.payPassword = #{payPassword}
+        </if>
+        <if test="sex != null">
+            AND T1.sex = #{sex}
+        </if>
+        <if test="@Ognl@isNotEmpty(realName)">
+            AND T1.realName = #{realName}
+        </if>
+        <if test="@Ognl@isNotEmpty(picture)">
+            AND T1.picture = #{picture}
+        </if>
+        <if test="@Ognl@isNotEmpty(email)">
+            AND T1.email = #{email}
+        </if>
+        <if test="@Ognl@isNotEmpty(mobile)">
+            AND T1.mobile = #{mobile}
+        </if>
+        <if test="@Ognl@isNotEmpty(phone)">
+            AND T1.phone = #{phone}
+        </if>
+        <if test="@Ognl@isNotEmpty(qq)">
+            AND T1.qq = #{qq}
+        </if>
+        <if test="@Ognl@isNotEmpty(wechat)">
+            AND T1.wechat = #{wechat}
+        </if>
+        <if test="@Ognl@isNotEmpty(title)">
+            AND T1.title = #{title}
+        </if>
+        <if test="@Ognl@isNotEmpty(lastLoginIp)">
+            AND T1.lastLoginIp = #{lastLoginIp}
+        </if>
+        <if test="loginCount != null">
+            AND T1.loginCount = #{loginCount}
+        </if>
+        <if test="credit1 != null">
+            AND T1.credit1 = #{credit1}
+        </if>
+        <if test="credit2 != null">
+            AND T1.credit2 = #{credit2}
+        </if>
+        <if test="@Ognl@isNotEmpty(source)">
+            AND T1.source = #{source}
+        </if>
+        <if test="@Ognl@isNotEmpty(deleteYn)">
+            AND T1.deleteYn = #{deleteYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(disabledYn)">
+            AND T1.disabledYn = #{disabledYn}
+        </if>
+        <if test="@Ognl@isNotEmpty(createUser)">
+            AND T1.createUser = #{createUser}
+        </if>
+        <if test="@Ognl@isNotEmpty(updateUser)">
+            AND T1.updateUser = #{updateUser}
+        </if>
+    </sql>
+    
+    <!-- 查询where条件 -->
+    <sql id="dynamicWhere">
+        <where>
+            <include refid="dynamicCondition" />
+        </where>
+    </sql>
+    
+    <!-- 查询where条件(map) -->
+    <sql id="dynamicWhereEx">
+        <where>
+            <include refid="dynamicCondition" />
+            <if test="@Ognl@isNotEmpty(birthdayBegin)">
+                <![CDATA[AND T1.birthday >= #{birthdayBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(birthdayEnd)">
+                <![CDATA[AND T1.birthday < date_add(#{birthdayEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(lastLoginTimeBegin)">
+                <![CDATA[AND T1.lastLoginTime >= #{lastLoginTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(lastLoginTimeEnd)">
+                <![CDATA[AND T1.lastLoginTime < date_add(#{lastLoginTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeBegin)">
+                <![CDATA[AND T1.createTime >= #{createTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(createTimeEnd)">
+                <![CDATA[AND T1.createTime < date_add(#{createTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+                <![CDATA[AND T1.updateTime >= #{updateTimeBegin}]]>
+            </if>
+            <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+                <![CDATA[AND T1.updateTime < date_add(#{updateTimeEnd}, INTERVAL 1 DAY)]]>
+            </if>
+        </where>
+    </sql>
+
+    <!-- 排序条件 -->
+    <sql id="dynamicOrderBy">
+        <choose>
+            <when test="@Ognl@isNotEmpty(orderBy)">
+                <trim suffix="" suffixOverrides="order by">
+                <foreach collection="orderBy" item="order" open="order by " separator="," close=" ">
+                <choose>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'id'">
+                        T1.id <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'openid'">
+                        T1.openid <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'name'">
+                        T1.name <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'status'">
+                        T1.status <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'agentLevel'">
+                        T1.agentLevel <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'agentId'">
+                        T1.agentId <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'agentYn'">
+                        T1.agentYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'payPassword'">
+                        T1.payPassword <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'sex'">
+                        T1.sex <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'birthday'">
+                        T1.birthday <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'realName'">
+                        T1.realName <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'picture'">
+                        T1.picture <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'email'">
+                        T1.email <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'mobile'">
+                        T1.mobile <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'phone'">
+                        T1.phone <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'qq'">
+                        T1.qq <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'wechat'">
+                        T1.wechat <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'title'">
+                        T1.title <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'lastLoginTime'">
+                        T1.lastLoginTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'lastLoginIp'">
+                        T1.lastLoginIp <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'loginCount'">
+                        T1.loginCount <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'credit1'">
+                        T1.credit1 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'credit2'">
+                        T1.credit2 <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'source'">
+                        T1.source <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'deleteYn'">
+                        T1.deleteYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'disabledYn'">
+                        T1.disabledYn <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createUser'">
+                        T1.createUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'createTime'">
+                        T1.createTime <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateUser'">
+                        T1.updateUser <if test="!order.ascending"> desc </if>
+                    </when>
+                    <when test="order.propertyName == 'updateTime'">
+                        T1.updateTime <if test="!order.ascending"> desc </if>
+                    </when>
+                </choose>
+                </foreach>
+                </trim>
+            </when>
+            <otherwise>
+            order by T1.id desc
+            </otherwise>
+        </choose>
+    </sql>
+    
+    <!-- 单条录入  -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO TBL_Customer_Info (
+            openid ,
+            name ,
+            status ,
+            agentLevel ,
+            agentId ,
+            agentYn ,
+            payPassword ,
+            sex ,
+            birthday ,
+            realName ,
+            picture ,
+            email ,
+            mobile ,
+            phone ,
+            qq ,
+            wechat ,
+            title ,
+            lastLoginTime ,
+            lastLoginIp ,
+            loginCount ,
+            credit1 ,
+            credit2 ,
+            source ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime 
+            ) VALUES (
+            #{openid} ,
+            #{name} ,
+            #{status} ,
+            #{agentLevel} ,
+            #{agentId} ,
+            #{agentYn} ,
+            #{payPassword} ,
+            #{sex} ,
+            #{birthday} ,
+            #{realName} ,
+            #{picture} ,
+            #{email} ,
+            #{mobile} ,
+            #{phone} ,
+            #{qq} ,
+            #{wechat} ,
+            #{title} ,
+            #{lastLoginTime} ,
+            #{lastLoginIp} ,
+            #{loginCount} ,
+            #{credit1} ,
+            #{credit2} ,
+            #{source} ,
+            #{deleteYn} ,
+            #{disabledYn} ,
+            #{createUser} ,
+            #{createTime} ,
+            #{updateUser} ,
+            #{updateTime} 
+            )
+        ]]>
+        <selectKey resultType="java.lang.Long"
+            order="AFTER"
+            keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    
+    <!-- 批量录入  -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO TBL_Customer_Info (
+            openid ,
+            name ,
+            status ,
+            agentLevel ,
+            agentId ,
+            agentYn ,
+            payPassword ,
+            sex ,
+            birthday ,
+            realName ,
+            picture ,
+            email ,
+            mobile ,
+            phone ,
+            qq ,
+            wechat ,
+            title ,
+            lastLoginTime ,
+            lastLoginIp ,
+            loginCount ,
+            credit1 ,
+            credit2 ,
+            source ,
+            deleteYn ,
+            disabledYn ,
+            createUser ,
+            createTime ,
+            updateUser ,
+            updateTime 
+            ) 
+            VALUES 
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.openid} ,
+            #{item.name} ,
+            #{item.status} ,
+            #{item.agentLevel} ,
+            #{item.agentId} ,
+            #{item.agentYn} ,
+            #{item.payPassword} ,
+            #{item.sex} ,
+            #{item.birthday} ,
+            #{item.realName} ,
+            #{item.picture} ,
+            #{item.email} ,
+            #{item.mobile} ,
+            #{item.phone} ,
+            #{item.qq} ,
+            #{item.wechat} ,
+            #{item.title} ,
+            #{item.lastLoginTime} ,
+            #{item.lastLoginIp} ,
+            #{item.loginCount} ,
+            #{item.credit1} ,
+            #{item.credit2} ,
+            #{item.source} ,
+            #{item.deleteYn} ,
+            #{item.disabledYn} ,
+            #{item.createUser} ,
+            #{item.createTime} ,
+            #{item.updateUser} ,
+            #{item.updateTime} 
+            )
+        </foreach>
+    </insert>
+    
+    <!-- 单条修改  -->
+    <update id="update">
+        UPDATE TBL_Customer_Info
+        <set>
+            <if test="@Ognl@isNotEmpty(openid)">
+                openid = #{openid},
+            </if>
+            <if test="@Ognl@isNotEmpty(name)">
+                name = #{name},
+            </if>
+            <if test="@Ognl@isNotEmpty(status)">
+                status = #{status},
+            </if>
+            <if test="agentLevel != null">
+                agentLevel = #{agentLevel},
+            </if>
+            <if test="agentId != null">
+                agentId = #{agentId},
+            </if>
+            <if test="@Ognl@isNotEmpty(agentYn)">
+                agentYn = #{agentYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(payPassword)">
+                payPassword = #{payPassword},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday},
+            </if>
+            <if test="@Ognl@isNotEmpty(realName)">
+                realName = #{realName},
+            </if>
+            <if test="@Ognl@isNotEmpty(picture)">
+                picture = #{picture},
+            </if>
+            <if test="@Ognl@isNotEmpty(email)">
+                email = #{email},
+            </if>
+            <if test="@Ognl@isNotEmpty(mobile)">
+                mobile = #{mobile},
+            </if>
+            <if test="@Ognl@isNotEmpty(phone)">
+                phone = #{phone},
+            </if>
+            <if test="@Ognl@isNotEmpty(qq)">
+                qq = #{qq},
+            </if>
+            <if test="@Ognl@isNotEmpty(wechat)">
+                wechat = #{wechat},
+            </if>
+            <if test="@Ognl@isNotEmpty(title)">
+                title = #{title},
+            </if>
+            <if test="lastLoginTime != null">
+                lastLoginTime = #{lastLoginTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(lastLoginIp)">
+                lastLoginIp = #{lastLoginIp},
+            </if>
+            <if test="loginCount != null">
+                loginCount = #{loginCount},
+            </if>
+            <if test="credit1 != null">
+                credit1 = #{credit1},
+            </if>
+            <if test="credit2 != null">
+                credit2 = #{credit2},
+            </if>
+            <if test="@Ognl@isNotEmpty(source)">
+                source = #{source},
+            </if>
+            <if test="@Ognl@isNotEmpty(deleteYn)">
+                deleteYn = #{deleteYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(disabledYn)">
+                disabledYn = #{disabledYn},
+            </if>
+            <if test="@Ognl@isNotEmpty(createUser)">
+                createUser = #{createUser},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(updateUser)">
+                updateUser = #{updateUser},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime}
+            </if>
+        </set>
+        WHERE 
+            id = #{id}
+    </update>
+    
+    <!-- 单条修改所有属性  -->
+    <update id="updateAll">
+    <![CDATA[
+        UPDATE TBL_Customer_Info SET
+            openid = #{openid} ,
+            name = #{name} ,
+            status = #{status} ,
+            agentLevel = #{agentLevel} ,
+            agentId = #{agentId} ,
+            agentYn = #{agentYn} ,
+            payPassword = #{payPassword} ,
+            sex = #{sex} ,
+            birthday = #{birthday} ,
+            realName = #{realName} ,
+            picture = #{picture} ,
+            email = #{email} ,
+            mobile = #{mobile} ,
+            phone = #{phone} ,
+            qq = #{qq} ,
+            wechat = #{wechat} ,
+            title = #{title} ,
+            lastLoginTime = #{lastLoginTime} ,
+            lastLoginIp = #{lastLoginIp} ,
+            loginCount = #{loginCount} ,
+            credit1 = #{credit1} ,
+            credit2 = #{credit2} ,
+            source = #{source} ,
+            deleteYn = #{deleteYn} ,
+            disabledYn = #{disabledYn} ,
+            createUser = #{createUser} ,
+            createTime = #{createTime} ,
+            updateUser = #{updateUser} ,
+            updateTime = #{updateTime} 
+        WHERE 
+            id = #{id} 
+    ]]>
+    </update>
+
+    <!-- 删除主键  -->
+    <delete id="deleteByPK">
+    <![CDATA[
+        DELETE FROM TBL_Customer_Info WHERE
+        id = #{id} 
+    ]]>
+    </delete>
+    
+    <!-- 删除主键数组  -->
+    <delete id="deleteByArrPK" parameterType="java.util.List">
+        <![CDATA[DELETE FROM TBL_Customer_Info WHERE]]>
+        <foreach collection="list" item="item" index="index" open="id in (" separator="," close=")">
+            <![CDATA[#{item}]]>
+        </foreach>
+    </delete>
+    
+    <!-- 删除条件  -->
+    <delete id="delete">
+        <![CDATA[DELETE T1 FROM TBL_Customer_Info T1 ]]>
+        <include refid="dynamicWhere" />
+    </delete>
+    
+    <!-- 主键查询  -->
+    <select id="selectByPK" parameterType="java.lang.Long" resultMap="customerInfoResult">
+        <include refid="dynamicSelect" />
+        <![CDATA[
+            WHERE 
+            T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在主键 -->
+    <select id="existsByPK" parameterType="java.lang.Long"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <![CDATA[
+        WHERE
+        T1.id = #{id} 
+        ]]>
+    </select>
+    
+    <!-- 查询是否存在对象 -->
+    <select id="exists" parameterType="customerInfo"
+        resultType="boolean">
+        SELECT min(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数 -->
+    <select id="count" resultType="int">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhere" />
+    </select>
+    
+    <!-- 查询总数参数Map -->
+    <select id="countByMap" resultType="int" parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询数量 -->
+    <select id="pageCount" resultType="int"
+        parameterType="map">
+        SELECT count(1)
+        <include refid="dynamicFrom" />
+        <include refid="dynamicWhereEx" />
+    </select>
+    
+    <!-- 分页查询 -->
+    <select id="pageQuery" resultMap="customerInfoResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+
+    <!-- 查询条件Map -->
+    <select id="selectByMap" resultMap="customerInfoResult"
+        parameterType="map">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhereEx" />
+        <include refid="dynamicOrderBy" />
+    </select>
+
+    <!-- 查询条件对象 -->
+    <select id="select" resultMap="customerInfoResult"
+        parameterType="customerInfo">
+        <include refid="dynamicSelect" />
+        <include refid="dynamicWhere" />
+        order by T1.id desc
+    </select>
+
+    <!-- 查询条件拼接 -->
+    <select id="selectByCriteria" resultMap="customerInfoResult"
+        parameterType="map">
+        <include refid="Common.pageStart" />
+        <include refid="dynamicSelect" />
+        <if test="_parameter != null">
+            <include refid="Common.criteria_Where_Clause" />
+        </if>
+        <include refid="dynamicOrderBy" />
+        <include refid="Common.pageEnd" />
+    </select>
+    
+    
+    
+</mapper>
+
