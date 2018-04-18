@@ -29,5 +29,11 @@ public interface CustomerInfoManager extends BaseManager<CustomerInfo, Long> {
      */
     String BEAN_NAME = "customerInfoManager";
 
+	/**
+	 * 用户分享奖励积分
+	 * @param valueOf
+	 */
+	void bonusPoints(Long valueOf);
+
 
 }

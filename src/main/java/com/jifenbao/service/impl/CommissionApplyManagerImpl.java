@@ -21,6 +21,7 @@ import com.otc.framework.service.impl.MybatisServiceImpl;
 import com.otc.framework.tools.util.DateTimeUtil;
 import com.jifenbao.common.JfbUtil;
 import com.jifenbao.common.WxUtil;
+import com.jifenbao.common.constants.CreditLogActionType;
 import com.jifenbao.model.CommissionApply;
 import com.jifenbao.model.CustomerCreditLog;
 import com.jifenbao.model.CustomerInfo;
@@ -226,8 +227,8 @@ public class CommissionApplyManagerImpl extends MybatisServiceImpl<CommissionApp
 			creditLog.setCustomerId(entity.getCustomerId());
 			creditLog.setSource(entity.getApplyNo());
 			creditLog.setSourceId(entity.getId());
-			creditLog.setSourceType("account_balance");
-			creditLog.setActionType(1);
+			creditLog.setSourceType("1");
+			creditLog.setActionType(CreditLogActionType.CUSTOMER_WITHDRAWALS);
 			creditLog.setCreditAmount(realMoney);
 			creditLog.setBlanceAmout(updateCustomer.getCredit2());
 			creditLog.setCreateTime(now);

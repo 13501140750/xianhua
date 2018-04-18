@@ -18,4 +18,6 @@ public interface AdminConstants {
 	String SHIPPING_CARD_BEGIN_NO="2000";
 	
 	String ZYH_COMPANYCODE="200067";
+	
+	String BONUS_POINTS = "BONUS_POINTS";
 }

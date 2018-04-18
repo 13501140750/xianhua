@@ -3,14 +3,14 @@ package com.jifenbao.common.constants;
 public interface CreditLogActionType {
 
 	/**
-	 * 积分交易类型：企业发放积分
+	 * 积分交易类型：分享奖励积分
 	 */
-	String CUSTOMER_RECIEVE = "1";
+	String CUSTOMER_SHARE = "1";
 
 	/**
-	 * 积分交易类型：兑换礼品
+	 * 积分交易类型：佣金提现到账户余额
 	 */
-	String CUSTOMER_EXCHANGE_GOODS = "2";
+	String CUSTOMER_WITHDRAWALS= "2";
 	
 
 	/**

@@ -13,6 +13,8 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.otc.framework.common.DataTransferKey;
+import com.otc.framework.enums.YesNot;
 import com.otc.framework.service.impl.MybatisServiceImpl;
 
 import com.jifenbao.model.DeliveryAddress;
@@ -60,6 +62,8 @@ public class DeliveryAddressManagerImpl extends MybatisServiceImpl<DeliveryAddre
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("defaulted", true);
 		map.put("customerId", customerId);
+		map.put(DataTransferKey.DELETE_YN, YesNot.NOT.getCode());
+		map.put(DataTransferKey.DISABLED_YN, YesNot.NOT.getCode());
 		// 取消默认设置
 		List<DeliveryAddress> list = this.findByMap(map);
 		for (DeliveryAddress da : list) {
@@ -80,6 +84,8 @@ public class DeliveryAddressManagerImpl extends MybatisServiceImpl<DeliveryAddre
 		map.put("type", type);
 		map.put("defaulted", true);
 		map.put("customerId", customerId);
+		map.put(DataTransferKey.DELETE_YN, YesNot.NOT.getCode());
+		map.put(DataTransferKey.DISABLED_YN, YesNot.NOT.getCode());
 		// 取消默认设置
 		List<DeliveryAddress> list = this.findByMap(map);
 		for (DeliveryAddress da : list) {

@@ -80,7 +80,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
         <if test="customerId != null">
             AND T1.customerId = #{customerId}
         </if>
-        <if test="actionType != null">
+        <if test="@Ognl@isNotEmpty(actionType)">
             AND T1.actionType = #{actionType}
         </if>
         <if test="@Ognl@isNotEmpty(companyCode)">
@@ -304,7 +304,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
             <if test="customerId != null">
                 customerId = #{customerId},
             </if>
-            <if test="actionType != null">
+            <if test="@Ognl@isNotEmpty(actionType)">
                 actionType = #{actionType},
             </if>
             <if test="@Ognl@isNotEmpty(companyCode)">

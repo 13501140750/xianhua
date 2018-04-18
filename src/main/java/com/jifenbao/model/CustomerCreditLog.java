@@ -55,7 +55,7 @@ public class CustomerCreditLog extends BaseEntity<Long> {
     /**
      * 操作类型       db_column: actionType 
      */
-    private Integer actionType;
+    private String actionType;
     /**
      * companyCode       db_column: companyCode 
      */
@@ -116,7 +116,7 @@ public class CustomerCreditLog extends BaseEntity<Long> {
         Long sourceId,
         String sourceType,
         Long customerId,
-        Integer actionType,
+        String actionType,
         String companyCode,
         String cardNum,
         Double creditAmount,
@@ -195,11 +195,11 @@ public class CustomerCreditLog extends BaseEntity<Long> {
         this.customerId = value;
     }
     
-    public Integer getActionType() {
+    public String getActionType() {
         return this.actionType;
     }
     
-    public void setActionType(Integer value) {
+    public void setActionType(String value) {
         this.actionType = value;
     }
     
